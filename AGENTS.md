@@ -20,3 +20,4 @@
 ## files
 
 - do not keep empty files ; e.g. `__init__.py`
+- if an empty `__init__.py` is tracked in git, remove it from the repository
