@@ -233,3 +233,7 @@ Generated dataclasses include runtime validation in `__post_init__` for:
 - JSON Schema type checks
 - string constraints such as `pattern`, `minLength`, and `maxLength`
 - RFC 3339 `date-time` format fields
+
+Generated dataclasses also include an explicit `Validate()` instance method. This allows
+calling validation manually after creating a model instance from parsed JSON or other
+custom construction flows.

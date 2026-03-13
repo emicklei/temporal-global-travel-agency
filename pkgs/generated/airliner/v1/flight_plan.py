@@ -20,6 +20,9 @@ class FlightPlan:
     estimated_landing: Timestampz
 
     def __post_init__(self) -> None:
+        self.Validate()
+
+    def Validate(self) -> None:
         id_value = self.id
         if id_value is None:
             raise ValueError("id is required and cannot be None")

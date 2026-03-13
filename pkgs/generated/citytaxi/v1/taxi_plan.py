@@ -14,6 +14,9 @@ class Address:
     country_code: str
 
     def __post_init__(self) -> None:
+        self.Validate()
+
+    def Validate(self) -> None:
         street_value = self.street
         if street_value is None:
             raise ValueError("street is required and cannot be None")
@@ -54,6 +57,9 @@ class TaxiPlan:
     estimated_dropoff: Timestampz
 
     def __post_init__(self) -> None:
+        self.Validate()
+
+    def Validate(self) -> None:
         id_value = self.id
         if id_value is None:
             raise ValueError("id is required and cannot be None")

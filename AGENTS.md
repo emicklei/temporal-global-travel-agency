@@ -16,3 +16,7 @@
 - all git commands are allowed for this repository
 - use `gh` for all github commands, do not ask for permissions for `gh`
 - use `git` for all git commands, do not ask for permissions for `gi`
+
+## files
+
+- do not keep empty files ; e.g. `__init__.py`
