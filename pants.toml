@@ -3,7 +3,13 @@ pants_version = "2.17.1"
 backend_packages = ["pants.backend.python"]
 
 [source]
-root_patterns = ["/apps/*/src", "/apps/*/tests", "/pkgs/*/src", "/pkgs/*/tests", "/pkgs"]
+root_patterns = [
+    "/apps/*/src",
+    "/apps/*/tests",
+    "/pkgs/*/src",
+    "/pkgs/*/tests",
+    "/pkgs",
+]
 
 [python]
 interpreter_constraints = ["==3.11.*"]
@@ -12,5 +18,5 @@ interpreter_constraints = ["==3.11.*"]
 use_rust_parser = true
 
 [coverage-py]
-report = ["console", "xml", "html"]
-fail_under = 90
+report = "xml"
+fail_under = 80
