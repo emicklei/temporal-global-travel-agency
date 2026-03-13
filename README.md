@@ -13,10 +13,10 @@ Python monorepo scaffolded with `uv` and `pants`.
 - `apis/citytaxi/v1/taxi_plan.schema.json`: JSON Schema for the `TaxiPlan` object
 - `apis/travelagent/v1/journey.schema.json`: JSON Schema for the `Journey` object
 - `pkgs/`: shared reusable packages
-- `apps/airliner`: application scaffolded from `demo-app` using `converters`
-- `apps/citytaxi`: application scaffolded from `demo-app` using `converters`
-- `apps/bikerental`: application scaffolded from `demo-app` using `converters`
-- `apps/tourguide`: application scaffolded from `demo-app` using `converters`
+- `apps/airliner`: application using `converters`
+- `apps/citytaxi`: application using `converters`
+- `apps/bikerental`: application using `converters`
+- `apps/tourguide`: application using `converters`
 - `apps/travelagent`: Temporal.io app with a hello-world workflow, worker, and starter
 
 ## Setup
@@ -30,19 +30,6 @@ uv python install 3.9
 ```
 
 Pants 2.17 boots with Python 3.9 and runs tests with Python 3.11 in this repository.
-
-## Demo App Commands
-
-The demo app has its own Makefile at `apps/demo-app/Makefile`.
-
-From `apps/demo-app`:
-
-```bash
-make run
-make test
-make docker-build
-make docker-run
-```
 
 ## Airliner App Commands
 
@@ -126,8 +113,6 @@ Each package folder has a `Makefile` with a `test` target.
 From each package folder:
 
 ```bash
-# apps/demo-app
-make test
 
 # apps/airliner
 make test
@@ -140,15 +125,6 @@ make test
 
 # apps/tourguide
 make test
-
-# apps/travelagent
-make test
-```
-
-Expected output for `make run`:
-
-```text
-24 degrees Celsius is 75.2 Fahrenheit
 ```
 
 ## Run All Tests
