@@ -17,6 +17,7 @@ Python monorepo scaffolded with `uv` and `pants`.
 - `apps/citytaxi`: application scaffolded from `demo-app` using `converters` and `quotes`
 - `apps/bikerental`: application scaffolded from `demo-app` using `converters` and `quotes`
 - `apps/tourguide`: application scaffolded from `demo-app` using `converters` and `quotes`
+- `apps/travelagent`: Temporal.io app with a hello-world workflow, worker, and starter
 
 ## Setup
 
@@ -95,6 +96,20 @@ make docker-build
 make docker-run
 ```
 
+## Travelagent App Commands
+
+The travelagent app has its own Makefile at `apps/travelagent/Makefile`.
+
+From `apps/travelagent`:
+
+```bash
+make run
+make start
+make test
+make docker-build
+make docker-run
+```
+
 ## Docker Dependency Installation
 
 App Dockerfiles install workspace dependencies from each app's
@@ -124,6 +139,9 @@ make test
 make test
 
 # apps/tourguide
+make test
+
+# apps/travelagent
 make test
 ```
 
