@@ -14,10 +14,9 @@ exclude = ["pkgs/generated"]
 
 [tool.pytest.ini_options]
 testpaths = [
-	"apps/demo-app/tests",
 	"pkgs/converters/tests",
 ]
-pythonpath = ["apps/demo-app/src", "pkgs/converters/src"]
+pythonpath = ["pkgs/converters/src"]
 
 [tool.coverage.run]
 omit = [
