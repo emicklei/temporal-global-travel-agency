@@ -45,5 +45,5 @@ def main() -> None:
     asyncio.run(run_from_args(parse_args()))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

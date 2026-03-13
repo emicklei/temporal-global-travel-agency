@@ -1,6 +1,6 @@
 import argparse
+import asyncio
 import sys
-import types
 
 import pytest  # pants: no-infer-dep
 import travelagent.main as main_module
@@ -82,22 +82,13 @@ async def test_run_worker_wires_temporal_components(monkeypatch) -> None:
         async def run(self) -> None:
             return None
 
-    class DummyClientAPI:
-        @staticmethod
-        async def connect(hostport: str, namespace: str):
-            assert hostport == "localhost:7233"
-            assert namespace == "default"
-            return DummyClient()
+    async def fake_connect(hostport: str, namespace: str):
+        assert hostport == "localhost:7233"
+        assert namespace == "default"
+        return DummyClient()
 
-    temporalio_module = types.ModuleType("temporalio")
-    client_module = types.ModuleType("temporalio.client")
-    worker_api_module = types.ModuleType("temporalio.worker")
-    client_module.Client = DummyClientAPI
-    worker_api_module.Worker = DummyWorker
-
-    monkeypatch.setitem(sys.modules, "temporalio", temporalio_module)
-    monkeypatch.setitem(sys.modules, "temporalio.client", client_module)
-    monkeypatch.setitem(sys.modules, "temporalio.worker", worker_api_module)
+    monkeypatch.setattr(worker_module.Client, "connect", fake_connect)
+    monkeypatch.setattr(worker_module, "Worker", DummyWorker)
 
     await worker_module.run_worker()
 
@@ -118,19 +109,12 @@ async def test_run_starter_executes_workflow(monkeypatch) -> None:
             assert run_method is not None
             return "hello-result"
 
-    class DummyClientAPI:
-        @staticmethod
-        async def connect(hostport: str, namespace: str):
-            assert hostport == "localhost:7233"
-            assert namespace == "default"
-            return DummyClient()
+    async def fake_connect(hostport: str, namespace: str):
+        assert hostport == "localhost:7233"
+        assert namespace == "default"
+        return DummyClient()
 
-    temporalio_module = types.ModuleType("temporalio")
-    client_module = types.ModuleType("temporalio.client")
-    client_module.Client = DummyClientAPI
-
-    monkeypatch.setitem(sys.modules, "temporalio", temporalio_module)
-    monkeypatch.setitem(sys.modules, "temporalio.client", client_module)
+    monkeypatch.setattr(starter_module.Client, "connect", fake_connect)
 
     result = await starter_module.run_starter("Ada")
     assert result == "hello-result"
@@ -150,22 +134,13 @@ async def test_run_worker_uses_custom_arguments(monkeypatch) -> None:
         async def run(self) -> None:
             return None
 
-    class DummyClientAPI:
-        @staticmethod
-        async def connect(hostport: str, namespace: str):
-            assert hostport == "temporal.example:7233"
-            assert namespace == "travel"
-            return DummyClient()
+    async def fake_connect(hostport: str, namespace: str):
+        assert hostport == "temporal.example:7233"
+        assert namespace == "travel"
+        return DummyClient()
 
-    temporalio_module = types.ModuleType("temporalio")
-    client_module = types.ModuleType("temporalio.client")
-    worker_api_module = types.ModuleType("temporalio.worker")
-    client_module.Client = DummyClientAPI
-    worker_api_module.Worker = DummyWorker
-
-    monkeypatch.setitem(sys.modules, "temporalio", temporalio_module)
-    monkeypatch.setitem(sys.modules, "temporalio.client", client_module)
-    monkeypatch.setitem(sys.modules, "temporalio.worker", worker_api_module)
+    monkeypatch.setattr(worker_module.Client, "connect", fake_connect)
+    monkeypatch.setattr(worker_module, "Worker", DummyWorker)
 
     await worker_module.run_worker(
         hostport="temporal.example:7233",
@@ -187,19 +162,12 @@ async def test_run_starter_uses_custom_arguments(monkeypatch) -> None:
             assert run_method is not None
             return "hello-result"
 
-    class DummyClientAPI:
-        @staticmethod
-        async def connect(hostport: str, namespace: str):
-            assert hostport == "temporal.example:7233"
-            assert namespace == "travel"
-            return DummyClient()
+    async def fake_connect(hostport: str, namespace: str):
+        assert hostport == "temporal.example:7233"
+        assert namespace == "travel"
+        return DummyClient()
 
-    temporalio_module = types.ModuleType("temporalio")
-    client_module = types.ModuleType("temporalio.client")
-    client_module.Client = DummyClientAPI
-
-    monkeypatch.setitem(sys.modules, "temporalio", temporalio_module)
-    monkeypatch.setitem(sys.modules, "temporalio.client", client_module)
+    monkeypatch.setattr(starter_module.Client, "connect", fake_connect)
 
     result = await starter_module.run_starter(
         "Grace",
@@ -269,3 +237,46 @@ def test_main_invokes_asyncio_run(monkeypatch) -> None:
 
     main_module.main()
     assert called["args"].mode == "start"
+
+
+def test_run_from_args_worker_mode_via_asyncio_run(monkeypatch) -> None:
+    called = {}
+
+    async def fake_run_worker(hostport: str, namespace: str, task_queue: str) -> None:
+        called["values"] = (hostport, namespace, task_queue)
+
+    monkeypatch.setattr(main_module, "run_worker", fake_run_worker)
+
+    args = argparse.Namespace(
+        mode="worker",
+        hostport="localhost:7233",
+        namespace="default",
+        task_queue="travelagent-hello-task-queue",
+    )
+    asyncio.run(main_module.run_from_args(args))
+
+    assert called["values"] == (
+        "localhost:7233",
+        "default",
+        "travelagent-hello-task-queue",
+    )
+
+
+def test_run_from_args_start_mode_via_asyncio_run(capsys, monkeypatch) -> None:
+    async def fake_run_starter(name: str, hostport: str, namespace: str, task_queue: str) -> str:
+        assert name == "Ada"
+        return "Hello, Ada! Welcome to Temporal Travel Agent."
+
+    monkeypatch.setattr(main_module, "run_starter", fake_run_starter)
+
+    args = argparse.Namespace(
+        mode="start",
+        name="Ada",
+        hostport="localhost:7233",
+        namespace="default",
+        task_queue="travelagent-hello-task-queue",
+    )
+    asyncio.run(main_module.run_from_args(args))
+
+    captured = capsys.readouterr()
+    assert captured.out.strip() == "Hello, Ada! Welcome to Temporal Travel Agent."

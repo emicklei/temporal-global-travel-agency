@@ -1,3 +1,5 @@
+from temporalio.client import Client
+
 from .worker import DEFAULT_TASK_QUEUE
 from .workflows import HelloTravelWorkflow
 
@@ -15,8 +17,6 @@ async def run_starter(
     namespace: str = "default",
     task_queue: str = DEFAULT_TASK_QUEUE,
 ) -> str:
-    from temporalio.client import Client  # pants: no-infer-dep
-
     client = await Client.connect(hostport, namespace=namespace)
     return await client.execute_workflow(
         HelloTravelWorkflow.run,

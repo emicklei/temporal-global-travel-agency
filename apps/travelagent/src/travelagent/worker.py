@@ -1,3 +1,6 @@
+from temporalio.client import Client
+from temporalio.worker import Worker
+
 from .activities import compose_hello_message
 from .workflows import HelloTravelWorkflow
 
@@ -9,9 +12,6 @@ async def run_worker(
     namespace: str = "default",
     task_queue: str = DEFAULT_TASK_QUEUE,
 ) -> None:
-    from temporalio.client import Client  # pants: no-infer-dep
-    from temporalio.worker import Worker  # pants: no-infer-dep
-
     client = await Client.connect(hostport, namespace=namespace)
     worker = Worker(
         client,
