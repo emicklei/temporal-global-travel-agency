@@ -54,6 +54,9 @@ jobs:
             fi
           fi
 
+      - name: Validate API JSON schemas
+        run: python scripts/validate_api_schemas.py
+
       - name: Run changed tests with Pants
         shell: bash
         env:

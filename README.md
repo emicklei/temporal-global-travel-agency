@@ -183,3 +183,16 @@ Install and run:
 uv run pre-commit install
 uv run pre-commit run --all-files
 ```
+
+## API Schema Validation
+
+All JSON schema files under `apis/` are validated by:
+
+- a local `pre-commit` hook (`validate-api-schemas`)
+- the CI workflow (`Validate API JSON schemas` step)
+
+Run manually from the repository root:
+
+```bash
+python scripts/validate_api_schemas.py
+```
