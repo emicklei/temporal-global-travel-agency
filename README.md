@@ -10,6 +10,7 @@ Python monorepo scaffolded with `uv` and `pants`.
 - `apps/`: application projects
 - `apis/`: API contracts and schemas
 - `apis/airliner/v1/flight_plan.schema.json`: JSON Schema for the `FlightPlan` object
+- `apis/citytaxi/v1/taxi_plan.schema.json`: JSON Schema for the `TaxiPlan` object
 - `pkgs/`: shared reusable packages
 - `pkgs/converters`: shared package exposing `DegreesToFahrenheit`
 - `pkgs/quotes`: shared package exposing scientist quotes

@@ -1,0 +1,72 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.com/apis/citytaxi/v1/taxi_plan.schema.json",
+    "title": "TaxiPlan",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "license_plate",
+        "pick_address",
+        "dropoff_address",
+        "estimated_pickup",
+        "estimated_dropoff"
+    ],
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "license_plate": {
+            "type": "string"
+        },
+        "pick_address": {
+            "$ref": "#/$defs/Address"
+        },
+        "dropoff_address": {
+            "$ref": "#/$defs/Address"
+        },
+        "estimated_pickup": {
+            "$ref": "#/$defs/Timestampz"
+        },
+        "estimated_dropoff": {
+            "$ref": "#/$defs/Timestampz"
+        }
+    },
+    "$defs": {
+        "Address": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "street",
+                "house_number",
+                "city",
+                "postal_code",
+                "country_code"
+            ],
+            "properties": {
+                "street": {
+                    "type": "string"
+                },
+                "house_number": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "postal_code": {
+                    "type": "string"
+                },
+                "country_code": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{2}$",
+                    "description": "ISO 3166-1 alpha-2 country code."
+                }
+            }
+        },
+        "Timestampz": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp with time zone in RFC 3339 date-time format."
+        }
+    }
+}
