@@ -1,42 +1,17 @@
-from datetime import date, timedelta
-
-from converters import DegreesToFahrenheit, WeekNumberToDateRange
-from quotes import random_scientist_quote
-
-
-def format_conversion_message(degrees_celsius: float) -> str:
-    fahrenheit = DegreesToFahrenheit(degrees_celsius)
-    return f"{degrees_celsius} degrees Celsius is {fahrenheit} Fahrenheit"
-
-
-def format_scientist_quote_message() -> str:
-    quote = random_scientist_quote()
-    return f"Scientist quote: {quote}"
-
-
-def format_current_week_dates_message() -> str:
-    today = date.today()
-    iso_calendar = today.isocalendar()
-    start_of_week, end_of_week = WeekNumberToDateRange(iso_calendar.week, iso_calendar.year)
-    week_dates = [
-        start_of_week + timedelta(days=offset)
-        for offset in range((end_of_week - start_of_week).days + 1)
-    ]
-    formatted_dates = ", ".join(d.isoformat() for d in week_dates)
-    return f"Current week dates: {formatted_dates}"
-
-
-def format_current_week_number_message() -> str:
-    today = date.today()
-    iso_calendar = today.isocalendar()
-    return f"Current week number: {iso_calendar.week}"
+from generated.airliner.v1.flight_plan import FlightPlan
 
 
 def main() -> None:
-    print(format_conversion_message(24))
-    print(format_scientist_quote_message())
-    print(format_current_week_number_message())
-    print(format_current_week_dates_message())
+    plan = FlightPlan(
+        id="fp-20260313-001",
+        aircraft_id="A320-NEO-42",
+        creation_date="2026-03-13T09:30:00Z",
+        departure="EHAM",
+        destination="KJFK",
+        estimated_takeoff="2026-03-13T10:15:00Z",
+        estimated_landing="2026-03-13T17:05:00Z",
+    )
+    print("Flight Plan:", plan)
 
 
 if __name__ == "__main__":

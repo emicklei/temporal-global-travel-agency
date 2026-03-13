@@ -97,6 +97,15 @@ make docker-build
 make docker-run
 ```
 
+## Docker Dependency Installation
+
+App Dockerfiles install workspace dependencies from each app's
+`pyproject.toml` using the shared script:
+
+```bash
+python scripts/install_workspace_deps.py --pyproject apps/<app>/pyproject.toml --packages-dir ./pkgs
+```
+
 ## Package Test Commands
 
 Each package folder has a `Makefile` with a `test` target.
