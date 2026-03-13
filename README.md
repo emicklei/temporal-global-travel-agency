@@ -197,3 +197,13 @@ Run manually from the repository root:
 ```bash
 python scripts/validate_api_schemas.py
 ```
+
+## API Model Generation
+
+Generate Python dataclass models for all schema files under `apis/`:
+
+```bash
+python scripts/generate_api_models.py
+```
+
+Generated files are written to `pkgs/generated/<domain>/<version>/`.

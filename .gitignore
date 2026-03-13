@@ -37,6 +37,7 @@ dist/
 *.egg-info/
 .eggs/
 pdm.lock
+pkgs/generated/
 
 # Test and coverage outputs
 .coverage
