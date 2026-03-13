@@ -1,0 +1,16 @@
+[GLOBAL]
+pants_version = "2.17.1"
+backend_packages = ["pants.backend.python"]
+
+[source]
+root_patterns = ["/apps/*/src", "/apps/*/tests", "/pkgs/*/src", "/pkgs/*/tests"]
+
+[python]
+interpreter_constraints = ["==3.11.*"]
+
+[python-infer]
+use_rust_parser = true
+
+[coverage-py]
+report = ["console", "xml", "html"]
+fail_under = 90

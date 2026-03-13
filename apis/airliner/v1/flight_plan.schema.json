@@ -1,0 +1,51 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.com/apis/airliner/v1/flight_plan.schema.json",
+    "title": "FlightPlan",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "aircraft_id",
+        "creation_date",
+        "departure",
+        "destination",
+        "estimated_takeoff",
+        "estimated_landing"
+    ],
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "aircraft_id": {
+            "type": "string"
+        },
+        "creation_date": {
+            "$ref": "#/$defs/Timestampz"
+        },
+        "departure": {
+            "$ref": "#/$defs/ICAOCode"
+        },
+        "destination": {
+            "$ref": "#/$defs/ICAOCode"
+        },
+        "estimated_takeoff": {
+            "$ref": "#/$defs/Timestampz"
+        },
+        "estimated_landing": {
+            "$ref": "#/$defs/Timestampz"
+        }
+    },
+    "$defs": {
+        "ICAOCode": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]{4}$",
+            "description": "ICAO code represented as exactly 4 alphanumeric characters."
+        },
+        "Timestampz": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp with time zone in RFC 3339 date-time format."
+        }
+    }
+}

@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: validate-git-tags
+        name: Validate git tag format
+        entry: python scripts/validate_git_tags.py
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]

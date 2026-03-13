@@ -1,0 +1,20 @@
+[project]
+name = "bikerental"
+version = "0.1.0"
+description = "bikerental app using shared converters and quotes packages"
+authors = [{ name = "monorepo" }]
+dependencies = ["converters", "quotes"]
+requires-python = ">=3.12"
+readme = "README.md"
+license = { text = "MIT" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bikerental"]
+
+[tool.uv.sources]
+converters = { workspace = true }
+quotes = { workspace = true }

@@ -1,0 +1,128 @@
+name: Tests, Coverage and App Image
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+    tags:
+      - apps/*/v*
+
+jobs:
+  test:
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11 for test execution
+        uses: actions/setup-python@v5
+        id: python311
+        with:
+          python-version: "3.11"
+
+      - name: Set up Python 3.9 for Pants bootstrap
+        uses: actions/setup-python@v5
+        id: python39
+        with:
+          python-version: "3.9"
+
+      - name: Set up Pants launcher
+        run: chmod +x ./pants
+
+      - name: Resolve comparison baseline
+        id: baseline
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            if ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+              git fetch --no-tags --prune origin "${BASE_SHA}"
+            fi
+            echo "base_ref=${BASE_SHA}" >> "$GITHUB_OUTPUT"
+          else
+            BEFORE_SHA="${{ github.event.before }}"
+            if [[ -n "$BEFORE_SHA" && "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]]; then
+              echo "base_ref=${BEFORE_SHA}" >> "$GITHUB_OUTPUT"
+            else
+              ROOT_COMMIT="$(git rev-list --max-parents=0 HEAD | tail -n 1)"
+              echo "base_ref=${ROOT_COMMIT}" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Run changed tests with Pants
+        shell: bash
+        env:
+          PYTHON: ${{ steps.python39.outputs.python-path }}
+        run: |
+          export PATH="$(dirname '${{ steps.python311.outputs.python-path }}'):$PATH"
+          BASE_REF="${{ steps.baseline.outputs.base_ref }}"
+          echo "Using changed-since baseline: ${BASE_REF}"
+          ./pants \
+            --changed-since="${BASE_REF}" \
+            --changed-dependents=transitive \
+            test \
+            --use-coverage
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            dist/coverage/python/coverage.xml
+            dist/coverage/python/htmlcov/
+
+      - name: Upload coverage reports to Codecov
+        if: always()
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: dist/coverage/python/coverage.xml
+          slug: emicklei/temporal-python-monorepo
+
+  build-app-image-from-tag:
+    if: startsWith(github.ref, 'refs/tags/apps/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Parse app and version from tag
+        id: parse
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+
+          if [[ ! "$TAG" =~ ^apps/([^/]+)/((v[0-9]+\.[0-9]+\.[0-9]+))$ ]]; then
+            echo "Unsupported tag format: $TAG"
+            echo "Expected: apps/<folder>/v<major>.<minor>.<patch>"
+            exit 1
+          fi
+
+          APP_FOLDER="${BASH_REMATCH[1]}"
+          VERSION_TAG="${BASH_REMATCH[2]}"
+
+          echo "app_folder=$APP_FOLDER" >> "$GITHUB_OUTPUT"
+          echo "version_tag=$VERSION_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Verify app Dockerfile exists
+        run: |
+          APP_PATH="apps/${{ steps.parse.outputs.app_folder }}"
+
+          if [[ ! -f "$APP_PATH/Dockerfile" ]]; then
+            echo "Missing Dockerfile at $APP_PATH/Dockerfile"
+            exit 1
+          fi
+
+      - name: Build Docker image using Makefile
+        run: |
+          APP_FOLDER="${{ steps.parse.outputs.app_folder }}"
+          VERSION_TAG="${{ steps.parse.outputs.version_tag }}"
+
+          make -C "apps/$APP_FOLDER" docker-build \
+            IMAGE_NAME="$APP_FOLDER:$VERSION_TAG"
