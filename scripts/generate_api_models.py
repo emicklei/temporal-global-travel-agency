@@ -325,25 +325,10 @@ def render_model_module(schema: dict[str, object], schema_path: Path) -> str:
     return "\n".join(output).rstrip() + "\n"
 
 
-def ensure_package_inits(base_dir: Path, model_dir: Path) -> None:
-    current = base_dir
-    while True:
-        init_file = current / "__init__.py"
-        if not init_file.exists():
-            init_file.write_text("", encoding="utf-8")
-
-        if current == model_dir:
-            break
-        if model_dir not in current.parents:
-            break
-        current = current.parent
-
-
 def generate_models(repo_root: Path) -> list[Path]:
     schema_files = discover_schema_files(repo_root)
     generated_files: list[Path] = []
 
-    base_generated_dir = repo_root / "pkgs" / "generated"
     for schema_file in schema_files:
         parsed = json.loads(schema_file.read_text(encoding="utf-8"))
         if not isinstance(parsed, dict):
@@ -354,7 +339,6 @@ def generate_models(repo_root: Path) -> list[Path]:
         module_content = render_model_module(parsed, schema_file)
         output_path.write_text(module_content, encoding="utf-8")
 
-        ensure_package_inits(output_path.parent, base_generated_dir)
         generated_files.append(output_path)
 
     return generated_files

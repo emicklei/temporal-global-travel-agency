@@ -1,0 +1,49 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.com/apis/travelagent/v1/journey.schema.json",
+    "title": "Journey",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "creation_date",
+        "routes"
+    ],
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "creation_date": {
+            "$ref": "#/$defs/Timestampz"
+        },
+        "routes": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/Route"
+            }
+        }
+    },
+    "$defs": {
+        "Route": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "schema_version",
+                "properties"
+            ],
+            "properties": {
+                "schema_version": {
+                    "type": "string"
+                },
+                "properties": {
+                    "type": "object"
+                }
+            }
+        },
+        "Timestampz": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp with time zone in RFC 3339 date-time format."
+        }
+    }
+}
