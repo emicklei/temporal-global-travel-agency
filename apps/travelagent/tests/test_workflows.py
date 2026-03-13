@@ -1,8 +1,12 @@
 from datetime import timedelta
+from uuid import uuid4
 
 import pytest  # pants: no-infer-dep
+from temporalio.testing import WorkflowEnvironment  # pants: no-infer-dep
+from temporalio.worker import Worker  # pants: no-infer-dep
 
 import travelagent.workflows as workflows_module
+from travelagent.activities import compose_hello_message
 from travelagent.workflows import HelloTravelWorkflow
 
 
@@ -27,9 +31,31 @@ async def test_hello_travel_workflow_executes_activity_with_expected_arguments(m
 
 
 @pytest.mark.asyncio
-async def test_workflow_shim_execute_activity_supports_sync_functions() -> None:
+async def test_hello_travel_workflow_runs_in_temporal_test_environment() -> None:
+    async with await WorkflowEnvironment.start_time_skipping() as env:
+        task_queue = f"travelagent-test-{uuid4()}"
+        workflow_id = f"travelagent-hello-{uuid4()}"
+
+        async with Worker(
+            env.client,
+            task_queue=task_queue,
+            workflows=[HelloTravelWorkflow],
+            activities=[compose_hello_message],
+        ):
+            result = await env.client.execute_workflow(
+                HelloTravelWorkflow.run,
+                "Ada",
+                id=workflow_id,
+                task_queue=task_queue,
+            )
+
+    assert result == "Hello, Ada! Welcome to Temporal Travel Agent."
+
+
+@pytest.mark.asyncio
+async def test_workflow_shim_execute_activity_supports_sync_functions_when_available() -> None:
     if not hasattr(workflows_module, "_WorkflowShim"):
-        pytest.skip("Workflow shim is only available when temporalio is not installed")
+        pytest.skip("Workflow shim only exists when temporalio is not importable")
 
     async def run_test() -> str:
         return await workflows_module._WorkflowShim.execute_activity(lambda name: f"Hi {name}", "Ada")
@@ -39,9 +65,9 @@ async def test_workflow_shim_execute_activity_supports_sync_functions() -> None:
 
 
 @pytest.mark.asyncio
-async def test_workflow_shim_execute_activity_supports_async_functions() -> None:
+async def test_workflow_shim_execute_activity_supports_async_functions_when_available() -> None:
     if not hasattr(workflows_module, "_WorkflowShim"):
-        pytest.skip("Workflow shim is only available when temporalio is not installed")
+        pytest.skip("Workflow shim only exists when temporalio is not importable")
 
     async def async_activity(name: str) -> str:
         return f"Hi {name}"
