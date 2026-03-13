@@ -17,3 +17,15 @@ testpaths = [
 	"pkgs/quotes/tests",
 ]
 pythonpath = ["apps/demo-app/src", "pkgs/converters/src", "pkgs/quotes/src"]
+
+[tool.coverage.run]
+omit = [
+	"*/tests/*",
+	"*/test_*.py",
+]
+
+[tool.coverage.report]
+omit = [
+	"*/tests/*",
+	"*/test_*.py",
+]
