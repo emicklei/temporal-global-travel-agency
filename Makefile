@@ -1,6 +1,6 @@
 .PHONY: generate-models
 
-generate-models:
+gen:
 	python scripts/generate_api_models.py
 
 test:

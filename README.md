@@ -1,4 +1,4 @@
-# temporal-python-mono
+# Global Travel Agency - a Temporal.io example
 
 [![Build Status](https://github.com/emicklei/temporal-python-monorepo/actions/workflows/ci-tests-coverage-and-app-image.yml/badge.svg?branch=main)](https://github.com/emicklei/temporal-python-monorepo/actions/workflows/ci-tests-coverage-and-app-image.yml)
 [![Coverage](https://codecov.io/gh/emicklei/temporal-python-monorepo/branch/main/graph/badge.svg)](https://codecov.io/gh/emicklei/temporal-python-monorepo)
@@ -13,9 +13,6 @@ Python monorepo scaffolded with `uv` and `pants`.
 - `apis/citytaxi/v1/taxi_plan.schema.json`: JSON Schema for the `TaxiPlan` object
 - `apis/travelagent/v1/journey.schema.json`: JSON Schema for the `Journey` object
 - `pkgs/`: shared reusable packages
-- `pkgs/converters`: shared package exposing `DegreesToFahrenheit`
-- `pkgs/quotes`: shared package exposing scientist quotes
-- `apps/demo-app`: demo application using `converters` and `quotes`
 - `apps/airliner`: application scaffolded from `demo-app` using `converters` and `quotes`
 - `apps/citytaxi`: application scaffolded from `demo-app` using `converters` and `quotes`
 - `apps/bikerental`: application scaffolded from `demo-app` using `converters` and `quotes`
@@ -128,12 +125,6 @@ make test
 
 # apps/tourguide
 make test
-
-# pkgs/converters
-make test
-
-# pkgs/quotes
-make test
 ```
 
 Expected output for `make run`:
@@ -213,7 +204,7 @@ python scripts/validate_api_schemas.py
 Generate Python dataclass models for all schema files under `apis/`:
 
 ```bash
-python scripts/generate_api_models.py
+make gen
 ```
 
 Generated files are written to `pkgs/generated/<domain>/<version>/`.
