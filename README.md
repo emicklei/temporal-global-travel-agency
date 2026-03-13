@@ -207,6 +207,16 @@ python scripts/generate_api_models.py
 ```
 
 Generated files are written to `pkgs/generated/<domain>/<version>/`.
+Generated files are committed to the repository and must stay in sync with schemas.
+
+To verify generated models are up to date:
+
+```bash
+python scripts/generate_api_models.py
+git diff --exit-code -- pkgs/generated
+```
+
+The same generated-model sync check runs in pre-commit and CI.
 
 Generated dataclasses include runtime validation in `__post_init__` for:
 

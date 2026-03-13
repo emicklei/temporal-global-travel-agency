@@ -7,6 +7,12 @@ repos:
         language: system
         pass_filenames: false
         stages: [pre-commit]
+      - id: check-generated-api-models
+        name: Check generated API models are up to date
+        entry: bash -c 'python scripts/generate_api_models.py && git diff --exit-code -- pkgs/generated'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
       - id: validate-git-tags
         name: Validate git tag format
         entry: python scripts/validate_git_tags.py

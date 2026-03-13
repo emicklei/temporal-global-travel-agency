@@ -1,6 +1,6 @@
 python_tests(
     name="tests",
-    dependencies=["//apps/airliner/src:lib", ":fixtures"],
+    dependencies=["//apps/airliner/src:lib", "//pkgs/generated:airliner", ":fixtures"],
 )
 
 files(
