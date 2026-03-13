@@ -1,6 +1,6 @@
 # bikerental
 
-Bikerental application that uses the shared `converters` and `quotes` packages.
+Bikerental application that uses the shared `converters` package.
 
 ## Commands
 

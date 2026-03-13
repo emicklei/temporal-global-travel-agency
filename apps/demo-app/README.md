@@ -1,6 +1,6 @@
 # demo-app
 
-Demo application that uses the shared `converters` and `quotes` packages.
+Demo application that uses the shared `converters` package.
 
 ## Commands
 

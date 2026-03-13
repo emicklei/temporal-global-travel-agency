@@ -13,10 +13,10 @@ Python monorepo scaffolded with `uv` and `pants`.
 - `apis/citytaxi/v1/taxi_plan.schema.json`: JSON Schema for the `TaxiPlan` object
 - `apis/travelagent/v1/journey.schema.json`: JSON Schema for the `Journey` object
 - `pkgs/`: shared reusable packages
-- `apps/airliner`: application scaffolded from `demo-app` using `converters` and `quotes`
-- `apps/citytaxi`: application scaffolded from `demo-app` using `converters` and `quotes`
-- `apps/bikerental`: application scaffolded from `demo-app` using `converters` and `quotes`
-- `apps/tourguide`: application scaffolded from `demo-app` using `converters` and `quotes`
+- `apps/airliner`: application scaffolded from `demo-app` using `converters`
+- `apps/citytaxi`: application scaffolded from `demo-app` using `converters`
+- `apps/bikerental`: application scaffolded from `demo-app` using `converters`
+- `apps/tourguide`: application scaffolded from `demo-app` using `converters`
 - `apps/travelagent`: Temporal.io app with a hello-world workflow, worker, and starter
 
 ## Setup

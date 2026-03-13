@@ -1,6 +1,6 @@
 # citytaxi
 
-Citytaxi application that uses the shared `converters` and `quotes` packages.
+Citytaxi application that uses the shared `converters` package.
 
 ## Commands
 

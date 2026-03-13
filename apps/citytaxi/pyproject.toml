@@ -1,9 +1,9 @@
 [project]
 name = "citytaxi"
 version = "0.1.0"
-description = "citytaxi app using shared converters and quotes packages"
+description = "citytaxi app using shared converters package"
 authors = [{ name = "monorepo" }]
-dependencies = ["converters", "quotes"]
+dependencies = ["converters"]
 requires-python = ">=3.12"
 readme = "README.md"
 license = { text = "MIT" }
@@ -17,4 +17,3 @@ packages = ["src/citytaxi"]
 
 [tool.uv.sources]
 converters = { workspace = true }
-quotes = { workspace = true }
