@@ -207,3 +207,10 @@ python scripts/generate_api_models.py
 ```
 
 Generated files are written to `pkgs/generated/<domain>/<version>/`.
+
+Generated dataclasses include runtime validation in `__post_init__` for:
+
+- required fields (`None` is rejected)
+- JSON Schema type checks
+- string constraints such as `pattern`, `minLength`, and `maxLength`
+- RFC 3339 `date-time` format fields
