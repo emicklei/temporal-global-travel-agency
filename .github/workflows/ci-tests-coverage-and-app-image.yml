@@ -60,6 +60,9 @@ jobs:
       - name: Generate API models
         run: make generate-models
 
+      - name: Verify generated API models are committed
+        run: git diff --exit-code -- pkgs/generated
+
       - name: Run changed tests with Pants
         shell: bash
         env:

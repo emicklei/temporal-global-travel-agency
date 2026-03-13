@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 import airliner.main as main_module
-import pytest
+from generated.airliner.v1.flight_plan import FlightPlan
 from airliner.main import (
     format_conversion_message,
     format_current_week_dates_message,
@@ -94,13 +94,10 @@ def test_main_prints_conversion_and_quote(capsys, monkeypatch) -> None:
 
 
 def test_flight_plan_from_json_fixture() -> None:
-    flight_plan_module = pytest.importorskip("generated.airliner.v1.flight_plan")
-    flight_plan_type = flight_plan_module.FlightPlan
-
     fixture_path = Path(__file__).parent / "fixtures" / "flight_plan.json"
     payload = json.loads(fixture_path.read_text(encoding="utf-8"))
 
-    plan = flight_plan_type(**payload)
+    plan = FlightPlan(**payload)
 
     assert plan.id == "fp-20260313-001"
     assert plan.departure == "EHAM"
