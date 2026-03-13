@@ -11,15 +11,15 @@ RUN useradd --create-home --uid 10001 appuser \
 
 WORKDIR /workspace
 
-# Copy local workspace packages required by tourguide.
-COPY --chown=appuser:appuser pkgs/converters ./pkgs/converters
-COPY --chown=appuser:appuser pkgs/quotes ./pkgs/quotes
+# Copy workspace packages so local dependencies can be resolved from pyproject.
+COPY --chown=appuser:appuser pkgs ./pkgs
+COPY --chown=appuser:appuser scripts/install_workspace_deps.py ./scripts/install_workspace_deps.py
 COPY --chown=appuser:appuser apps/tourguide ./apps/tourguide
 
 USER appuser
 
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir ./pkgs/converters ./pkgs/quotes \
+    && python ./scripts/install_workspace_deps.py --pyproject ./apps/tourguide/pyproject.toml --packages-dir ./pkgs \
     && pip install --no-cache-dir --no-deps ./apps/tourguide
 
 WORKDIR /workspace/apps/tourguide

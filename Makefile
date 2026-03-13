@@ -2,3 +2,6 @@
 
 generate-models:
 	python scripts/generate_api_models.py
+
+test:
+	./pants test --use-coverage ::

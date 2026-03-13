@@ -238,6 +238,9 @@ def render_dataclass(
 
     lines.append("")
     lines.append("    def __post_init__(self) -> None:")
+    lines.append("        self.Validate()")
+    lines.append("")
+    lines.append("    def Validate(self) -> None:")
     for raw_name, value in properties.items():
         field_name = to_valid_identifier(raw_name)
         lines.append(f"        {field_name}_value = self.{field_name}")

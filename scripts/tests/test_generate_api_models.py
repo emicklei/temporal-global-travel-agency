@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 from types import ModuleType
@@ -82,6 +83,7 @@ def test_render_model_module_renders_defs_and_top_class() -> None:
     assert "Timestampz = str" in module_text
     assert "class TaxiPlan:" in module_text
     assert "def __post_init__(self) -> None:" in module_text
+    assert "def Validate(self) -> None:" in module_text
     assert "pick_address: Address" in module_text
     assert "comment: str | None = None" in module_text
 
@@ -113,6 +115,7 @@ def test_generate_models_writes_output_and_package_inits(tmp_path: Path) -> None
     assert "id: str" in model_text
     assert "note: str | None = None" in model_text
     assert "def __post_init__(self) -> None:" in model_text
+    assert "def Validate(self) -> None:" in model_text
 
     assert (tmp_path / "pkgs/generated/__init__.py").exists()
     assert (tmp_path / "pkgs/generated/demo/__init__.py").exists()
@@ -192,3 +195,41 @@ def test_generated_model_validates_nested_object_type(tmp_path: Path) -> None:
     address = module.Address(street="Main")
     ride = module.Ride(id="r1", pick_address=address)
     assert ride.pick_address.street == "Main"
+
+
+def test_generated_model_validate_can_be_called_explicitly_after_json_parse(
+    tmp_path: Path,
+) -> None:
+    schema_path = tmp_path / "apis" / "demo" / "v1" / "trip.schema.json"
+    schema_path.parent.mkdir(parents=True)
+    schema_path.write_text(
+    """
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Trip",
+    "type": "object",
+    "required": ["id"],
+    "properties": {
+        "id": {"type": "string"},
+        "note": {"type": "string"}
+    }
+}
+""".strip(),
+    encoding="utf-8",
+    )
+
+    generated_files = generate_models(tmp_path)
+    module = load_module_from_path("generated_trip", generated_files[0])
+
+    parsed_valid = json.loads('{"id": "trip-1", "note": "from json"}')
+    trip = object.__new__(module.Trip)
+    object.__setattr__(trip, "id", parsed_valid["id"])
+    object.__setattr__(trip, "note", parsed_valid["note"])
+    trip.Validate()
+
+    parsed_invalid = json.loads('{"id": 123, "note": "from json"}')
+    invalid_trip = object.__new__(module.Trip)
+    object.__setattr__(invalid_trip, "id", parsed_invalid["id"])
+    object.__setattr__(invalid_trip, "note", parsed_invalid["note"])
+    with pytest.raises(TypeError, match="id must be a string"):
+        invalid_trip.Validate()
