@@ -1,12 +1,4 @@
-try:
-    from temporalio import activity  # pants: no-infer-dep
-except ModuleNotFoundError:
-    class _ActivityShim:
-        @staticmethod
-        def defn(fn):
-            return fn
-
-    activity = _ActivityShim()
+from temporalio import activity
 
 
 @activity.defn

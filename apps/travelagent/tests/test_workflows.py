@@ -50,27 +50,3 @@ async def test_hello_travel_workflow_runs_in_temporal_test_environment() -> None
             )
 
     assert result == "Hello, Ada! Welcome to Temporal Travel Agent."
-
-
-@pytest.mark.asyncio
-async def test_workflow_shim_execute_activity_supports_sync_functions_when_available() -> None:
-    if not hasattr(workflows_module, "_WorkflowShim"):
-        pytest.skip("Workflow shim only exists when temporalio is not importable")
-
-    async def run_test() -> str:
-        return await workflows_module._WorkflowShim.execute_activity(lambda name: f"Hi {name}", "Ada")
-
-    result = await run_test()
-    assert result == "Hi Ada"
-
-
-@pytest.mark.asyncio
-async def test_workflow_shim_execute_activity_supports_async_functions_when_available() -> None:
-    if not hasattr(workflows_module, "_WorkflowShim"):
-        pytest.skip("Workflow shim only exists when temporalio is not importable")
-
-    async def async_activity(name: str) -> str:
-        return f"Hi {name}"
-
-    result = await workflows_module._WorkflowShim.execute_activity(async_activity, "Ada")
-    assert result == "Hi Ada"
