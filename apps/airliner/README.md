@@ -1,6 +1,6 @@
 # airliner
 
-Airliner application that uses the shared `converters` and `quotes` packages.
+Airliner application that uses the shared `converters` package.
 
 ## Tests
 

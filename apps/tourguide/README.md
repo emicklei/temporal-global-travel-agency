@@ -1,6 +1,6 @@
 # tourguide
 
-Tourguide application that uses the shared `converters` and `quotes` packages.
+Tourguide application that uses the shared `converters` package.
 
 ## Commands
 

@@ -9,14 +9,15 @@ dev = ["pre-commit>=4.2.0", "pytest>=8.4.2", "pytest-cov>=7.0.0"]
 
 [tool.uv.workspace]
 members = ["apps/*", "pkgs/*"]
+exclude = ["pkgs/generated"]
+
 
 [tool.pytest.ini_options]
 testpaths = [
 	"apps/demo-app/tests",
 	"pkgs/converters/tests",
-	"pkgs/quotes/tests",
 ]
-pythonpath = ["apps/demo-app/src", "pkgs/converters/src", "pkgs/quotes/src"]
+pythonpath = ["apps/demo-app/src", "pkgs/converters/src"]
 
 [tool.coverage.run]
 omit = [
