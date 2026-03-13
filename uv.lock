@@ -158,12 +158,6 @@ wheels = [
 name = "demo-app"
 version = "0.1.0"
 source = { editable = "apps/demo-app" }
-dependencies = [
-    { name = "converters" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "converters", editable = "pkgs/converters" }]
 
 [[package]]
 name = "distlib"

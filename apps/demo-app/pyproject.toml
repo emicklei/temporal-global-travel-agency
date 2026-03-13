@@ -1,9 +1,9 @@
 [project]
 name = "demo-app"
 version = "0.1.0"
-description = "Demo app using shared converters package"
+description = "Demo app"
 authors = [{ name = "monorepo" }]
-dependencies = ["converters"]
+dependencies = []
 requires-python = ">=3.12"
 readme = "README.md"
 license = { text = "MIT" }
@@ -14,6 +14,3 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/demo_app"]
-
-[tool.uv.sources]
-converters = { workspace = true }
