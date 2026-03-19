@@ -1,7 +1,12 @@
-.PHONY: gen test fmt check
+.PHONY: gen generate-models generate_models test fmt check
 
 gen:
 	python scripts/generate_api_models.py
+
+# compatibility aliases used by CI/workflows
+generate-models: gen
+
+generate_models: gen
 
 test:
 	./pants test --use-coverage ::
