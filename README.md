@@ -1,7 +1,8 @@
 # Global Travel Agency - a Temporal.io example
 
-[![Build Status](https://github.com/emicklei/temporal-python-monorepo/actions/workflows/ci-tests-coverage-and-app-image.yml/badge.svg?branch=main)](https://github.com/emicklei/temporal-python-monorepo/actions/workflows/ci-tests-coverage-and-app-image.yml)
-[![Coverage](https://codecov.io/gh/emicklei/temporal-python-monorepo/branch/main/graph/badge.svg)](https://codecov.io/gh/emicklei/temporal-python-monorepo)
+[![Tests and Coverage](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml/badge.svg?branch=main)](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml)
+[![App Image From Tag](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-app-image-from-tag.yml/badge.svg)](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-app-image-from-tag.yml)
+[![Coverage](https://codecov.io/gh/emicklei/temporal-global-travel-agency/branch/main/graph/badge.svg)](https://codecov.io/gh/emicklei/temporal-global-travel-agency)
 
 Python monorepo scaffolded with `uv` and `pants`.
 
