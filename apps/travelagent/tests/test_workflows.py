@@ -67,7 +67,7 @@ def test_print_journey_workflow_prints_json_to_console(capsys) -> None:
         creation_date="2024-03-19T10:00:00Z",
         routes=[
             Route(
-                schema_version="1.0",
+                schema_version="airliner/v1",
                 properties={"destination": "Paris", "duration": "5 days"},
             )
         ],
@@ -93,7 +93,7 @@ def test_print_journey_workflow_runs_in_temporal_test_environment() -> None:
                 creation_date="2024-03-19T12:00:00Z",
                 routes=[
                     Route(
-                        schema_version="1.0",
+                        schema_version="citytaxi/v2.0",
                         properties={"destination": "Rome", "duration": "3 days"},
                     )
                 ],

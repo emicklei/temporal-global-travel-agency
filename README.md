@@ -209,6 +209,13 @@ All JSON schema files under `apis/` are validated by:
 - a local `pre-commit` hook (`validate-api-schemas`)
 - the CI workflow (`Validate API JSON schemas` step)
 
+For `apis/travelagent/v1/journey.schema.json`, each route `schema_version` must
+match `<string>/v<integer>(.<integer>)*`, for example:
+
+- `airliner/v1`
+- `bikerental/v1.2`
+- `citytaxi/v2.0`
+
 Run manually from the repository root:
 
 ```bash

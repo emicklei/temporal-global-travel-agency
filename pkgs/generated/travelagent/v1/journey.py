@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from typing import Any
 
@@ -9,6 +10,13 @@ class Route(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     schema_version: str
     properties: dict[str, Any]
+
+    @field_validator("schema_version")
+    @classmethod
+    def _validate_schema_version(cls, value: str) -> str:
+        if re.fullmatch(r'^[^/]+/v[0-9]+(?:[.][0-9]+)*$', value) is None:
+            raise ValueError("schema_version does not match required pattern")
+        return value
 
 Timestampz = str
 
