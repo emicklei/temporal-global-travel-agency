@@ -14,7 +14,10 @@ SPEC.loader.exec_module(INSTALLER_MODULE)
 def test_dependency_name_parses_requirement_variants() -> None:
     assert INSTALLER_MODULE.dependency_name("converters") == "converters"
     assert INSTALLER_MODULE.dependency_name("requests>=2.0") == "requests"
-    assert INSTALLER_MODULE.dependency_name("my-pkg[extra]>=1.0; python_version>='3.12'") == "my-pkg"
+    assert (
+        INSTALLER_MODULE.dependency_name("my-pkg[extra]>=1.0; python_version>='3.12'")
+        == "my-pkg"
+    )
 
 
 def test_resolve_install_target_prefers_local_workspace_package(tmp_path: Path) -> None:
@@ -26,7 +29,9 @@ def test_resolve_install_target_prefers_local_workspace_package(tmp_path: Path) 
     assert target == str(pkgs / "my_pkg")
 
 
-def test_install_dependencies_uses_resolved_targets(tmp_path: Path, monkeypatch) -> None:
+def test_install_dependencies_uses_resolved_targets(
+    tmp_path: Path, monkeypatch
+) -> None:
     pyproject_path = tmp_path / "pyproject.toml"
     pyproject_path.write_text(
         """

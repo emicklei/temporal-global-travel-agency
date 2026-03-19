@@ -26,7 +26,7 @@ def test_discover_schema_files_lists_known_schemas() -> None:
 
 def test_validate_schema_file_reports_non_object_top_level(tmp_path: Path) -> None:
     schema_path = tmp_path / "bad.schema.json"
-    schema_path.write_text('[]', encoding="utf-8")
+    schema_path.write_text("[]", encoding="utf-8")
 
     errors = validate_schema_file(schema_path)
 

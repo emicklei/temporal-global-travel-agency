@@ -1,7 +1,27 @@
-.PHONY: generate-models
+.PHONY: gen test fmt check
 
 gen:
 	python scripts/generate_api_models.py
 
 test:
 	./pants test --use-coverage ::
+
+# formats all code in the repo
+# python, toml, javascript, etc.
+fmt:
+	uv run pre-commit run ruff --all-files || true
+	uv run pre-commit run ruff-format --all-files || true
+	uv run pre-commit run trailing-whitespace --all-files || true
+	uv run pre-commit run end-of-file-fixer --all-files || true
+	uv run pre-commit run pretty-format-json --all-files || true
+	uv run pre-commit run ruff --all-files
+	uv run pre-commit run ruff-format --all-files
+	uv run pre-commit run trailing-whitespace --all-files
+	uv run pre-commit run end-of-file-fixer --all-files
+	uv run pre-commit run pretty-format-json --all-files
+
+# runs repo validation checks in the pre-commit pipeline
+check:
+	uv run pre-commit run validate-api-schemas --all-files
+	uv run pre-commit run check-generated-api-models --all-files
+	uv run pre-commit run validate-git-tags --all-files

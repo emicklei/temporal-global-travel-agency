@@ -1,4 +1,21 @@
 repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        name: Ruff lint and auto-fix
+        args: [--fix]
+      - id: ruff-format
+        name: Ruff format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: pretty-format-json
+        args: [--autofix, --indent=2, --no-sort-keys]
+
   - repo: local
     hooks:
       - id: validate-api-schemas

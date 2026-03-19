@@ -27,9 +27,7 @@ def validate_schema_file(schema_path: Path) -> list[str]:
     except OSError as exc:
         return [f"- {schema_path}: unable to read file ({exc})"]
     except json.JSONDecodeError as exc:
-        return [
-            f"- {schema_path}:{exc.lineno}:{exc.colno}: invalid JSON ({exc.msg})"
-        ]
+        return [f"- {schema_path}:{exc.lineno}:{exc.colno}: invalid JSON ({exc.msg})"]
 
     if not isinstance(parsed, dict):
         errors.append(f"- {schema_path}: top-level JSON value must be an object")
@@ -40,9 +38,7 @@ def validate_schema_file(schema_path: Path) -> list[str]:
         errors.append(f"- {schema_path}: missing or invalid '$schema' declaration")
 
     if parsed.get("type") != "object":
-        errors.append(
-            f"- {schema_path}: top-level 'type' must be 'object'"
-        )
+        errors.append(f"- {schema_path}: top-level 'type' must be 'object'")
 
     properties = parsed.get("properties")
     required = parsed.get("required")

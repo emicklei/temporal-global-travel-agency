@@ -37,7 +37,9 @@ async def test_run_from_args_worker_mode(monkeypatch) -> None:
 
 @pytest.mark.asyncio
 async def test_run_from_args_start_mode(capsys, monkeypatch) -> None:
-    async def fake_run_starter(name: str, hostport: str, namespace: str, task_queue: str) -> str:
+    async def fake_run_starter(
+        name: str, hostport: str, namespace: str, task_queue: str
+    ) -> str:
         assert name == "Ada"
         return "Hello, Ada! Welcome to Temporal Travel Agent."
 
@@ -57,7 +59,9 @@ async def test_run_from_args_start_mode(capsys, monkeypatch) -> None:
 
 
 def test_compose_hello_message() -> None:
-    assert compose_hello_message("Ada") == "Hello, Ada! Welcome to Temporal Travel Agent."
+    assert (
+        compose_hello_message("Ada") == "Hello, Ada! Welcome to Temporal Travel Agent."
+    )
 
 
 def test_build_workflow_id_normalizes_name() -> None:
@@ -263,7 +267,9 @@ def test_run_from_args_worker_mode_via_asyncio_run(monkeypatch) -> None:
 
 
 def test_run_from_args_start_mode_via_asyncio_run(capsys, monkeypatch) -> None:
-    async def fake_run_starter(name: str, hostport: str, namespace: str, task_queue: str) -> str:
+    async def fake_run_starter(
+        name: str, hostport: str, namespace: str, task_queue: str
+    ) -> str:
         assert name == "Ada"
         return "Hello, Ada! Welcome to Temporal Travel Agent."
 

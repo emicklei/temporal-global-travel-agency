@@ -6,7 +6,9 @@ def DegreesToFahrenheit(degrees_celsius: float) -> float:
     return (degrees_celsius * 9 / 5) + 32
 
 
-def WeekNumberToDateRange(week_number: int, year: int | None = None) -> tuple[date, date]:
+def WeekNumberToDateRange(
+    week_number: int, year: int | None = None
+) -> tuple[date, date]:
     """Return the ISO week start (Monday) and end (Sunday) dates."""
     if year is None:
         year = date.today().year

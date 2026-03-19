@@ -203,7 +203,7 @@ def test_generated_model_validate_can_be_called_explicitly_after_json_parse(
     schema_path = tmp_path / "apis" / "demo" / "v1" / "trip.schema.json"
     schema_path.parent.mkdir(parents=True)
     schema_path.write_text(
-    """
+        """
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Trip",
@@ -215,7 +215,7 @@ def test_generated_model_validate_can_be_called_explicitly_after_json_parse(
     }
 }
 """.strip(),
-    encoding="utf-8",
+        encoding="utf-8",
     )
 
     generated_files = generate_models(tmp_path)

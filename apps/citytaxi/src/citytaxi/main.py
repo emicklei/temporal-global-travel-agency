@@ -11,7 +11,9 @@ def format_conversion_message(degrees_celsius: float) -> str:
 def format_current_week_dates_message() -> str:
     today = date.today()
     iso_calendar = today.isocalendar()
-    start_of_week, end_of_week = WeekNumberToDateRange(iso_calendar.week, iso_calendar.year)
+    start_of_week, end_of_week = WeekNumberToDateRange(
+        iso_calendar.week, iso_calendar.year
+    )
     week_dates = [
         start_of_week + timedelta(days=offset)
         for offset in range((end_of_week - start_of_week).days + 1)

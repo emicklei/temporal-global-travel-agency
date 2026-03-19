@@ -55,9 +55,7 @@ def validate_tags(tags: list[str], app_folders: set[str]) -> list[str]:
 
         folder = match.group(1)
         if folder not in app_folders:
-            errors.append(
-                f"- {tag}: folder '{folder}' does not exist under apps/"
-            )
+            errors.append(f"- {tag}: folder '{folder}' does not exist under apps/")
 
     return errors
 
@@ -86,7 +84,9 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
 
-    print("All git tags match apps/<folder>/vX.Y.Z and reference an existing apps folder.")
+    print(
+        "All git tags match apps/<folder>/vX.Y.Z and reference an existing apps folder."
+    )
     return 0
 
 

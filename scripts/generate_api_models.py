@@ -93,7 +93,9 @@ def render_validator_method(
     has_pattern_validation = isinstance(pattern, str) and bool(pattern)
     has_datetime_validation = fmt == "date-time"
 
-    if not any((has_length_validation, has_pattern_validation, has_datetime_validation)):
+    if not any(
+        (has_length_validation, has_pattern_validation, has_datetime_validation)
+    ):
         return [], False, False
 
     method_lines = [
@@ -122,7 +124,9 @@ def render_validator_method(
 
     if has_datetime_validation:
         method_lines.append("        try:")
-        method_lines.append("            datetime.fromisoformat(value.replace('Z', '+00:00'))")
+        method_lines.append(
+            "            datetime.fromisoformat(value.replace('Z', '+00:00'))"
+        )
         method_lines.append("        except ValueError as error:")
         method_lines.append(
             f'            raise ValueError("{raw_name} must be RFC 3339 date-time") from error'
@@ -226,7 +230,9 @@ def render_model_module(schema: dict[str, object], schema_path: Path) -> str:
 
     required = schema.get("required")
     required_fields = (
-        {name for name in required if isinstance(name, str)} if isinstance(required, list) else set()
+        {name for name in required if isinstance(name, str)}
+        if isinstance(required, list)
+        else set()
     )
 
     body_lines: list[str] = []

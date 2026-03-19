@@ -44,12 +44,22 @@ def test_flight_plan_validates_against_json_schema() -> None:
     model_schema = FlightPlan.model_json_schema()
 
     assert set(model_schema["properties"].keys()) == {
-        "id", "aircraft_id", "creation_date", "departure", "destination",
-        "estimated_takeoff", "estimated_landing"
+        "id",
+        "aircraft_id",
+        "creation_date",
+        "departure",
+        "destination",
+        "estimated_takeoff",
+        "estimated_landing",
     }
     assert set(model_schema["required"]) == {
-        "id", "aircraft_id", "creation_date", "departure", "destination",
-        "estimated_takeoff", "estimated_landing"
+        "id",
+        "aircraft_id",
+        "creation_date",
+        "departure",
+        "destination",
+        "estimated_takeoff",
+        "estimated_landing",
     }
     assert plan.id == payload["id"]
 
@@ -107,7 +117,9 @@ def test_flight_plan_rejects_invalid_estimated_landing() -> None:
     payload = _flight_plan_payload()
     payload["estimated_landing"] = "not-a-date"
 
-    with pytest.raises(ValueError, match="estimated_landing must be RFC 3339 date-time"):
+    with pytest.raises(
+        ValueError, match="estimated_landing must be RFC 3339 date-time"
+    ):
         FlightPlan(**payload)
 
 
