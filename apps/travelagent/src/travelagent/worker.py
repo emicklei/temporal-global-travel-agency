@@ -2,7 +2,7 @@ from temporalio.client import Client
 from temporalio.worker import Worker
 
 from .activities import compose_hello_message
-from .workflows import HelloTravelWorkflow
+from .workflows import HelloTravelWorkflow, PrintJourneyWorkflow
 
 DEFAULT_TASK_QUEUE = "travelagent-hello-task-queue"
 
@@ -16,7 +16,7 @@ async def run_worker(
     worker = Worker(
         client,
         task_queue=task_queue,
-        workflows=[HelloTravelWorkflow],
+        workflows=[HelloTravelWorkflow, PrintJourneyWorkflow],
         activities=[compose_hello_message],
     )
     await worker.run()
