@@ -28,10 +28,7 @@ def test_run_worker_creates_and_runs_worker(monkeypatch) -> None:
 
     client, task_queue, workflows, activities = captured["init"]
     assert isinstance(client, DummyClient)
-    assert task_queue == "travelagent-hello-task-queue"
-    assert workflows == [
-        worker_module.HelloTravelWorkflow,
-        worker_module.PrintJourneyWorkflow,
-    ]
-    assert activities == [worker_module.compose_hello_message]
+    assert task_queue == "travelagent-print-journey-task-queue"
+    assert workflows == [worker_module.PrintJourneyWorkflow]
+    assert activities == []
     assert captured["ran"] is True

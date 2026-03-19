@@ -2,7 +2,7 @@ ROOT_DIR := $(abspath ../..)
 IMAGE_NAME ?= travelagent:latest
 DOCKERFILE := $(CURDIR)/Dockerfile
 
-.PHONY: docker-build docker-run run start test
+.PHONY: docker-build docker-run run test
 
 # Build the travelagent Docker image from the repository root context.
 docker-build:
@@ -15,10 +15,6 @@ docker-run:
 # Run the Temporal worker locally.
 run:
 	cd $(ROOT_DIR) && uv run --package travelagent python -m travelagent.main worker
-
-# Start a hello workflow execution locally.
-start:
-	cd $(ROOT_DIR) && uv run --package travelagent python -m travelagent.main start --name "Temporal traveler"
 
 # Run travelagent tests locally.
 test:
