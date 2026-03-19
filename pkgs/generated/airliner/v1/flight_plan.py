@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import re
 from datetime import datetime
+from typing import Any
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 ICAOCode = str
 
