@@ -33,7 +33,8 @@
       ],
       "properties": {
         "schema_version": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^[^/]+/v[0-9]+(?:[.][0-9]+)*$"
         },
         "properties": {
           "type": "object"
