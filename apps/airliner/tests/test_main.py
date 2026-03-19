@@ -3,6 +3,7 @@ from pathlib import Path
 import runpy
 
 import pytest  # pants: no-infer-dep
+from pydantic import ValidationError  # pants: no-infer-dep
 from generated.airliner.v1.flight_plan import FlightPlan
 from airliner.main import main
 
@@ -34,6 +35,34 @@ def test_flight_plan_from_json_fixture() -> None:
     assert plan.destination == "KJFK"
 
 
+def test_flight_plan_validates_against_json_schema() -> None:
+    """Test that FlightPlan model validates fixture against JSON schema constraints."""
+    payload = _flight_plan_payload()
+
+    # Pydantic model_validate enforces schema constraints
+    plan = FlightPlan.model_validate(payload)
+    model_schema = FlightPlan.model_json_schema()
+
+    assert set(model_schema["properties"].keys()) == {
+        "id", "aircraft_id", "creation_date", "departure", "destination",
+        "estimated_takeoff", "estimated_landing"
+    }
+    assert set(model_schema["required"]) == {
+        "id", "aircraft_id", "creation_date", "departure", "destination",
+        "estimated_takeoff", "estimated_landing"
+    }
+    assert plan.id == payload["id"]
+
+
+def test_flight_plan_rejects_extra_properties() -> None:
+    """Test that model config forbids extra properties (strict schema compliance)."""
+    payload = _flight_plan_payload()
+    payload["unexpected"] = "value"
+
+    with pytest.raises(ValidationError, match="Extra inputs are not permitted"):
+        FlightPlan.model_validate(payload)
+
+
 def test_flight_plan_rejects_invalid_date_time() -> None:
     payload = _flight_plan_payload()
     payload["creation_date"] = "not-a-timestamp"
@@ -46,7 +75,7 @@ def test_flight_plan_rejects_none_id() -> None:
     payload = _flight_plan_payload()
     payload["id"] = None
 
-    with pytest.raises(ValueError, match="id is required and cannot be None"):
+    with pytest.raises(ValidationError):
         FlightPlan(**payload)
 
 
@@ -54,7 +83,7 @@ def test_flight_plan_rejects_non_string_id() -> None:
     payload = _flight_plan_payload()
     payload["id"] = 123
 
-    with pytest.raises(TypeError, match="id must be a string"):
+    with pytest.raises(ValidationError):
         FlightPlan(**payload)
 
 
@@ -70,7 +99,7 @@ def test_flight_plan_rejects_non_string_destination() -> None:
     payload = _flight_plan_payload()
     payload["destination"] = 1234
 
-    with pytest.raises(TypeError, match="destination must be a string"):
+    with pytest.raises(ValidationError):
         FlightPlan(**payload)
 
 
@@ -86,7 +115,7 @@ def test_flight_plan_rejects_none_aircraft_id() -> None:
     payload = _flight_plan_payload()
     payload["aircraft_id"] = None
 
-    with pytest.raises(ValueError, match="aircraft_id is required and cannot be None"):
+    with pytest.raises(ValidationError):
         FlightPlan(**payload)
 
 
@@ -94,5 +123,5 @@ def test_flight_plan_rejects_non_string_estimated_takeoff() -> None:
     payload = _flight_plan_payload()
     payload["estimated_takeoff"] = 123
 
-    with pytest.raises(TypeError, match="estimated_takeoff must be a string"):
+    with pytest.raises(ValidationError):
         FlightPlan(**payload)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Python dataclass models from JSON schemas in apis/."""
+"""Generate Python Pydantic models from JSON schemas in apis/."""
 
 from __future__ import annotations
 
@@ -56,6 +56,13 @@ def resolve_ref_type(ref_value: str) -> str:
     raise ValueError(f"Unsupported $ref value: {ref_value}")
 
 
+def schema_allows_additional_properties(schema: dict[str, object]) -> bool:
+    additional = schema.get("additionalProperties")
+    if isinstance(additional, bool):
+        return additional
+    return True
+
+
 def resolve_property_schema(
     property_schema: dict[str, object],
     defs_mapping: dict[str, object],
@@ -69,119 +76,60 @@ def resolve_property_schema(
     return property_schema
 
 
-def render_value_constraints(
-    value_expr: str,
+def render_validator_method(
+    raw_name: str,
+    field_name: str,
     property_schema: dict[str, object],
     defs_mapping: dict[str, object],
-    field_path: str,
-    indent: str,
-) -> list[str]:
-    lines: list[str] = []
-
+) -> tuple[list[str], bool, bool]:
     resolved_schema = resolve_property_schema(property_schema, defs_mapping)
-    ref_value = property_schema.get("$ref")
-    if isinstance(ref_value, str) and resolved_schema.get("type") == "object":
-        ref_type = resolve_ref_type(ref_value)
-        lines.append(f"{indent}if not isinstance({value_expr}, {ref_type}):")
-        lines.append(
-            f'{indent}    raise TypeError("{field_path} must be {ref_type}")'
-        )
-        return lines
 
-    schema_type = resolved_schema.get("type")
-    if isinstance(schema_type, list):
-        non_null = [entry for entry in schema_type if entry != "null"]
-        if len(non_null) == 1 and isinstance(non_null[0], str):
-            schema_type = non_null[0]
+    min_length = resolved_schema.get("minLength")
+    max_length = resolved_schema.get("maxLength")
+    pattern = resolved_schema.get("pattern")
+    fmt = resolved_schema.get("format")
 
-    if schema_type == "string":
-        lines.append(f"{indent}if not isinstance({value_expr}, str):")
-        lines.append(
-            f'{indent}    raise TypeError("{field_path} must be a string")'
-        )
+    has_length_validation = isinstance(min_length, int) or isinstance(max_length, int)
+    has_pattern_validation = isinstance(pattern, str) and bool(pattern)
+    has_datetime_validation = fmt == "date-time"
 
-        min_length = resolved_schema.get("minLength")
+    if not any((has_length_validation, has_pattern_validation, has_datetime_validation)):
+        return [], False, False
+
+    method_lines = [
+        f'    @field_validator("{field_name}")',
+        "    @classmethod",
+        f"    def _validate_{field_name}(cls, value: str) -> str:",
+    ]
+
+    if has_length_validation:
         if isinstance(min_length, int):
-            lines.append(f"{indent}if len({value_expr}) < {min_length}:")
-            lines.append(
-                f'{indent}    raise ValueError("{field_path} must be at least {min_length} characters")'
+            method_lines.append(f"        if len(value) < {min_length}:")
+            method_lines.append(
+                f'            raise ValueError("{raw_name} must be at least {min_length} characters")'
             )
-
-        max_length = resolved_schema.get("maxLength")
         if isinstance(max_length, int):
-            lines.append(f"{indent}if len({value_expr}) > {max_length}:")
-            lines.append(
-                f'{indent}    raise ValueError("{field_path} must be at most {max_length} characters")'
+            method_lines.append(f"        if len(value) > {max_length}:")
+            method_lines.append(
+                f'            raise ValueError("{raw_name} must be at most {max_length} characters")'
             )
 
-        pattern = resolved_schema.get("pattern")
-        if isinstance(pattern, str) and pattern:
-            lines.append(f"{indent}if re.fullmatch(r{pattern!r}, {value_expr}) is None:")
-            lines.append(
-                f'{indent}    raise ValueError("{field_path} does not match required pattern")'
-            )
-
-        fmt = resolved_schema.get("format")
-        if fmt == "date-time":
-            lines.append(f"{indent}try:")
-            lines.append(
-                f"{indent}    datetime.fromisoformat({value_expr}.replace('Z', '+00:00'))"
-            )
-            lines.append(f"{indent}except ValueError as error:")
-            lines.append(
-                f'{indent}    raise ValueError("{field_path} must be RFC 3339 date-time") from error'
-            )
-        return lines
-
-    if schema_type == "integer":
-        lines.append(
-            f"{indent}if not isinstance({value_expr}, int) or isinstance({value_expr}, bool):"
+    if has_pattern_validation:
+        method_lines.append(f"        if re.fullmatch(r{pattern!r}, value) is None:")
+        method_lines.append(
+            f'            raise ValueError("{raw_name} does not match required pattern")'
         )
-        lines.append(
-            f'{indent}    raise TypeError("{field_path} must be an integer")'
+
+    if has_datetime_validation:
+        method_lines.append("        try:")
+        method_lines.append("            datetime.fromisoformat(value.replace('Z', '+00:00'))")
+        method_lines.append("        except ValueError as error:")
+        method_lines.append(
+            f'            raise ValueError("{raw_name} must be RFC 3339 date-time") from error'
         )
-        return lines
 
-    if schema_type == "number":
-        lines.append(
-            f"{indent}if not isinstance({value_expr}, (int, float)) or isinstance({value_expr}, bool):"
-        )
-        lines.append(
-            f'{indent}    raise TypeError("{field_path} must be a number")'
-        )
-        return lines
-
-    if schema_type == "boolean":
-        lines.append(f"{indent}if not isinstance({value_expr}, bool):")
-        lines.append(
-            f'{indent}    raise TypeError("{field_path} must be a boolean")'
-        )
-        return lines
-
-    if schema_type == "array":
-        lines.append(f"{indent}if not isinstance({value_expr}, list):")
-        lines.append(f'{indent}    raise TypeError("{field_path} must be a list")')
-
-        items = resolved_schema.get("items")
-        if isinstance(items, dict):
-            lines.append(f"{indent}for index, item in enumerate({value_expr}):")
-            lines.extend(
-                render_value_constraints(
-                    value_expr="item",
-                    property_schema=items,
-                    defs_mapping=defs_mapping,
-                    field_path=f"{field_path}[{{index}}]",
-                    indent=f"{indent}    ",
-                )
-            )
-        return lines
-
-    if schema_type == "object":
-        lines.append(f"{indent}if not isinstance({value_expr}, dict):")
-        lines.append(f'{indent}    raise TypeError("{field_path} must be an object")')
-        return lines
-
-    return lines
+    method_lines.append("        return value")
+    return method_lines, has_pattern_validation, has_datetime_validation
 
 
 def schema_type_to_python(property_schema: dict[str, object]) -> str:
@@ -213,59 +161,59 @@ def schema_type_to_python(property_schema: dict[str, object]) -> str:
     return "Any"
 
 
-def render_dataclass(
+def render_pydantic_model(
     class_name: str,
     properties: dict[str, object],
     required: set[str],
     defs_mapping: dict[str, object],
-) -> list[str]:
-    lines = ["@dataclass(frozen=True)", f"class {class_name}:"]
+    allow_additional_properties: bool,
+) -> tuple[list[str], bool, bool]:
+    extra_mode = "allow" if allow_additional_properties else "forbid"
+    lines = [
+        f"class {class_name}(BaseModel):",
+        f'    model_config = ConfigDict(extra="{extra_mode}", strict=True)',
+    ]
     if not properties:
-        lines.append("    pass")
-        return lines
+        return lines + ["    pass"], False, False
+
+    uses_regex = False
+    uses_datetime = False
 
     for raw_name, value in properties.items():
-        if not isinstance(value, dict):
-            annotation = "Any"
-        else:
-            annotation = schema_type_to_python(value)
-
-        field_name = to_valid_identifier(raw_name)
-        if raw_name in required:
-            lines.append(f"    {field_name}: {annotation}")
-        else:
-            lines.append(f"    {field_name}: {annotation} | None = None")
-
-    lines.append("")
-    lines.append("    def __post_init__(self) -> None:")
-    lines.append("        self.Validate()")
-    lines.append("")
-    lines.append("    def Validate(self) -> None:")
-    for raw_name, value in properties.items():
-        field_name = to_valid_identifier(raw_name)
-        lines.append(f"        {field_name}_value = self.{field_name}")
-
-        if raw_name in required:
-            lines.append(f"        if {field_name}_value is None:")
-            lines.append(
-                f'            raise ValueError("{raw_name} is required and cannot be None")'
-            )
-        else:
-            lines.append(f"        if {field_name}_value is None:")
-            lines.append("            pass")
-            lines.append("        else:")
-
         property_schema = value if isinstance(value, dict) else {"type": "object"}
-        validation_lines = render_value_constraints(
-            value_expr=f"{field_name}_value",
+        annotation = schema_type_to_python(property_schema)
+
+        field_name = to_valid_identifier(raw_name)
+        default_expr = "" if raw_name in required else " = None"
+
+        if field_name != raw_name:
+            if raw_name in required:
+                default_expr = f" = Field(alias={raw_name!r})"
+            else:
+                default_expr = f" = Field(default=None, alias={raw_name!r})"
+
+        if raw_name in required:
+            lines.append(f"    {field_name}: {annotation}{default_expr}")
+        else:
+            lines.append(f"    {field_name}: {annotation} | None{default_expr}")
+
+    for raw_name, value in properties.items():
+        property_schema = value if isinstance(value, dict) else {"type": "object"}
+        field_name = to_valid_identifier(raw_name)
+        method_lines, method_uses_regex, method_uses_datetime = render_validator_method(
+            raw_name=raw_name,
+            field_name=field_name,
             property_schema=property_schema,
             defs_mapping=defs_mapping,
-            field_path=raw_name,
-            indent="        " if raw_name in required else "            ",
         )
-        lines.extend(validation_lines)
+        if method_lines:
+            lines.append("")
+            lines.extend(method_lines)
 
-    return lines
+        uses_regex = uses_regex or method_uses_regex
+        uses_datetime = uses_datetime or method_uses_datetime
+
+    return lines, uses_regex, uses_datetime
 
 
 def render_model_module(schema: dict[str, object], schema_path: Path) -> str:
@@ -281,15 +229,9 @@ def render_model_module(schema: dict[str, object], schema_path: Path) -> str:
         {name for name in required if isinstance(name, str)} if isinstance(required, list) else set()
     )
 
-    output: list[str] = [
-        "from __future__ import annotations",
-        "",
-        "import re",
-        "from dataclasses import dataclass",
-        "from datetime import datetime",
-        "from typing import Any",
-        "",
-    ]
+    body_lines: list[str] = []
+    needs_regex = False
+    needs_datetime = False
 
     for def_name, def_schema in defs_mapping.items():
         if not isinstance(def_name, str) or not isinstance(def_schema, dict):
@@ -305,22 +247,51 @@ def render_model_module(schema: dict[str, object], schema_path: Path) -> str:
                 if isinstance(def_required, list)
                 else set()
             )
-            output.extend(
-                render_dataclass(
-                    target_class_name,
-                    def_properties,
-                    required_set,
-                    defs_mapping,
-                )
+            rendered_lines, uses_regex, uses_datetime = render_pydantic_model(
+                target_class_name,
+                def_properties,
+                required_set,
+                defs_mapping,
+                schema_allows_additional_properties(def_schema),
             )
+            body_lines.extend(rendered_lines)
+            needs_regex = needs_regex or uses_regex
+            needs_datetime = needs_datetime or uses_datetime
         else:
             alias_type = schema_type_to_python(def_schema)
-            output.append(f"{target_class_name} = {alias_type}")
-        output.append("")
+            body_lines.append(f"{target_class_name} = {alias_type}")
+        body_lines.append("")
 
     root_name = class_name_for_schema(schema, schema_path)
-    output.extend(render_dataclass(root_name, properties, required_fields, defs_mapping))
-    output.append("")
+    rendered_root, uses_regex, uses_datetime = render_pydantic_model(
+        root_name,
+        properties,
+        required_fields,
+        defs_mapping,
+        schema_allows_additional_properties(schema),
+    )
+    body_lines.extend(rendered_root)
+    body_lines.append("")
+    needs_regex = needs_regex or uses_regex
+    needs_datetime = needs_datetime or uses_datetime
+
+    output: list[str] = [
+        "from __future__ import annotations",
+        "",
+    ]
+    if needs_regex:
+        output.append("import re")
+    if needs_datetime:
+        output.append("from datetime import datetime")
+    output.extend(
+        [
+            "from typing import Any",
+            "",
+            "from pydantic import BaseModel, ConfigDict, Field, field_validator",
+            "",
+        ]
+    )
+    output.extend(body_lines)
 
     return "\n".join(output).rstrip() + "\n"
 

@@ -1,3 +1,8 @@
+python_requirement(
+    name="pydantic",
+    requirements=["pydantic>=2.0"],
+)
+
 python_sources(
     name="airliner",
     sources=["__init__.py", "airliner/**/*.py"],
