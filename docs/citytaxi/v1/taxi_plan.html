@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaxiPlan Schema Docs</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --border: #e5e7eb;
+      --accent: #0f766e;
+    }
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: radial-gradient(circle at top right, #ecfeff, var(--bg) 45%);
+      color: var(--text);
+      font-family: ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+    h1, h2, h3 { margin-top: 0; }
+    h1 { color: var(--accent); }
+    p.meta { color: var(--muted); margin-top: -0.25rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem 0; }
+    th, td { border: 1px solid var(--border); padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #f1f5f9; }
+    code { background: #f8fafc; padding: 0.1rem 0.3rem; border-radius: 4px; }
+    section { margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>TaxiPlan</h1>
+    <p class="meta">Source schema: <code>apis/citytaxi/v1/taxi_plan.schema.json</code></p>
+
+
+    <section>
+      <h2>Overview</h2>
+      <table>
+        <tbody>
+          <tr><th>$id</th><td><code>https://example.com/apis/citytaxi/v1/taxi_plan.schema.json</code></td></tr>
+          <tr><th>type</th><td><code>object</code></td></tr>
+          <tr><th>additionalProperties</th><td><code>False</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Required Fields</h2>
+      <ul><li><code>dropoff_address</code></li><li><code>estimated_dropoff</code></li><li><code>estimated_pickup</code></li><li><code>id</code></li><li><code>license_plate</code></li><li><code>pickup_address</code></li></ul>
+    </section>
+
+    <section>
+      <h2>Properties</h2>
+      <table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>license_plate</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>pickup_address</code></td><td><code>#/$defs/Address</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>dropoff_address</code></td><td><code>#/$defs/Address</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_pickup</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_dropoff</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table>
+    </section>
+
+    <h2>$defs</h2><section><h3><code>Address</code></h3><p><strong>Type:</strong> <code>object</code></p><table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>street</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>house_number</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>city</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>postal_code</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>country_code</code></td><td><code>string</code></td><td>yes</td><td>pattern=&#x27;^[A-Z]{2}$&#x27;</td><td>ISO 3166-1 alpha-2 country code.</td></tr></tbody></table></section><section><h3><code>Timestampz</code></h3><p><strong>Type:</strong> <code>string</code></p><p>Timestamp with time zone in RFC 3339 date-time format.</p><p><strong>Constraints:</strong> format=&#x27;date-time&#x27;</p></section>
+  </main>
+</body>
+</html>

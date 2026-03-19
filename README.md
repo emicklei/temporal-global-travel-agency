@@ -252,3 +252,16 @@ Generated dataclasses include runtime validation in `__post_init__` for:
 Generated dataclasses also include an explicit `Validate()` instance method. This allows
 calling validation manually after creating a model instance from parsed JSON or other
 custom construction flows.
+
+## API HTML Documentation Generation
+
+Generate one HTML documentation page per JSON schema under `apis/`:
+
+```bash
+python scripts/generate_api_docs.py
+```
+
+Generated docs are written under `docs/` using the same path structure as `apis/`, for example:
+
+- `apis/airliner/v1/flight_plan.schema.json` -> `docs/airliner/v1/flight_plan.html`
+- `apis/citytaxi/v1/taxi_plan.schema.json` -> `docs/citytaxi/v1/taxi_plan.html`

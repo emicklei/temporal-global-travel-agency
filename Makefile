@@ -2,6 +2,7 @@
 
 gen:
 	python scripts/generate_api_models.py
+	python scripts/generate_api_docs.py
 
 # compatibility aliases used by CI/workflows
 generate-models: gen

@@ -7,7 +7,7 @@
   "required": [
     "id",
     "license_plate",
-    "pick_address",
+    "pickup_address",
     "dropoff_address",
     "estimated_pickup",
     "estimated_dropoff"
@@ -19,7 +19,7 @@
     "license_plate": {
       "type": "string"
     },
-    "pick_address": {
+    "pickup_address": {
       "$ref": "#/$defs/Address"
     },
     "dropoff_address": {

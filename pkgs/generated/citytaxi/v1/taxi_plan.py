@@ -27,7 +27,7 @@ class TaxiPlan(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     id: str
     license_plate: str
-    pick_address: Address
+    pickup_address: Address
     dropoff_address: Address
     estimated_pickup: Timestampz
     estimated_dropoff: Timestampz
