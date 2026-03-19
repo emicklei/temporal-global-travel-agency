@@ -13,16 +13,30 @@ def _flight_plan_payload() -> dict[str, object]:
     return json.loads(fixture_path.read_text(encoding="utf-8"))
 
 
-def test_main_prints_welcome_message(capsys) -> None:
+def test_main_prints_welcome_message(capsys, monkeypatch, tmp_path) -> None:
+    monkeypatch.chdir(tmp_path)
     main()
     captured = capsys.readouterr()
     assert captured.out.strip() == "welcome to the airliner app!"
 
+    log_lines = (tmp_path / "airliner.log").read_text(encoding="utf-8").splitlines()
+    assert len(log_lines) == 1
+    log_record = json.loads(log_lines[0])
+    assert log_record["message"] == "welcome to the airliner app!"
+    assert log_record["level"] == "INFO"
+    assert log_record["logger"] == "airliner"
 
-def test_main_module_entrypoint_runs_main(capsys) -> None:
+
+def test_main_module_entrypoint_runs_main(capsys, monkeypatch, tmp_path) -> None:
+    monkeypatch.chdir(tmp_path)
     runpy.run_module("airliner.main", run_name="__main__")
     captured = capsys.readouterr()
     assert captured.out.strip() == "welcome to the airliner app!"
+
+    log_lines = (tmp_path / "airliner.log").read_text(encoding="utf-8").splitlines()
+    assert len(log_lines) == 1
+    log_record = json.loads(log_lines[0])
+    assert log_record["message"] == "welcome to the airliner app!"
 
 
 def test_flight_plan_from_json_fixture() -> None:

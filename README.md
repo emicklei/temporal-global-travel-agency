@@ -14,11 +14,12 @@ Python monorepo scaffolded with `uv` and `pants`.
 - `apis/citytaxi/v1/taxi_plan.schema.json`: JSON Schema for the `TaxiPlan` object
 - `apis/travelagent/v1/journey.schema.json`: JSON Schema for the `Journey` object
 - `pkgs/`: shared reusable packages
-- `apps/airliner`: application using `converters`
+- `apps/airliner`: application using `converters` and `logger`
 - `apps/citytaxi`: application using `converters`
 - `apps/bikerental`: application using `converters`
 - `apps/tourguide`: application using `converters`
 - `apps/travelagent`: Temporal.io app with a hello-world workflow, worker, and starter
+- `pkgs/logger`: reusable structured file logging package
 - `pkgs/servicenow`: reusable ServiceNow integration package with a Temporal activity to create change requests
 
 ## Setup
