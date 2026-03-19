@@ -99,9 +99,7 @@ def render_properties_table(
         "<th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th>"
         "</tr>"
         "</thead>"
-        "<tbody>"
-        + "".join(rows)
-        + "</tbody></table>"
+        "<tbody>" + "".join(rows) + "</tbody></table>"
     )
 
 
@@ -139,7 +137,9 @@ def render_defs_section(defs: dict[str, object]) -> str:
     return "".join(blocks)
 
 
-def render_schema_page(schema: dict[str, object], schema_path: Path, repo_root: Path) -> str:
+def render_schema_page(
+    schema: dict[str, object], schema_path: Path, repo_root: Path
+) -> str:
     title = str(schema.get("title", schema_path.stem.removesuffix(".schema")))
     description = str(schema.get("description", ""))
     schema_id = str(schema.get("$id", "-"))
@@ -160,7 +160,12 @@ def render_schema_page(schema: dict[str, object], schema_path: Path, repo_root: 
 
     relative_schema_path = schema_path.relative_to(repo_root)
     required_list = (
-        "<ul>" + "".join(f"<li><code>{html.escape(name)}</code></li>" for name in sorted(required_fields)) + "</ul>"
+        "<ul>"
+        + "".join(
+            f"<li><code>{html.escape(name)}</code></li>"
+            for name in sorted(required_fields)
+        )
+        + "</ul>"
         if required_fields
         else "<p>None</p>"
     )

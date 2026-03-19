@@ -16,13 +16,11 @@ class PrintJourneyWorkflow:
             switch = route.schema_version.split("/")[0]
             if switch == "airliner":
                 plan = FlightPlan(**route.properties)
-                plan.validate()
                 workflow.logger.info(f"Processing airliner route to {plan.destination}")
             elif switch == "citytaxi":
                 plan = TaxiPlan(**route.properties)
-                plan.validate()
                 workflow.logger.info(
-                    f"Processing city taxi route to {plan.destination}"
+                    f"Processing city taxi route to {plan.dropoff_address.city}"
                 )
             else:
                 workflow.logger.warning(f"Unknown route type {route.schema_version}")
