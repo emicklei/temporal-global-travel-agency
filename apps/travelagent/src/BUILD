@@ -6,5 +6,5 @@ python_requirement(
 python_sources(
     name="lib",
     sources=["travelagent/**/*.py"],
-    dependencies=[":temporalio"],
+    dependencies=[":temporalio", "//pkgs/generated:travelagent"],
 )
