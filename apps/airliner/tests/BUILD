@@ -13,7 +13,6 @@ python_tests(
     dependencies=[
         "//apps/airliner/src:lib",
         "//pkgs/generated:airliner",
-        "//pkgs/logger/src:lib",
         "//apis/airliner/v1:schema",
         ":fixtures",
         ":pydantic",

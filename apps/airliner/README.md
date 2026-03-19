@@ -5,12 +5,12 @@ Airliner application that uses the shared `converters` package and demonstrates 
 ## Workflows
 
 ### LogFlightPlanWorkflow
-A workflow that accepts a `FlightPlan` object and logs its JSON representation using the shared `logger` activity. Demonstrates how to work with complex typed input objects in Temporal workflows.
+A workflow that accepts a `FlightPlan` object and logs structured flight-plan data via `structlog`. Demonstrates how to work with complex typed input objects in Temporal workflows.
 
 ## Dependencies
 
 - `converters`: Shared package for data conversion
-- `logger`: Shared package for logging data as JSON
+- `structlog`: External package for structured logging
 
 ## Tests
 

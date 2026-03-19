@@ -5,7 +5,7 @@ from pathlib import Path
 
 from generated.airliner.v1.flight_plan import FlightPlan
 from airliner.workflows import LogFlightPlanWorkflow
-from logger.activities import log_as_json
+from airliner.activities import log_as_json
 
 
 def _flight_plan_payload() -> dict:
