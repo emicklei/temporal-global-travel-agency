@@ -17,7 +17,9 @@ commit_msg = """refactor: switch API model generator to Pydantic BaseModel
 - Removed custom FlightPlanSchemaModel duplicate class
 - Added pydantic requirements to generated/BUILD and airliner/tests/BUILD"""
 
-result = subprocess.run(["git", "commit", "-m", commit_msg], capture_output=True, text=True)
+result = subprocess.run(
+    ["git", "commit", "-m", commit_msg], capture_output=True, text=True
+)
 print(result.stdout)
 if result.returncode != 0:
     print("Error:", result.stderr, file=sys.stderr)
@@ -43,8 +45,19 @@ pr_msg = """## Summary
 """
 
 pr_result = subprocess.run(
-    ["gh", "pr", "create", "--head", "feature/servicenow-temporal-activity", "-t", "refactor: switch to Pydantic models", "-b", pr_msg],
-    capture_output=True, text=True
+    [
+        "gh",
+        "pr",
+        "create",
+        "--head",
+        "feature/servicenow-temporal-activity",
+        "-t",
+        "refactor: switch to Pydantic models",
+        "-b",
+        pr_msg,
+    ],
+    capture_output=True,
+    text=True,
 )
 print(pr_result.stdout)
 if pr_result.returncode != 0:

@@ -22,11 +22,15 @@ def test_format_current_week_dates_message(monkeypatch) -> None:
     monkeypatch.setattr(main_module, "date", FrozenDate)
     converter_calls = []
 
-    def fake_week_number_to_date_range(week_number: int, year: int) -> tuple[date, date]:
+    def fake_week_number_to_date_range(
+        week_number: int, year: int
+    ) -> tuple[date, date]:
         converter_calls.append((week_number, year))
         return date(2026, 3, 9), date(2026, 3, 15)
 
-    monkeypatch.setattr(main_module, "WeekNumberToDateRange", fake_week_number_to_date_range)
+    monkeypatch.setattr(
+        main_module, "WeekNumberToDateRange", fake_week_number_to_date_range
+    )
 
     assert (
         format_current_week_dates_message()
@@ -48,7 +52,6 @@ def test_format_current_week_number_message(monkeypatch) -> None:
 
 
 def test_main_prints_conversion(capsys, monkeypatch) -> None:
-
     class FrozenDate(date):
         @classmethod
         def today(cls) -> "FrozenDate":

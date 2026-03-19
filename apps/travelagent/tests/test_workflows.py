@@ -12,7 +12,9 @@ from travelagent.workflows import HelloTravelWorkflow, PrintJourneyWorkflow
 from generated.travelagent.v1.journey import Journey, Route
 
 
-def test_hello_travel_workflow_executes_activity_with_expected_arguments(monkeypatch) -> None:
+def test_hello_travel_workflow_executes_activity_with_expected_arguments(
+    monkeypatch,
+) -> None:
     captured = {}
 
     async def fake_execute_activity(activity_fn, name, schedule_to_close_timeout):
@@ -21,7 +23,9 @@ def test_hello_travel_workflow_executes_activity_with_expected_arguments(monkeyp
         captured["timeout"] = schedule_to_close_timeout
         return "Hello, Ada! Welcome to Temporal Travel Agent."
 
-    monkeypatch.setattr(workflows_module.workflow, "execute_activity", fake_execute_activity)
+    monkeypatch.setattr(
+        workflows_module.workflow, "execute_activity", fake_execute_activity
+    )
 
     result = asyncio.run(HelloTravelWorkflow().run("Ada"))
 

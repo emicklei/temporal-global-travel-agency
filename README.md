@@ -144,6 +144,23 @@ or simply:
 ./pants test ::
 ```
 
+## Format And Validate
+
+Run repository-wide formatting hooks from the root:
+
+```bash
+make fmt
+```
+
+Run repository validation checks separately:
+
+```bash
+make check
+```
+
+`make fmt` runs formatter hooks only (Ruff, whitespace, JSON formatting).
+`make check` runs validation hooks only (schema validation, generated-model sync, tag format).
+
 ## Run Changed Tests
 
 Run only tests affected by changes compared to `origin/main`:

@@ -49,7 +49,9 @@ def install_dependencies(pyproject_path: Path, packages_dir: Path) -> None:
     if not isinstance(dependencies, list):
         raise ValueError("project.dependencies must be a list")
 
-    install_targets = [resolve_install_target(dep, packages_dir) for dep in dependencies]
+    install_targets = [
+        resolve_install_target(dep, packages_dir) for dep in dependencies
+    ]
     if not install_targets:
         return
 
