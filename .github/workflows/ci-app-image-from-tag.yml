@@ -1,0 +1,48 @@
+name: App Image From Tag
+
+on:
+  push:
+    tags:
+      - apps/*/v*
+
+jobs:
+  build-app-image-from-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Parse app and version from tag
+        id: parse
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+
+          if [[ ! "$TAG" =~ ^apps/([^/]+)/((v[0-9]+\.[0-9]+\.[0-9]+))$ ]]; then
+            echo "Unsupported tag format: $TAG"
+            echo "Expected: apps/<folder>/v<major>.<minor>.<patch>"
+            exit 1
+          fi
+
+          APP_FOLDER="${BASH_REMATCH[1]}"
+          VERSION_TAG="${BASH_REMATCH[2]}"
+
+          echo "app_folder=$APP_FOLDER" >> "$GITHUB_OUTPUT"
+          echo "version_tag=$VERSION_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Verify app Dockerfile exists
+        run: |
+          APP_PATH="apps/${{ steps.parse.outputs.app_folder }}"
+
+          if [[ ! -f "$APP_PATH/Dockerfile" ]]; then
+            echo "Missing Dockerfile at $APP_PATH/Dockerfile"
+            exit 1
+          fi
+
+      - name: Build Docker image using Makefile
+        run: |
+          APP_FOLDER="${{ steps.parse.outputs.app_folder }}"
+          VERSION_TAG="${{ steps.parse.outputs.version_tag }}"
+
+          make -C "apps/$APP_FOLDER" docker-build \
+            IMAGE_NAME="$APP_FOLDER:$VERSION_TAG"
