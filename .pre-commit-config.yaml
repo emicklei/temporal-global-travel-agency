@@ -5,16 +5,21 @@ repos:
       - id: ruff
         name: Ruff lint and auto-fix
         args: [--fix]
+        exclude: ^pkgs/generated/
       - id: ruff-format
         name: Ruff format
+        exclude: ^pkgs/generated/
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^pkgs/generated/
       - id: end-of-file-fixer
+        exclude: ^pkgs/generated/
       - id: pretty-format-json
         args: [--autofix, --indent=2, --no-sort-keys]
+        exclude: ^pkgs/generated/
 
   - repo: local
     hooks:
