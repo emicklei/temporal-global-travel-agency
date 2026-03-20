@@ -7,7 +7,7 @@ from temporalio.testing import WorkflowEnvironment  # pants: no-infer-dep
 from temporalio.worker import Worker  # pants: no-infer-dep
 
 import travelagent.workflows as workflows_module
-from travelagent.workflows import PrintJourneyWorkflow
+from travelagent.workflows import JourneyWorkflow
 from generated.travelagent.v1.journey import Journey, Route
 
 
@@ -70,7 +70,7 @@ def test_print_journey_workflow_logs_supported_and_unknown_routes(monkeypatch) -
         ],
     )
 
-    asyncio.run(PrintJourneyWorkflow().run(journey))
+    asyncio.run(JourneyWorkflow().run(journey))
 
     assert any("test-journey-1" in message for message in info_messages)
     assert "Processing airliner route to ORLY" in info_messages
@@ -119,11 +119,11 @@ def test_print_journey_workflow_runs_in_temporal_test_environment() -> None:
                 async with Worker(
                     env.client,
                     task_queue=task_queue,
-                    workflows=[PrintJourneyWorkflow],
+                    workflows=[JourneyWorkflow],
                     activity_executor=activity_executor,
                 ):
                     return await env.client.execute_workflow(
-                        PrintJourneyWorkflow.run,
+                        JourneyWorkflow.run,
                         journey,
                         id=workflow_id,
                         task_queue=task_queue,

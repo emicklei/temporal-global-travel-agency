@@ -1,7 +1,7 @@
 from temporalio.client import Client
 from temporalio.worker import Worker
 
-from .workflows import PrintJourneyWorkflow
+from .workflows import JourneyWorkflow
 
 DEFAULT_TASK_QUEUE = "travelagent-print-journey-task-queue"
 
@@ -15,7 +15,7 @@ async def run_worker(
     worker = Worker(
         client,
         task_queue=task_queue,
-        workflows=[PrintJourneyWorkflow],
+        workflows=[JourneyWorkflow],
         activities=[],
     )
     await worker.run()
