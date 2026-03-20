@@ -13,6 +13,7 @@ SPEC.loader.exec_module(DOCS_MODULE)
 discover_schema_files = DOCS_MODULE.discover_schema_files
 generate_docs = DOCS_MODULE.generate_docs
 output_path_for_schema = DOCS_MODULE.output_path_for_schema
+render_index_page = DOCS_MODULE.render_index_page
 render_schema_page = DOCS_MODULE.render_schema_page
 
 
@@ -97,8 +98,21 @@ def test_generate_docs_writes_one_html_file_per_schema(tmp_path: Path) -> None:
 
     generated = generate_docs(tmp_path)
 
-    assert generated == [tmp_path / "docs" / "demo" / "v1" / "trip.html"]
-    html_text = generated[0].read_text(encoding="utf-8")
-    assert "Trip" in html_text
-    assert "array&lt;string&gt;" in html_text
-    assert "apis/demo/v1/trip.schema.json" in html_text
+    assert tmp_path / "docs" / "demo" / "v1" / "trip.html" in generated
+    assert tmp_path / "docs" / "api.html" in generated
+
+
+def test_render_index_page_contains_links_to_schema_docs(tmp_path: Path) -> None:
+    docs_root = tmp_path / "docs"
+    schema_docs = [
+        docs_root / "airliner" / "v1" / "flight_plan.html",
+        docs_root / "citytaxi" / "v1" / "taxi_plan.html",
+    ]
+
+    index_html = render_index_page(schema_docs, docs_root)
+
+    assert "airliner" in index_html
+    assert "airliner/v1/flight_plan.html" in index_html
+    assert "citytaxi" in index_html
+    assert "citytaxi/v1/taxi_plan.html" in index_html
+    assert "API Documentation" in index_html

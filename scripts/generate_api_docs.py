@@ -246,8 +246,79 @@ def render_schema_page(
 """
 
 
+def render_index_page(schema_docs: list[Path], docs_root: Path) -> str:
+    groups: dict[str, list[tuple[str, str]]] = {}
+    for doc_path in sorted(schema_docs):
+        relative = doc_path.relative_to(docs_root)
+        api_name = relative.parts[0]
+        label = "/".join(relative.parts[1:])
+        href = relative.as_posix()
+        groups.setdefault(api_name, []).append((label, href))
+
+    sections: list[str] = []
+    for api_name in sorted(groups):
+        items = "".join(
+            f'<li><a href="{html.escape(href)}">{html.escape(label)}</a></li>'
+            for label, href in groups[api_name]
+        )
+        sections.append(
+            f"<section>"
+            f"<h2>{html.escape(api_name)}</h2>"
+            f"<ul>{items}</ul>"
+            f"</section>"
+        )
+
+    body = "\n    ".join(sections)
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API Documentation</title>
+  <style>
+    :root {{
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --border: #e5e7eb;
+      --accent: #0f766e;
+    }}
+    body {{
+      margin: 0;
+      padding: 2rem;
+      background: radial-gradient(circle at top right, #ecfeff, var(--bg) 45%);
+      color: var(--text);
+      font-family: ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }}
+    main {{
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }}
+    h1 {{ color: var(--accent); margin-top: 0; }}
+    h2 {{ margin-bottom: 0.25rem; }}
+    ul {{ margin-top: 0.25rem; }}
+    a {{ color: var(--accent); }}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>API Documentation</h1>
+    {body}
+  </main>
+</body>
+</html>
+"""
+
+
 def generate_docs(repo_root: Path) -> list[Path]:
-    output_files: list[Path] = []
+    schema_docs: list[Path] = []
     for schema_path in discover_schema_files(repo_root):
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         if not isinstance(schema, dict):
@@ -259,14 +330,23 @@ def generate_docs(repo_root: Path) -> list[Path]:
             render_schema_page(schema, schema_path, repo_root),
             encoding="utf-8",
         )
-        output_files.append(output_path)
-    return output_files
+        schema_docs.append(output_path)
+
+    docs_root = repo_root / "docs"
+    index_path = docs_root / "api.html"
+    docs_root.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(render_index_page(schema_docs, docs_root), encoding="utf-8")
+
+    return schema_docs + [index_path]
 
 
 def main() -> int:
     repo_root = get_repo_root()
     generated = generate_docs(repo_root)
-    print(f"Generated {len(generated)} API documentation page(s) in docs/.")
+    schema_count = len(generated) - 1  # exclude index
+    print(
+        f"Generated {schema_count} API schema page(s) + docs/api.html index in docs/."
+    )
     for output in generated:
         print(output.relative_to(repo_root))
     return 0
