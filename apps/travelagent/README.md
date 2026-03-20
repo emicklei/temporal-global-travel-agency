@@ -4,7 +4,7 @@ Travelagent application using Temporal Python SDK with an example workflow for t
 
 ## Workflows
 
-### PrintJourneyWorkflow
+### JourneyWorkflow
 A workflow that accepts a `Journey` object (with routes and travel details) and prints it as formatted JSON to the console. This demonstrates how to work with complex typed input objects in Temporal workflows.
 
 ## Commands
