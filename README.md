@@ -99,6 +99,10 @@ make docker-build
 make docker-run
 ```
 
+Travelagent tests include a fixture-driven journey validation case at
+`apps/travelagent/tests/test_journey_fixture.py`, using
+`apps/travelagent/tests/fixtures/plan1.json`.
+
 ## Docker Dependency Installation
 
 App Dockerfiles install workspace dependencies from each app's
