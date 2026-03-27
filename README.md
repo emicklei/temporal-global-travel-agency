@@ -269,3 +269,21 @@ Generated docs are written under `docs/` using the same path structure as `apis/
 
 - `apis/airliner/v1/flight_plan.schema.json` -> `docs/airliner/v1/flight_plan.html`
 - `apis/citytaxi/v1/taxi_plan.schema.json` -> `docs/citytaxi/v1/taxi_plan.html`
+
+## Sparse checkouts
+A monorepo will naturally grow quite large quite fast and for many reasons engineers will for the
+most time prefer to only have a subset of the tree checked out at once. Git *sparse checkouts* provides
+a mechanism for archieving this.
+
+Executing:
+```bash
+git config core.sparseCheckout true
+echo '/*'           >  .git/info/sparse-checkout
+echo '!/apps/*'     >> .git/info/sparse-checkout
+echo '/apps/travelagent/*' >> .git/info/sparse-checkout
+```
+enables sparse checkouts and configures git to checkout the the whole tree except all apps other
+than `travelagent`. To make it happen, either run a checkout command or to update the work tree in-place:
+```
+git read-tree -mu HEAD
+```
