@@ -19,7 +19,6 @@ Python monorepo scaffolded with `uv` and `pants`.
 - `apps/bikerental`: application using `converters`
 - `apps/tourguide`: application using `converters`
 - `apps/travelagent`: Temporal.io app with a hello-world workflow, worker, and starter
-- `pkgs/servicenow`: reusable ServiceNow integration package with a Temporal activity to create change requests
 
 ## Setup
 
@@ -130,9 +129,6 @@ make test
 make test
 
 # apps/tourguide
-make test
-
-# pkgs/servicenow
 make test
 ```
 

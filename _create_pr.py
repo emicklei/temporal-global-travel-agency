@@ -50,7 +50,7 @@ pr_result = subprocess.run(
         "pr",
         "create",
         "--head",
-        "feature/servicenow-temporal-activity",
+        "feature/pydantic-model-generator-refactor",
         "-t",
         "refactor: switch to Pydantic models",
         "-b",
