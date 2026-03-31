@@ -18,6 +18,7 @@ def test_creates_and_validates_journey_from_plan_fixture() -> None:
 
     assert journey.id == "journey-20260313-001"
     assert journey.creation_date == "2026-03-13T09:30:00Z"
-    assert len(journey.routes) == 2
+    assert len(journey.routes) == 3
     assert journey.routes[0].schema_version == "airliner/v1"
     assert journey.routes[1].schema_version == "citytaxi/v1"
+    assert journey.routes[2].schema_version == "bikerental/v1"

@@ -110,7 +110,8 @@ make docker-run
 
 Travelagent tests include a fixture-driven journey validation case at
 `apps/travelagent/tests/test_journey_fixture.py`, using
-`apps/travelagent/tests/fixtures/plan1.json`.
+`apps/travelagent/tests/fixtures/plan1.json` which covers airliner, citytaxi,
+and bikerental routes.
 
 ## Docker Dependency Installation
 
