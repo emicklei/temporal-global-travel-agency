@@ -10,7 +10,6 @@ members = [
     "converters",
     "logger",
     "roche-mono",
-    "servicenow",
     "tourguide",
     "travelagent",
 ]
@@ -399,17 +398,6 @@ dev = [
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
 ]
-
-[[package]]
-name = "servicenow"
-version = "0.1.0"
-source = { editable = "pkgs/servicenow" }
-dependencies = [
-    { name = "temporalio" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "temporalio", specifier = ">=1.8.0" }]
 
 [[package]]
 name = "temporalio"
