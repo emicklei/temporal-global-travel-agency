@@ -27,3 +27,4 @@
 
 - before commiting changes, format all sources files (*.py, *.toml, *.json) using `make fmt`
 - after creating a Pull Request, ensure that the build pipeline passes.
+- use Markdown for the description in a Pull Request

@@ -7,8 +7,8 @@
   "required": [
     "id",
     "bike_id",
-    "pickup_station",
-    "dropoff_station",
+    "pickup_location",
+    "dropoff_location",
     "estimated_pickup",
     "estimated_dropoff"
   ],
@@ -19,11 +19,11 @@
     "bike_id": {
       "type": "string"
     },
-    "pickup_station": {
-      "$ref": "#/$defs/StationCode"
+    "pickup_location": {
+      "$ref": "#/$defs/Address"
     },
-    "dropoff_station": {
-      "$ref": "#/$defs/StationCode"
+    "dropoff_location": {
+      "$ref": "#/$defs/Address"
     },
     "estimated_pickup": {
       "$ref": "#/$defs/Timestampz"
@@ -33,10 +33,35 @@
     }
   },
   "$defs": {
-    "StationCode": {
-      "type": "string",
-      "pattern": "^[A-Z0-9][A-Z0-9-]{1,14}[A-Z0-9]$",
-      "description": "Station code using 3-16 uppercase alphanumeric characters and optional dashes."
+    "Address": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "street",
+        "house_number",
+        "city",
+        "postal_code",
+        "country_code"
+      ],
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "house_number": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "postal_code": {
+          "type": "string"
+        },
+        "country_code": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$",
+          "description": "ISO 3166-1 alpha-2 country code."
+        }
+      }
     },
     "Timestampz": {
       "type": "string",
