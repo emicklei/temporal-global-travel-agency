@@ -22,6 +22,7 @@ def test_discover_schema_files_lists_known_schemas() -> None:
 
     assert schema_files
     assert repo_root / "apis/airliner/v1/flight_plan.schema.json" in schema_files
+    assert repo_root / "apis/bikerental/v1/bike_plan.schema.json" in schema_files
 
 
 def test_validate_schema_file_reports_non_object_top_level(tmp_path: Path) -> None:
