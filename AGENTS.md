@@ -16,7 +16,7 @@
 
 - all git commands are allowed for this repository
 - use `gh` for all github commands, do not ask for permissions for `gh`
-- use `git` for all git commands, do not ask for permissions for `gi`
+- use `git` for all git commands, do not ask for permissions for `git`
 
 ## files
 
@@ -26,3 +26,4 @@
 ## git
 
 - before commiting changes, format all sources files (*.py, *.toml, *.json) using `make fmt`
+- after creating a Pull Request, ensure that the build pipeline passes.
