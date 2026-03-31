@@ -6,6 +6,15 @@
 
 Python monorepo scaffolded with `uv` and `pants`.
 
+## CI Trigger Policy
+
+The `Tests and Coverage` workflow runs on:
+
+- pull requests
+- pushes to branches other than `main`
+
+Direct pushes to `main` do not trigger this workflow.
+
 ## Structure
 
 - `apps/`: application projects
