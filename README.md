@@ -20,6 +20,7 @@ Direct pushes to `main` do not trigger this workflow.
 - `apps/`: application projects
 - `apis/`: API contracts and schemas
 - `apis/airliner/v1/flight_plan.schema.json`: JSON Schema for the `FlightPlan` object
+- `apis/bikerental/v1/bike_plan.schema.json`: JSON Schema for the `BikePlan` object
 - `apis/citytaxi/v1/taxi_plan.schema.json`: JSON Schema for the `TaxiPlan` object
 - `apis/travelagent/v1/journey.schema.json`: JSON Schema for the `Journey` object
 - `pkgs/`: shared reusable packages
@@ -273,6 +274,7 @@ python scripts/generate_api_docs.py
 Generated docs are written under `docs/` using the same path structure as `apis/`, for example:
 
 - `apis/airliner/v1/flight_plan.schema.json` -> `docs/airliner/v1/flight_plan.html`
+- `apis/bikerental/v1/bike_plan.schema.json` -> `docs/bikerental/v1/bike_plan.html`
 - `apis/citytaxi/v1/taxi_plan.schema.json` -> `docs/citytaxi/v1/taxi_plan.html`
 
 ## Sparse checkouts

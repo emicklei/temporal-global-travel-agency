@@ -24,6 +24,7 @@ def test_discover_schema_files_lists_known_schemas() -> None:
 
     assert schema_files
     assert repo_root / "apis/airliner/v1/flight_plan.schema.json" in schema_files
+    assert repo_root / "apis/bikerental/v1/bike_plan.schema.json" in schema_files
     assert repo_root / "apis/travelagent/v1/journey.schema.json" in schema_files
 
 
@@ -106,6 +107,7 @@ def test_render_index_page_contains_links_to_schema_docs(tmp_path: Path) -> None
     docs_root = tmp_path / "docs"
     schema_docs = [
         docs_root / "airliner" / "v1" / "flight_plan.html",
+        docs_root / "bikerental" / "v1" / "bike_plan.html",
         docs_root / "citytaxi" / "v1" / "taxi_plan.html",
     ]
 
@@ -113,6 +115,8 @@ def test_render_index_page_contains_links_to_schema_docs(tmp_path: Path) -> None
 
     assert "airliner" in index_html
     assert "airliner/v1/flight_plan.html" in index_html
+    assert "bikerental" in index_html
+    assert "bikerental/v1/bike_plan.html" in index_html
     assert "citytaxi" in index_html
     assert "citytaxi/v1/taxi_plan.html" in index_html
     assert "API Documentation" in index_html

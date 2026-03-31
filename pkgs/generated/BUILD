@@ -9,6 +9,11 @@ python_sources(
 )
 
 python_sources(
+    name="bikerental",
+    sources=["__init__.py", "bikerental/**/*.py"],
+)
+
+python_sources(
     name="citytaxi",
     sources=["__init__.py", "citytaxi/**/*.py"],
 )
