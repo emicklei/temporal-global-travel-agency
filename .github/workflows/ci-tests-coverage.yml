@@ -3,8 +3,11 @@ name: Tests and Coverage
 on:
   pull_request:
   push:
-    branches:
+    branches-ignore:
       - main
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   test:
@@ -12,18 +15,18 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Set up Python 3.11 for test execution
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         id: python311
         with:
           python-version: "3.11"
 
       - name: Set up Python 3.9 for Pants bootstrap
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         id: python39
         with:
           python-version: "3.9"
@@ -76,7 +79,7 @@ jobs:
 
       - name: Upload coverage artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: coverage-report
           path: |
