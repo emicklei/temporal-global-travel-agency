@@ -1,6 +1,7 @@
 from temporalio import workflow
 
 from generated.airliner.v1.flight_plan import FlightPlan
+from generated.bikerental.v1.bike_plan import BikePlan
 from generated.citytaxi.v1.taxi_plan import TaxiPlan
 from generated.travelagent.v1.journey import Journey
 from generated.travelagent.v1.journey import Route
@@ -32,6 +33,10 @@ class JourneyWorkflow:
                 plan = TaxiPlan(**route.properties)
                 TaxiPlan.validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
+            elif app == "bikerental":
+                plan = BikePlan(**route.properties)
+                BikePlan.model_validate(plan)
+                app_routes.append(ApplicationRoute(app, route, plan))
             else:
                 workflow.logger.warning(f"Unknown route type {route.schema_version}")
 
@@ -44,6 +49,10 @@ class JourneyWorkflow:
             elif app_route.app == "citytaxi":
                 workflow.logger.info(
                     f"Processing city taxi route to {app_route.plan.dropoff_address.city}"
+                )
+            elif app_route.app == "bikerental":
+                workflow.logger.info(
+                    f"Processing bike rental route to {app_route.plan.dropoff_location.city}"
                 )
             else:
                 workflow.logger.warning(
