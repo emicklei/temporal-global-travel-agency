@@ -67,6 +67,29 @@ def test_print_journey_workflow_logs_supported_and_unknown_routes(monkeypatch) -
                 schema_version="tourguide/v1",
                 properties={"city": "Rome"},
             ),
+            Route(
+                schema_version="bikerental/v1",
+                properties={
+                    "id": "bp-20260313-001",
+                    "bike_id": "BIKE-E200-07",
+                    "pickup_location": {
+                        "street": "Central Park West",
+                        "house_number": "10",
+                        "city": "New York",
+                        "postal_code": "10024",
+                        "country_code": "US",
+                    },
+                    "dropoff_location": {
+                        "street": "Broadway",
+                        "house_number": "200",
+                        "city": "New York",
+                        "postal_code": "10023",
+                        "country_code": "US",
+                    },
+                    "estimated_pickup": "2026-03-13T18:00:00Z",
+                    "estimated_dropoff": "2026-03-13T19:30:00Z",
+                },
+            ),
         ],
     )
 
@@ -74,6 +97,7 @@ def test_print_journey_workflow_logs_supported_and_unknown_routes(monkeypatch) -
 
     assert "Processing airliner route to ORLY" in info_messages
     assert "Processing city taxi route to Rome" in info_messages
+    assert "Processing bike rental route to New York" in info_messages
     assert warning_messages[0] == "Unknown route type tourguide/v1"
 
 
