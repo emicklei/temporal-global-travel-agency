@@ -10,7 +10,7 @@ generate-models: gen
 generate_models: gen
 
 test:
-	./pants test --use-coverage ::
+	./pants test --use-coverage :: '!scripts::'
 
 # formats all code in the repo
 # python, toml, javascript, etc.
