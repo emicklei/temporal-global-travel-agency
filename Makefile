@@ -1,7 +1,7 @@
 .PHONY: gen generate-models generate_models test fmt check
 
 gen:
-	python scripts/generate_api_models.py
+	bash scripts/tests/generate_api_models.sh
 	python scripts/generate_api_docs.py
 
 # compatibility aliases used by CI/workflows

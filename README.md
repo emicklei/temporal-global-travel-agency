@@ -235,7 +235,7 @@ python scripts/validate_api_schemas.py
 
 ## API Model Generation
 
-Generate Python dataclass models for all schema files under `apis/`:
+Generate Python Pydantic models for all schema files under `apis/`:
 
 ```bash
 make gen
@@ -247,22 +247,14 @@ Generated files are committed to the repository and must stay in sync with schem
 To verify generated models are up to date:
 
 ```bash
-python scripts/generate_api_models.py
+bash scripts/tests/generate_api_models.sh
 git diff --exit-code -- pkgs/generated
 ```
 
 The same generated-model sync check runs in pre-commit and CI.
 
-Generated dataclasses include runtime validation in `__post_init__` for:
-
-- required fields (`None` is rejected)
-- JSON Schema type checks
-- string constraints such as `pattern`, `minLength`, and `maxLength`
-- RFC 3339 `date-time` format fields
-
-Generated dataclasses also include an explicit `Validate()` instance method. This allows
-calling validation manually after creating a model instance from parsed JSON or other
-custom construction flows.
+Model files are generated with `schema2py` and include strict Pydantic validation behavior
+as defined by each schema.
 
 ## API HTML Documentation Generation
 

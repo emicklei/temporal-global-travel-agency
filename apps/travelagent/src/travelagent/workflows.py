@@ -23,18 +23,23 @@ class JourneyWorkflow:
         # collect the plans
         app_routes = []
         for route in journey.routes:
+            route_properties = (
+                route.properties.model_dump()
+                if hasattr(route.properties, "model_dump")
+                else route.properties
+            )
             # use the schema_version to determine which workflow to start
             app = route.schema_version.split("/")[0]
             if app == "airliner":
-                plan = FlightPlan(**route.properties)
+                plan = FlightPlan(**route_properties)
                 FlightPlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
             elif app == "citytaxi":
-                plan = TaxiPlan(**route.properties)
+                plan = TaxiPlan(**route_properties)
                 TaxiPlan.validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
             elif app == "bikerental":
-                plan = BikePlan(**route.properties)
+                plan = BikePlan(**route_properties)
                 BikePlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
             else:

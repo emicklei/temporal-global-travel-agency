@@ -77,7 +77,7 @@ def test_flight_plan_rejects_invalid_date_time() -> None:
     payload = _flight_plan_payload()
     payload["creation_date"] = "not-a-timestamp"
 
-    with pytest.raises(ValueError, match="creation_date must be RFC 3339 date-time"):
+    with pytest.raises(ValidationError, match="invalid RFC 3339 date-time"):
         FlightPlan(**payload)
 
 
@@ -101,7 +101,7 @@ def test_flight_plan_rejects_invalid_departure_pattern() -> None:
     payload = _flight_plan_payload()
     payload["departure"] = "AMS"
 
-    with pytest.raises(ValueError, match="departure does not match required pattern"):
+    with pytest.raises(ValidationError, match="String should match pattern"):
         FlightPlan(**payload)
 
 
@@ -117,9 +117,7 @@ def test_flight_plan_rejects_invalid_estimated_landing() -> None:
     payload = _flight_plan_payload()
     payload["estimated_landing"] = "not-a-date"
 
-    with pytest.raises(
-        ValueError, match="estimated_landing must be RFC 3339 date-time"
-    ):
+    with pytest.raises(ValidationError, match="invalid RFC 3339 date-time"):
         FlightPlan(**payload)
 
 

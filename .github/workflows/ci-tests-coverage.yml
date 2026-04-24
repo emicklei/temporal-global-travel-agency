@@ -58,7 +58,7 @@ jobs:
         run: python scripts/validate_api_schemas.py
 
       - name: Generate API models
-        run: make generate-models
+        run: bash scripts/tests/generate_api_models.sh
 
       - name: Verify generated API models are committed
         run: git diff --exit-code -- pkgs/generated

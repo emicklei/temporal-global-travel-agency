@@ -44,7 +44,7 @@
   <main>
     <h1>FlightPlan</h1>
     <p class="meta">Source schema: <code>apis/airliner/v1/flight_plan.schema.json</code></p>
-
+    <p>Details of a plan to fly from departure airport to destination airport</p>
 
     <section>
       <h2>Overview</h2>
@@ -64,7 +64,7 @@
 
     <section>
       <h2>Properties</h2>
-      <table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>aircraft_id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>creation_date</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>departure</code></td><td><code>#/$defs/ICAOCode</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>destination</code></td><td><code>#/$defs/ICAOCode</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_takeoff</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_landing</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table>
+      <table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>aircraft_id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>creation_date</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>departure</code></td><td><code>#/$defs/ICAOCode</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>destination</code></td><td><code>#/$defs/ICAOCode</code></td><td>yes</td><td>-</td><td>Airport name of flight destination</td></tr><tr><td><code>estimated_takeoff</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_landing</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table>
     </section>
 
     <h2>$defs</h2><section><h3><code>ICAOCode</code></h3><p><strong>Type:</strong> <code>string</code></p><p>ICAO code represented as exactly 4 alphanumeric characters.</p><p><strong>Constraints:</strong> pattern=&#x27;^[A-Za-z0-9]{4}$&#x27;</p></section><section><h3><code>Timestampz</code></h3><p><strong>Type:</strong> <code>string</code></p><p>Timestamp with time zone in RFC 3339 date-time format.</p><p><strong>Constraints:</strong> format=&#x27;date-time&#x27;</p></section>
