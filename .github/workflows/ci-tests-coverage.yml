@@ -57,6 +57,9 @@ jobs:
       - name: Validate API JSON schemas
         run: python scripts/validate_api_schemas.py
 
+      - name: Install schema2py
+        run: python -m pip install schema2py
+
       - name: Generate API models
         run: bash scripts/tests/generate_api_models.sh
 
