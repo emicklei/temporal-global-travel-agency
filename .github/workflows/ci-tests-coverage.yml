@@ -41,6 +41,16 @@ jobs:
           go install codeberg.org/emicklei/schema2py@latest
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+
+      - name: Install schema2py
+        run: |
+          go install codeberg.org/emicklei/schema2py@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
       - name: Set up Pants launcher
         run: chmod +x ./pants
 
