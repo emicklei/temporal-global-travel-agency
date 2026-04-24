@@ -83,11 +83,17 @@ def test_generate_api_models_shell_generates_all_schema_outputs(tmp_path: Path) 
 
     assert result.returncode == 0, result.stderr
     assert "Generated 2 model file(s)." in result.stdout
-    assert (tmp_path / "pkgs" / "generated" / "airliner" / "v1" / "flight_plan.py").exists()
-    assert (tmp_path / "pkgs" / "generated" / "citytaxi" / "v2" / "taxi_plan.py").exists()
+    assert (
+        tmp_path / "pkgs" / "generated" / "airliner" / "v1" / "flight_plan.py"
+    ).exists()
+    assert (
+        tmp_path / "pkgs" / "generated" / "citytaxi" / "v2" / "taxi_plan.py"
+    ).exists()
 
 
-def test_generate_api_models_shell_fails_when_schema2py_is_missing(tmp_path: Path) -> None:
+def test_generate_api_models_shell_fails_when_schema2py_is_missing(
+    tmp_path: Path,
+) -> None:
     script = _copy_generator_script(tmp_path)
     (tmp_path / "apis" / "demo" / "v1").mkdir(parents=True)
     (tmp_path / "apis" / "demo" / "v1" / "trip.schema.json").write_text(
