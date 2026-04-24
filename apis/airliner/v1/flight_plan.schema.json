@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.com/apis/airliner/v1/flight_plan.schema.json",
   "title": "FlightPlan",
+  "description": "Details of a plan to fly from departure airport to destination airport",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -27,6 +28,7 @@
       "$ref": "#/$defs/ICAOCode"
     },
     "destination": {
+      "description": "Airport name of flight destination",
       "$ref": "#/$defs/ICAOCode"
     },
     "estimated_takeoff": {

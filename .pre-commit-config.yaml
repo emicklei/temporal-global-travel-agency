@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: ruff
         name: Ruff lint and auto-fix
-        args: [--fix]
+        args: [ --fix ]
         exclude: ^pkgs/generated/
       - id: ruff-format
         name: Ruff format
@@ -18,7 +18,7 @@ repos:
       - id: end-of-file-fixer
         exclude: ^pkgs/generated/
       - id: pretty-format-json
-        args: [--autofix, --indent=2, --no-sort-keys]
+        args: [ --autofix, --indent=2, --no-sort-keys ]
         exclude: ^pkgs/generated/
 
   - repo: local
@@ -28,16 +28,17 @@ repos:
         entry: python scripts/validate_api_schemas.py
         language: system
         pass_filenames: false
-        stages: [pre-commit]
+        stages: [ pre-commit ]
       - id: check-generated-api-models
         name: Check generated API models are up to date
-        entry: bash -c 'python scripts/generate_api_models.py && git diff --exit-code -- pkgs/generated'
+        entry: bash -c 'bash scripts/tests/generate_api_models.sh && git diff
+          --exit-code -- pkgs/generated'
         language: system
         pass_filenames: false
-        stages: [pre-commit]
+        stages: [ pre-commit ]
       - id: validate-git-tags
         name: Validate git tag format
         entry: python scripts/validate_git_tags.py
         language: system
         pass_filenames: false
-        stages: [pre-commit]
+        stages: [ pre-commit ]
