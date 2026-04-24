@@ -65,7 +65,7 @@ jobs:
           fi
 
       - name: Validate API JSON schemas
-        run: python scripts/validate_api_schemas.py
+        run: bash scripts/validate_api_schemas.sh
 
       - name: Generate API models
         run: bash scripts/tests/generate_api_models.sh

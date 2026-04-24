@@ -25,7 +25,7 @@ repos:
     hooks:
       - id: validate-api-schemas
         name: Validate API JSON schemas
-        entry: python scripts/validate_api_schemas.py
+        entry: bash scripts/validate_api_schemas.sh
         language: system
         pass_filenames: false
         stages: [ pre-commit ]
