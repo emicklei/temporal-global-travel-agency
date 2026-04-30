@@ -169,3 +169,37 @@ def test_validate_api_schemas_shell_fails_when_no_schemas_exist(tmp_path: Path) 
 
     assert result.returncode == 1
     assert "No schema files found under apis/." in result.stderr
+
+
+def test_validate_api_schemas_shell_fails_when_python_files_exist_under_apis(
+    tmp_path: Path,
+) -> None:
+    script = _copy_validator_script(tmp_path)
+
+    (tmp_path / "apis" / "airliner" / "v1").mkdir(parents=True)
+    (tmp_path / "apis" / "airliner" / "v1" / "flight_plan.schema.json").write_text(
+        "{}", encoding="utf-8"
+    )
+    (tmp_path / "apis" / "airliner" / "v1" / "flight_plan.py").write_text(
+        "class FlightPlan: ...\n", encoding="utf-8"
+    )
+
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    _write_schema2py_stub(bin_dir)
+
+    env = os.environ.copy()
+    env["PATH"] = f"{bin_dir}{os.pathsep}{env.get('PATH', '')}"
+
+    result = subprocess.run(
+        ["bash", str(script)],
+        cwd=tmp_path,
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 1
+    assert "Python files are not allowed under apis/." in result.stderr
+    assert "apis/airliner/v1/flight_plan.py" in result.stderr
