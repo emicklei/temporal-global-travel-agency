@@ -18,8 +18,9 @@ Direct pushes to `main` do not trigger this workflow.
 ## Structure
 
 - `apps/`: application projects
-- `apis/`: API contracts and schemas 
+- `apis/`: API contracts and schemas
 - `pkgs/`: shared reusable packages 
+- `scripts/` : tools for local development
 
 ## Setup
 
