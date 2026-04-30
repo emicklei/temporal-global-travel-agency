@@ -41,6 +41,16 @@ jobs:
           go install codeberg.org/emicklei/schema2py@latest
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+
+      - name: Install schema2py
+        run: |
+          go install codeberg.org/emicklei/schema2py@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
       - name: Set up Pants launcher
         run: chmod +x ./pants
 
@@ -65,7 +75,7 @@ jobs:
           fi
 
       - name: Validate API JSON schemas
-        run: python scripts/validate_api_schemas.py
+        run: bash scripts/validate_api_schemas.sh
 
       - name: Generate API models
         run: bash scripts/tests/generate_api_models.sh

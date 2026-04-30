@@ -230,7 +230,7 @@ match `<string>/v<integer>(.<integer>)*`, for example:
 Run manually from the repository root:
 
 ```bash
-python scripts/validate_api_schemas.py
+bash scripts/validate_api_schemas.sh
 ```
 
 ## API Model Generation

@@ -1,5 +1,6 @@
 .PHONY: gen generate-models generate_models test fmt check
 
+# requires schema2py
 gen:
 	bash scripts/tests/generate_api_models.sh
 	python scripts/generate_api_docs.py
