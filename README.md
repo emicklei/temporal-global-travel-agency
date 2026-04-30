@@ -19,16 +19,8 @@ Direct pushes to `main` do not trigger this workflow.
 
 - `apps/`: application projects
 - `apis/`: API contracts and schemas
-- `apis/airliner/v1/flight_plan.schema.json`: JSON Schema for the `FlightPlan` object
-- `apis/bikerental/v1/bike_plan.schema.json`: JSON Schema for the `BikePlan` object
-- `apis/citytaxi/v1/taxi_plan.schema.json`: JSON Schema for the `TaxiPlan` object
-- `apis/travelagent/v1/journey.schema.json`: JSON Schema for the `Journey` object
-- `pkgs/`: shared reusable packages
-- `apps/airliner`: application using `converters`
-- `apps/citytaxi`: application using `converters`
-- `apps/bikerental`: application using `converters`
-- `apps/tourguide`: application using `converters`
-- `apps/travelagent`: Temporal.io app with a hello-world workflow, worker, and starter
+- `pkgs/`: shared reusable packages 
+- `scripts/` : tools for local development
 
 ## Setup
 
@@ -242,6 +234,7 @@ make gen
 ```
 
 Generated files are written to `pkgs/generated/<domain>/<version>/`.
+The `apis/` tree is schema-only and must not contain Python model files.
 Generated files are committed to the repository and must stay in sync with schemas.
 
 To verify generated models are up to date:
