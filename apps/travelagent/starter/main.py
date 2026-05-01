@@ -5,6 +5,7 @@ import uuid
 
 from temporalio.client import Client
 from temporalio.worker import Worker
+from temporalio.contrib.pydantic import pydantic_data_converter
 
 
 from apis.airliner.v1.flight_plan import FlightPlan
@@ -24,16 +25,21 @@ def _load_fixture1() -> FlightPlan:
   raise ValueError("No airliner/v1 route found in tests/fixtures/plan1.json")
 
 async def main():
-  client = await Client.connect("localhost:7233", namespace=NAMESPACE)
+  client = await Client.connect("localhost:7233",
+    namespace=NAMESPACE, 
+    data_converter=pydantic_data_converter)
 
   async with Worker(
       client,
       task_queue=CALLER_TASK_QUEUE,
       workflows=[CallerWorkflow],
   ):
+      plan = _load_fixture1()
+      print("client execute CallerWorkflow.run", plan)
+
       result = await client.execute_workflow(
           CallerWorkflow.run,
-          _load_fixture1().model_dump_json(),
+          plan,
           id=f"caller-workflow-{uuid.uuid4()}",
           task_queue=CALLER_TASK_QUEUE,
       )

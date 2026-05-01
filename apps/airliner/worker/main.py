@@ -1,5 +1,6 @@
 import asyncio
 
+from temporalio.contrib.pydantic import pydantic_data_converter
 from temporalio.client import Client
 from temporalio.worker import Worker
 
@@ -9,7 +10,11 @@ from .handler import FlightNexusServiceHandler
 
 
 async def main():
-  client = await Client.connect("localhost:7233")
+  client = await Client.connect(
+      "localhost:7233",
+      namespace="airliner",
+      data_converter=pydantic_data_converter,
+  )
   worker = Worker(
       client,
       task_queue="airliner-task-queue",
