@@ -10,6 +10,7 @@
 ## tests
 
 - create unit tests for public functions
+- do not create unit tests for worker/main.py or starter/main.py
 - keep code coverage above 90%
 
 ## tools

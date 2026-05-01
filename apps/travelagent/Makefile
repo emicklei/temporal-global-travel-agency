@@ -14,8 +14,13 @@ docker-run:
 
 # Run the Temporal worker locally.
 run:
-	cd $(ROOT_DIR) && uv run --package travelagent python -m travelagent.main worker
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
+		uv run --package travelagent python -m worker.main
 
 # Run travelagent tests locally.
 test:
 	cd $(ROOT_DIR) && ./pants test apps/travelagent/tests::
+
+start:
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
+		uv run --package travelagent python -m starter.main

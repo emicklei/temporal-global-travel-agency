@@ -6,8 +6,8 @@ import pytest  # pants: no-infer-dep
 from temporalio.testing import WorkflowEnvironment  # pants: no-infer-dep
 from temporalio.worker import Worker  # pants: no-infer-dep
 
-import travelagent.workflows as workflows_module
-from travelagent.workflows import JourneyWorkflow
+import workflows.journey_workflow as workflows_module
+from workflows.journey_workflow import JourneyWorkflow
 from apis.travelagent.v1.journey import Journey, Route
 
 

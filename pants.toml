@@ -4,7 +4,7 @@ backend_packages = ["pants.backend.python"]
 
 [source]
 root_patterns = [
-    "/apps/*/src",
+    "/apps/*",
     "/apps/*/tests",
     "/pkgs/*/src",
     "/pkgs/*/tests",

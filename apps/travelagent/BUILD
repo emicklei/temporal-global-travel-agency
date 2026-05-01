@@ -5,10 +5,13 @@ python_requirement(
 
 python_sources(
     name="lib",
-    sources=["airliner/**/*.py"],
+    sources=["workflows/**/*.py", "worker/**/*.py", "activities/**/*.py"],
     dependencies=[
-        ":temporalio",
         "//pkgs/apis:airliner",
+        "//pkgs/apis:bikerental",
+        "//pkgs/apis:citytaxi",
+        "//pkgs/apis:travelagent",
         "//pkgs/logger/src:lib",
+        ":temporalio",
     ],
 )

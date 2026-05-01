@@ -32,3 +32,19 @@ check:
 	uv run pre-commit run validate-api-schemas --all-files
 	uv run pre-commit run check-generated-api-models --all-files
 	uv run pre-commit run validate-git-tags --all-files
+
+temp:
+	temporal dev
+
+setup-namespaces:
+	temporal operator namespace create --namespace airliner
+	temporal operator namespace create --namespace bikerental
+	temporal operator namespace create --namespace citytaxi
+	temporal operator namespace create --namespace tourguide
+	temporal operator namespace create --namespace travelagent
+
+setup-nexus-endpoints:
+	temporal operator nexus endpoint create \
+		--name nexus-airliner-endpoint \
+		--target-namespace airliner \
+		--target-task-queue airliner-task-queue

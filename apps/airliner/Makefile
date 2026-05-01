@@ -14,7 +14,7 @@ docker-run:
 
 # Run airliner locally.
 run:
-	cd $(ROOT_DIR) && uv run --package airliner python -m airliner.main
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/airliner:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" uv run --package airliner python -m worker.main
 
 # Run airliner tests locally.
 test:

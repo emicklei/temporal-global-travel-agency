@@ -20,6 +20,7 @@ Direct pushes to `main` do not trigger this workflow.
 - `apps/`: application projects
 - `apis/`: API contracts and schemas
 - `pkgs/`: shared reusable packages 
+- `pkgs/apis`: contains (generated) classes for API access
 - `scripts/` : tools for local development
 
 ## Setup

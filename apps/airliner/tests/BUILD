@@ -11,10 +11,9 @@ python_requirement(
 python_tests(
     name="tests",
     dependencies=[
-        "//apps/airliner/src:lib",
+        "//apps/airliner:lib",
         "//pkgs/apis:airliner",
         "//pkgs/logger/src:lib",
-        "//apis/airliner/v1:schema",
         ":fixtures",
         ":pydantic",
         ":temporalio",
