@@ -1,7 +1,7 @@
 from datetime import timedelta
 from temporalio import workflow
 
-from generated.airliner.v1.flight_plan import FlightPlan
+from apis.airliner.v1.flight_plan import FlightPlan
 from logger.activities import log_as_json
 
 

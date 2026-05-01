@@ -1,10 +1,10 @@
 from temporalio import workflow
 
-from generated.airliner.v1.flight_plan import FlightPlan
-from generated.bikerental.v1.bike_plan import BikePlan
-from generated.citytaxi.v1.taxi_plan import TaxiPlan
-from generated.travelagent.v1.journey import Journey
-from generated.travelagent.v1.journey import Route
+from apis.airliner.v1.flight_plan import FlightPlan
+from apis.bikerental.v1.bike_plan import BikePlan
+from apis.citytaxi.v1.taxi_plan import TaxiPlan
+from apis.travelagent.v1.journey import Journey
+from apis.travelagent.v1.journey import Route
 
 
 class ApplicationRoute:

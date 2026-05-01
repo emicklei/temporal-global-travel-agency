@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from generated.travelagent.v1.journey import Journey
+from apis.travelagent.v1.journey import Journey
 
 
 def test_creates_and_validates_journey_from_plan_fixture() -> None:

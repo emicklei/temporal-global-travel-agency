@@ -9,7 +9,7 @@ dev = ["pre-commit>=4.2.0", "pytest>=8.4.2", "pytest-cov>=7.0.0"]
 
 [tool.uv.workspace]
 members = ["apps/*", "pkgs/*"]
-exclude = ["pkgs/generated"]
+exclude = ["pkgs/apis"]
 
 
 [tool.pytest.ini_options]

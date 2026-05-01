@@ -4,7 +4,7 @@ import runpy
 
 import pytest  # pants: no-infer-dep
 from pydantic import ValidationError  # pants: no-infer-dep
-from generated.airliner.v1.flight_plan import FlightPlan
+from apis.airliner.v1.flight_plan import FlightPlan
 from airliner.main import main
 
 

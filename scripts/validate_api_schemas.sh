@@ -17,7 +17,7 @@ fi
 
 python_files_under_apis="$(find apis -type f -name '*.py' | sort)"
 if [[ -n "$python_files_under_apis" ]]; then
-	echo "Python files are not allowed under apis/. Keep generated models under pkgs/generated/." >&2
+	echo "Python files are not allowed under apis/. Keep generated models under pkgs/apis/." >&2
 	echo "$python_files_under_apis" >&2
 	exit 1
 fi

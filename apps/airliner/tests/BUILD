@@ -12,7 +12,7 @@ python_tests(
     name="tests",
     dependencies=[
         "//apps/airliner/src:lib",
-        "//pkgs/generated:airliner",
+        "//pkgs/apis:airliner",
         "//pkgs/logger/src:lib",
         "//apis/airliner/v1:schema",
         ":fixtures",

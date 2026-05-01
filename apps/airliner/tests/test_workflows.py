@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 
-from generated.airliner.v1.flight_plan import FlightPlan
+from apis.airliner.v1.flight_plan import FlightPlan
 from airliner.workflows import RunFlightPlan
 from logger.activities import log_as_json
 

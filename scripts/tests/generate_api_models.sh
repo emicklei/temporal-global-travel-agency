@@ -37,7 +37,7 @@ ensure_future_annotations_import() {
 
 patch_travelagent_route_properties_model() {
 	local file_path="$1"
-	if [[ "$file_path" != "pkgs/generated/travelagent/v1/journey.py" ]]; then
+	if [[ "$file_path" != "pkgs/apis/travelagent/v1/journey.py" ]]; then
 		return
 	fi
 
@@ -53,7 +53,7 @@ while IFS= read -r schema_file; do
 	version="${remainder%%/*}"
 	filename="${schema_file##*/}"
 	module_name="${filename%.schema.json}"
-	output_path="pkgs/generated/${domain}/${version}/${module_name}.py"
+	output_path="pkgs/apis/${domain}/${version}/${module_name}.py"
 
 	mkdir -p "$(dirname "$output_path")"
 	schema2py -schema "$schema_file" -out "$output_path"
