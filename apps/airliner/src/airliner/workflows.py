@@ -6,7 +6,7 @@ from logger.activities import log_as_json
 
 
 @workflow.defn
-class RunFlightPlan:
+class RunFlightPlanWorkflow:
     @workflow.run
     async def run(self, flight_plan: FlightPlan) -> None:
         await workflow.execute_activity(

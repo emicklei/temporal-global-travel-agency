@@ -3,7 +3,10 @@ name = "airliner"
 version = "0.1.0"
 description = "Airliner app using shared converters package"
 authors = [{ name = "monorepo" }]
-dependencies = ["converters"]
+dependencies = [
+	"converters",
+	"pydantic>=2.0",
+]
 requires-python = ">=3.12"
 readme = "README.md"
 license = { text = "MIT" }
