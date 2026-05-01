@@ -5,21 +5,24 @@ python_requirement(
 
 python_sources(
     name="airliner",
-    sources=["__init__.py", "airliner/**/*.py"],
+    sources=["airliner/**/*.py"],
+    dependencies=[":pydantic"],
 )
 
 python_sources(
     name="bikerental",
-    sources=["__init__.py", "bikerental/**/*.py"],
+    sources=["bikerental/**/*.py"],
+    dependencies=[":pydantic"],
 )
 
 python_sources(
     name="citytaxi",
-    sources=["__init__.py", "citytaxi/**/*.py"],
+    sources=["citytaxi/**/*.py"],
+    dependencies=[":pydantic"],
 )
 
 python_sources(
     name="travelagent",
-    sources=["__init__.py", "travelagent/**/*.py"],
+    sources=["travelagent/**/*.py"],
     dependencies=[":pydantic"],
 )

@@ -8,7 +8,7 @@ python_sources(
     sources=["airliner/**/*.py"],
     dependencies=[
         ":temporalio",
-        "//pkgs/generated:airliner",
+        "//pkgs/apis:airliner",
         "//pkgs/logger/src:lib",
     ],
 )

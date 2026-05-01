@@ -8,7 +8,7 @@ from temporalio.worker import Worker  # pants: no-infer-dep
 
 import travelagent.workflows as workflows_module
 from travelagent.workflows import JourneyWorkflow
-from generated.travelagent.v1.journey import Journey, Route
+from apis.travelagent.v1.journey import Journey, Route
 
 
 def test_print_journey_workflow_logs_supported_and_unknown_routes(monkeypatch) -> None:

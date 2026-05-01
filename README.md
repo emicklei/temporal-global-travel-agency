@@ -233,7 +233,7 @@ Generate Python Pydantic models for all schema files under `apis/`:
 make gen
 ```
 
-Generated files are written to `pkgs/generated/<domain>/<version>/`.
+Generated files are written to `pkgs/apis/<domain>/<version>/`.
 The `apis/` tree is schema-only and must not contain Python model files.
 Generated files are committed to the repository and must stay in sync with schemas.
 
@@ -241,7 +241,7 @@ To verify generated models are up to date:
 
 ```bash
 bash scripts/tests/generate_api_models.sh
-git diff --exit-code -- pkgs/generated
+git diff --exit-code -- pkgs/apis
 ```
 
 The same generated-model sync check runs in pre-commit and CI.
