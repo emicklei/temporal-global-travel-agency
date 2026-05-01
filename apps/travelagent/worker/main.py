@@ -4,20 +4,25 @@ from temporalio.client import Client
 from temporalio.worker import Worker
 
 from workflows.journey_workflow import JourneyWorkflow
-from logger.activities import log_as_json
+
+DEFAULT_TASK_QUEUE = "travelagent-print-journey-task-queue"
 
 
-async def main():
-  client = await Client.connect("localhost:7233")
-  worker = Worker(
-      client,
-      task_queue="travelagent-task-queue",
-      workflows=[JourneyWorkflow],
-      activities=[log_as_json]
-  )
-  print("TravelAgent worker started.")
-  await worker.run()
+async def run_worker(
+    hostport: str = "localhost:7233",
+    namespace: str = "default",
+    task_queue: str = DEFAULT_TASK_QUEUE,
+) -> None:
+    client = await Client.connect(hostport, namespace=namespace)
+    worker = Worker(
+        client,
+        task_queue=task_queue,
+        workflows=[JourneyWorkflow],
+        activities=[],
+    )
+    print("TravelAgent worker started.")
+    await worker.run()
 
 
 if __name__ == "__main__":
-  asyncio.run(main())
+    asyncio.run(run_worker())

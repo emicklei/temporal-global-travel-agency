@@ -3,20 +3,15 @@ python_requirement(
     requirements=["temporalio>=1.8.0"],
 )
 
-python_tests(
-    name="tests",
+python_sources(
+    name="lib",
+    sources=["workflows/**/*.py", "worker/**/*.py", "activities/**/*.py"],
     dependencies=[
-        "//apps/travelagent:lib",
-        "//pkgs/apis:travelagent",
         "//pkgs/apis:airliner",
         "//pkgs/apis:bikerental",
         "//pkgs/apis:citytaxi",
-        ":fixtures",
+        "//pkgs/apis:travelagent",
+        "//pkgs/logger/src:lib",
         ":temporalio",
     ],
-)
-
-files(
-    name="fixtures",
-    sources=["fixtures/*.json"],
 )
