@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 from apis.airliner.v1.flight_plan import FlightPlan
-from airliner.workflows import RunFlightPlanWorkflow
+from workflows.workflows import RunFlightPlanWorkflow
 from logger.activities import log_as_json
 
 
@@ -27,7 +27,7 @@ def test_log_flight_plan_workflow_executes_activity_with_expected_arguments(
         captured["timeout"] = schedule_to_close_timeout
         return None
 
-    import airliner.workflows as workflows_module
+    import workflows.workflows as workflows_module
 
     monkeypatch.setattr(
         workflows_module.workflow, "execute_activity", fake_execute_activity

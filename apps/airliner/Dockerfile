@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 WORKDIR /workspace/apps/airliner
 
-CMD ["python", "-m", "airliner.main"]
+CMD ["python", "-m", "worker.main"]

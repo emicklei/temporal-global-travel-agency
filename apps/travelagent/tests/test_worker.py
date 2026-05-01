@@ -1,6 +1,6 @@
 import asyncio
 
-import travelagent.worker as worker_module
+import worker.main as worker_module
 
 
 def test_run_worker_creates_and_runs_worker(monkeypatch) -> None:

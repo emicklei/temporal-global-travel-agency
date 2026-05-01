@@ -42,3 +42,9 @@ setup-namespaces:
 	temporal operator namespace create --namespace citytaxi
 	temporal operator namespace create --namespace tourguide
 	temporal operator namespace create --namespace travelagent
+
+setup-nexus-endpoints:
+	temporal operator nexus endpoint create \
+		--name nexus-airliner-endpoint \
+		--target-namespace airliner \
+		--target-task-queue airliner-task-queue

@@ -6,7 +6,7 @@ from temporalio import nexus
 from apis.airliner.v1.flight_plan import FlightPlan
 from apis.airliner.v1.service import FlightNexusService
 
-from .workflows import RunFlightPlanWorkflow
+from workflows.workflows import RunFlightPlanWorkflow
 
 
 @nexusrpc.handler.service_handler(service=FlightNexusService)

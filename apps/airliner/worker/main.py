@@ -3,7 +3,7 @@ import asyncio
 from temporalio.client import Client
 from temporalio.worker import Worker
 
-from .workflows import RunFlightPlanWorkflow
+from workflows.workflows import RunFlightPlanWorkflow
 from logger.activities import log_as_json
 from .handler import FlightNexusServiceHandler
 

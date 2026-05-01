@@ -1,6 +1,6 @@
 from temporalio.testing import ActivityEnvironment  # pants: no-infer-dep
 
-from travelagent.activities import compose_hello_message
+from activities.activities import compose_hello_message
 
 
 def test_compose_hello_message_with_activity_environment() -> None:

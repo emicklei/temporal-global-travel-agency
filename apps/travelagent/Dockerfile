@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 WORKDIR /workspace/apps/travelagent
 
-CMD ["python", "-m", "travelagent.main", "worker"]
+CMD ["python", "-m", "worker.main"]

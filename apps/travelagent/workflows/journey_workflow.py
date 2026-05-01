@@ -18,7 +18,7 @@ class ApplicationRoute:
 class JourneyWorkflow:
     @workflow.run
     async def run(self, journey: Journey) -> None:
-        Journey.validate(journey)
+        Journey.model_validate(journey)
         # validate all the routes in the journey first before processing any of them.
         # collect the plans
         app_routes = []
@@ -36,7 +36,7 @@ class JourneyWorkflow:
                 app_routes.append(ApplicationRoute(app, route, plan))
             elif app == "citytaxi":
                 plan = TaxiPlan(**route_properties)
-                TaxiPlan.validate(plan)
+                TaxiPlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
             elif app == "bikerental":
                 plan = BikePlan(**route_properties)
