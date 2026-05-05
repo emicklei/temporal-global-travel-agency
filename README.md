@@ -10,6 +10,29 @@
 - `pkgs/apis`: contains (generated) classes for API access
 - `scripts/` : tools for local development
 
+## Architecture
+
+```mermaid
+flowchart LR
+    TA[Travelagent Worker]
+    AW[Airliner Worker]
+    BW[Bikerental Worker]
+    CW[Citytaxi Worker]
+    GW[Tourguide Worker]
+    API[Temporal API]
+
+    TA -->|Nexus operation| AW
+    TA -->|Nexus operation| BW
+    TA -->|Nexus operation| CW
+    TA -->|Nexus operation| GW
+
+    TA <--> API
+    AW <--> API
+    BW <--> API
+    CW <--> API
+    GW <--> API
+```
+
 ## Setup
 
 This is a Python monorepo scaffolded with `uv` and `pants`.
