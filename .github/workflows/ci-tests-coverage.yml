@@ -74,16 +74,33 @@ jobs:
             fi
           fi
 
+      - name: Check for non-documentation changes
+        id: check_docs
+        shell: bash
+        run: |
+          BASE_REF="${{ steps.baseline.outputs.base_ref }}"
+          NON_DOC_FILES=$(git diff --name-only "${BASE_REF}" HEAD \
+            | grep -Ev '\.(md|txt)$' || true)
+          if [[ -z "$NON_DOC_FILES" ]]; then
+            echo "docs_only=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Validate API JSON schemas
+        if: steps.check_docs.outputs.docs_only != 'true'
         run: bash scripts/validate_api_schemas.sh
 
       - name: Generate API models
+        if: steps.check_docs.outputs.docs_only != 'true'
         run: bash scripts/tests/generate_api_models.sh
 
       - name: Verify generated API models are committed
+        if: steps.check_docs.outputs.docs_only != 'true'
         run: git diff --exit-code -- pkgs/generated
 
       - name: Run changed tests with Pants
+        if: steps.check_docs.outputs.docs_only != 'true'
         shell: bash
         env:
           PYTHON: ${{ steps.python39.outputs.python-path }}
