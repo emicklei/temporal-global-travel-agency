@@ -1,8 +1,6 @@
 # Global Travel Agency - a Temporal.io example
 
-[![Tests and Coverage](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml/badge.svg?branch=main)](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml)
-[![App Image From Tag](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-app-image-from-tag.yml/badge.svg)](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-app-image-from-tag.yml)
-[![Coverage](https://codecov.io/gh/emicklei/temporal-global-travel-agency/branch/main/graph/badge.svg)](https://codecov.io/gh/emicklei/temporal-global-travel-agency)
+[![Tests](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml/badge.svg?branch=main)](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml)
 
 ## Structure
 
