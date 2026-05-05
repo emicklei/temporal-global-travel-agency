@@ -23,3 +23,4 @@ packages = ["src/airliner"]
 
 [tool.uv.sources]
 converters = { workspace = true }
+logger = { workspace = true }

@@ -7,7 +7,9 @@ from typing import Annotated
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
-Timestampz = Annotated[str, Field(description="Timestamp with time zone in RFC 3339 date-time format.")]
+Timestampz = Annotated[
+    str, Field(description="Timestamp with time zone in RFC 3339 date-time format.")
+]
 
 
 class Route(BaseModel):
@@ -39,5 +41,3 @@ class Journey(BaseModel):
         except ValueError as exc:
             raise ValueError(f"invalid RFC 3339 date-time: {v!r}") from exc
         return v
-
-
