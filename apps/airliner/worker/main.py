@@ -1,4 +1,5 @@
 import asyncio
+import os
 
 from temporalio.contrib.pydantic import pydantic_data_converter
 from temporalio.client import Client
@@ -10,9 +11,12 @@ from .handler import FlightNexusServiceHandler
 
 
 async def main():
+  temporal_address = os.getenv("TEMPORAL_ADDRESS", "localhost:7233")
+  temporal_namespace = os.getenv("TEMPORAL_NAMESPACE", "airliner")
+
   client = await Client.connect(
-      "localhost:7233",
-      namespace="airliner",
+      temporal_address,
+      namespace=temporal_namespace,
       data_converter=pydantic_data_converter,
   )
   worker = Worker(

@@ -3,7 +3,11 @@ name = "travelagent"
 version = "0.1.0"
 description = "Temporal.io travelagent app with journey-print workflow"
 authors = [{ name = "monorepo" }]
-dependencies = ["temporalio>=1.8.0"]
+dependencies = [
+	"nexus-rpc>=1.0.0",
+	"pydantic>=2.0",
+	"temporalio>=1.8.0",
+]
 requires-python = ">=3.12"
 readme = "README.md"
 license = { text = "MIT" }

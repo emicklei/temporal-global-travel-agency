@@ -15,15 +15,7 @@
 ## Setup
 
 This is a Python monorepo scaffolded with `uv` and `pants`.
-From the repository root:
-
-```bash
-uv sync --all-packages
-chmod +x ./pants
-uv python install 3.9
-```
-
-Pants 2.17 boots with Python 3.9 and runs tests with Python 3.11 in this repository.
+In order to develop or run, you need to setup the tool for either [Windows](docs/setup_windows.md) or [Mac](docs/setup_mac.md).
 
 ## App Commands
 
@@ -33,21 +25,51 @@ For example, from `apps/airliner`:
 
 ```bash
 make run
+make check
 make test
 make docker-build
 make docker-run
 ```
 
-## Docker Dependency Installation
+## Locally run a `JourneyWorkflow`.
 
-App Dockerfiles install workspace dependencies from each app's
-`pyproject.toml` using the shared script:
+1. start temporal server (in a separate terminal).
 
-```bash
-python scripts/install_workspace_deps.py --pyproject apps/<app>/pyproject.toml --packages-dir ./pkgs
-```
+    temporal server start-dev
+    
+View the Temporal UI
+
+    open http://localhost:8233
+
+2. create namespaces ; each app has its own.
+
+    make setup-namespaces
+
+3. create Temporal Nexus endpoints.
+
+    make setup-nexus-endpoints
+
+4. start the airliner (in a separate terminal).
+
+   cd apps/airliner && make run
+
+Last log statement is : Airliner worker started.
+
+5. start the travelagent (in a separate terminal).
+
+    cd apps/travelagent && make run
+
+Last log statement is : TravelAgent worker started.
+
+6. start a Journey workflow using a `Journey` input JSON document.
+
+    cd apps/travelagent && make start
+
+Select the namespace `travelagent` in the UI and inspect the completed Workflow.
 
 ## Run All Tests
+
+From the root of the repository:
 
 ```bash
 PYTHON=python3.9 ./pants test ::
@@ -59,22 +81,13 @@ or simply:
 ./pants test ::
 ```
 
-## Format And Validate
+## Format All
 
 Run repository-wide formatting hooks from the root:
 
 ```bash
 make fmt
 ```
-
-Run repository validation checks separately:
-
-```bash
-make check
-```
-
-`make fmt` runs formatter hooks only (Ruff, whitespace, JSON formatting).
-`make check` runs validation hooks only (schema validation, generated-model sync, tag format).
 
 ## Run Changed Tests
 
