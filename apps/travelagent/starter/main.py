@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 import asyncio
+import os
 import uuid
 
 from temporalio.client import Client
@@ -12,7 +13,8 @@ from apis.airliner.v1.flight_plan import FlightPlan
 from workflows.caller_workflow import CallerWorkflow
 
 CALLER_TASK_QUEUE = "travelagent-task-queue"
-NAMESPACE = "travelagent"
+NAMESPACE = os.getenv("TEMPORAL_NAMESPACE", "travelagent")
+TEMPORAL_ADDRESS = os.getenv("TEMPORAL_ADDRESS", "localhost:7233")
 
 def _load_fixture1() -> FlightPlan:
   fixture_path = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "plan1.json"
@@ -25,7 +27,7 @@ def _load_fixture1() -> FlightPlan:
   raise ValueError("No airliner/v1 route found in tests/fixtures/plan1.json")
 
 async def main():
-  client = await Client.connect("localhost:7233",
+  client = await Client.connect(TEMPORAL_ADDRESS,
     namespace=NAMESPACE, 
     data_converter=pydantic_data_converter)
 

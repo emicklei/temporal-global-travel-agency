@@ -5,7 +5,10 @@ description = "Airliner app using shared converters package"
 authors = [{ name = "monorepo" }]
 dependencies = [
 	"converters",
+	"logger",
+	"nexus-rpc>=1.0.0",
 	"pydantic>=2.0",
+	"temporalio>=1.8.0",
 ]
 requires-python = ">=3.12"
 readme = "README.md"

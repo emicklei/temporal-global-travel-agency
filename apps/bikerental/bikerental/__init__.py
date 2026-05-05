@@ -1,0 +1,1 @@
+"""Bikerental application package."""

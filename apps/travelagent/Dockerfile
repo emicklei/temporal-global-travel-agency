@@ -2,7 +2,8 @@ FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PATH="/opt/venv/bin:$PATH"
+    PATH="/opt/venv/bin:$PATH" \
+    PYTHONPATH="/workspace/apps/travelagent:/workspace/pkgs:/workspace/pkgs/logger/src"
 
 RUN useradd --create-home --uid 10001 appuser \
     && mkdir -p /workspace \

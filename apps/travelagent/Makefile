@@ -1,6 +1,9 @@
 ROOT_DIR := $(abspath ../..)
 IMAGE_NAME ?= travelagent:latest
 DOCKERFILE := $(CURDIR)/Dockerfile
+# Docker Desktop on macOS may resolve host.docker.internal to IPv6 first,
+# which can be unreachable from containers in some setups.
+TEMPORAL_ADDRESS ?= 192.168.65.254:7233
 
 .PHONY: docker-build docker-run run test
 
@@ -10,7 +13,7 @@ docker-build:
 
 # Run the travelagent container and remove it when it exits.
 docker-run:
-	docker run --rm $(IMAGE_NAME)
+	docker run --rm -e TEMPORAL_ADDRESS=$(TEMPORAL_ADDRESS) $(IMAGE_NAME)
 
 # Run the Temporal worker locally.
 run:
