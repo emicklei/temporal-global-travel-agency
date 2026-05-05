@@ -7,7 +7,9 @@ from typing import Annotated
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
-Timestampz = Annotated[str, Field(description="Timestamp with time zone in RFC 3339 date-time format.")]
+Timestampz = Annotated[
+    str, Field(description="Timestamp with time zone in RFC 3339 date-time format.")
+]
 
 
 class Address(BaseModel):
@@ -16,7 +18,9 @@ class Address(BaseModel):
     house_number: str
     city: str
     postal_code: str
-    country_code: str = Field(..., pattern=r"^[A-Z]{2}$", description="ISO 3166-1 alpha-2 country code.")
+    country_code: str = Field(
+        ..., pattern=r"^[A-Z]{2}$", description="ISO 3166-1 alpha-2 country code."
+    )
 
 
 class BikePlan(BaseModel):
@@ -40,5 +44,3 @@ class BikePlan(BaseModel):
         except ValueError as exc:
             raise ValueError(f"invalid RFC 3339 date-time: {v!r}") from exc
         return v
-
-

@@ -20,13 +20,19 @@ version = "0.1.0"
 source = { editable = "apps/airliner" }
 dependencies = [
     { name = "converters" },
+    { name = "logger" },
+    { name = "nexus-rpc" },
     { name = "pydantic" },
+    { name = "temporalio" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "converters", editable = "pkgs/converters" },
+    { name = "logger", editable = "pkgs/logger" },
+    { name = "nexus-rpc", specifier = ">=1.0.0" },
     { name = "pydantic", specifier = ">=2.0" },
+    { name = "temporalio", specifier = ">=1.8.0" },
 ]
 
 [[package]]
@@ -516,11 +522,17 @@ name = "travelagent"
 version = "0.1.0"
 source = { editable = "apps/travelagent" }
 dependencies = [
+    { name = "nexus-rpc" },
+    { name = "pydantic" },
     { name = "temporalio" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "temporalio", specifier = ">=1.8.0" }]
+requires-dist = [
+    { name = "nexus-rpc", specifier = ">=1.0.0" },
+    { name = "pydantic", specifier = ">=2.0" },
+    { name = "temporalio", specifier = ">=1.8.0" },
+]
 
 [[package]]
 name = "travelagent-mono"

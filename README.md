@@ -6,7 +6,7 @@
 
 - `apps/`: application projects
 - `apis/`: API contracts and schemas
-- `pkgs/`: shared reusable packages 
+- `pkgs/`: shared reusable packages
 - `pkgs/apis`: contains (generated) classes for API access
 - `scripts/` : tools for local development
 
@@ -59,12 +59,12 @@ make docker-run
 ```bash
 temporal server start-dev
 ```
-    
+
 View the Temporal UI
 
 ```bash
 open http://localhost:8233
-```    
+```
 
 2. create namespaces ; each app has its own.
 

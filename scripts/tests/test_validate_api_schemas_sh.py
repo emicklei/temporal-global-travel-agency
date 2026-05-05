@@ -100,7 +100,9 @@ def test_validate_api_schemas_shell_validates_all_schema_files(tmp_path: Path) -
     assert "Schema validation passed for 2 file(s)." in result.stdout
 
 
-def test_validate_api_schemas_shell_fails_when_schema2py_is_missing(tmp_path: Path) -> None:
+def test_validate_api_schemas_shell_fails_when_schema2py_is_missing(
+    tmp_path: Path,
+) -> None:
     script = _copy_validator_script(tmp_path)
     (tmp_path / "apis" / "demo" / "v1").mkdir(parents=True)
     (tmp_path / "apis" / "demo" / "v1" / "trip.schema.json").write_text(

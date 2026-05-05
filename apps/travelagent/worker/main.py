@@ -19,7 +19,9 @@ async def run_worker(
     hostport = hostport or os.getenv("TEMPORAL_ADDRESS", "localhost:7233")
     namespace = namespace or os.getenv("TEMPORAL_NAMESPACE", "travelagent")
 
-    client = await Client.connect(hostport, namespace=namespace, data_converter=pydantic_data_converter)
+    client = await Client.connect(
+        hostport, namespace=namespace, data_converter=pydantic_data_converter
+    )
     worker = Worker(
         client,
         task_queue=task_queue,
