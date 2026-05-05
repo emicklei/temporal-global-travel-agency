@@ -9,9 +9,9 @@ members = [
     "citytaxi",
     "converters",
     "logger",
-    "roche-mono",
     "tourguide",
     "travelagent",
+    "travelagent-mono",
 ]
 
 [[package]]
@@ -482,27 +482,6 @@ wheels = [
 ]
 
 [[package]]
-name = "roche-mono"
-version = "0.1.0"
-source = { virtual = "." }
-
-[package.dev-dependencies]
-dev = [
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-
-[package.metadata]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pre-commit", specifier = ">=4.2.0" },
-    { name = "pytest", specifier = ">=8.4.2" },
-    { name = "pytest-cov", specifier = ">=7.0.0" },
-]
-
-[[package]]
 name = "temporalio"
 version = "1.23.0"
 source = { registry = "https://pypi.org/simple" }
@@ -542,6 +521,27 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [{ name = "temporalio", specifier = ">=1.8.0" }]
+
+[[package]]
+name = "travelagent-mono"
+version = "0.1.0"
+source = { virtual = "." }
+
+[package.dev-dependencies]
+dev = [
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "pre-commit", specifier = ">=4.2.0" },
+    { name = "pytest", specifier = ">=8.4.2" },
+    { name = "pytest-cov", specifier = ">=7.0.0" },
+]
 
 [[package]]
 name = "types-protobuf"
