@@ -34,7 +34,7 @@ check:
 	uv run pre-commit run validate-git-tags --all-files
 
 temp:
-	temporal dev
+	temporal server start-dev
 
 setup-namespaces:
 	temporal operator namespace create --namespace airliner

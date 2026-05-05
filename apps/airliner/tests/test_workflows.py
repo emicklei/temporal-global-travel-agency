@@ -18,12 +18,10 @@ def test_log_flight_plan_workflow_executes_activity_with_expected_arguments(
 ) -> None:
     captured = {}
 
-    async def fake_execute_activity(
-        activity_fn, message, flight_plan_data, schedule_to_close_timeout
-    ):
+    async def fake_execute_activity(activity_fn, *, args, schedule_to_close_timeout):
         captured["activity_fn"] = activity_fn
-        captured["message"] = message
-        captured["flight_plan_data"] = flight_plan_data
+        captured["message"] = args[0]
+        captured["flight_plan_data"] = args[1]
         captured["timeout"] = schedule_to_close_timeout
         return None
 
