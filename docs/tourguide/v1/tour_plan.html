@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BikePlan Schema Docs</title>
+  <title>TourPlan Schema Docs</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -42,15 +42,15 @@
 </head>
 <body>
   <main>
-    <h1>BikePlan</h1>
-    <p class="meta">Source schema: <code>apis/bikerental/v1/bike_plan.schema.json</code></p>
+    <h1>TourPlan</h1>
+    <p class="meta">Source schema: <code>apis/tourguide/v1/tour_plan.schema.json</code></p>
     
 
     <section>
       <h2>Overview</h2>
       <table>
         <tbody>
-          <tr><th>$id</th><td><code>https://example.com/apis/bikerental/v1/bike_plan.schema.json</code></td></tr>
+          <tr><th>$id</th><td><code>https://example.com/apis/tourguide/v1/tour_plan.schema.json</code></td></tr>
           <tr><th>type</th><td><code>object</code></td></tr>
           <tr><th>additionalProperties</th><td><code>False</code></td></tr>
         </tbody>
@@ -59,12 +59,12 @@
 
     <section>
       <h2>Required Fields</h2>
-      <ul><li><code>bike_id</code></li><li><code>dropoff_location</code></li><li><code>estimated_dropoff</code></li><li><code>estimated_pickup</code></li><li><code>id</code></li><li><code>pickup_location</code></li></ul>
+      <ul><li><code>estimated_end</code></li><li><code>estimated_start</code></li><li><code>id</code></li><li><code>location</code></li><li><code>tour_id</code></li></ul>
     </section>
 
     <section>
       <h2>Properties</h2>
-      <table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>bike_id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>pickup_location</code></td><td><code>#/$defs/Address</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>dropoff_location</code></td><td><code>#/$defs/Address</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_pickup</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_dropoff</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table>
+      <table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>tour_id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>location</code></td><td><code>#/$defs/Address</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_start</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>estimated_end</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table>
     </section>
 
     <h2>$defs</h2><section><h3><code>Address</code></h3><p><strong>Type:</strong> <code>object</code></p><table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>street</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>house_number</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>city</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>postal_code</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>country_code</code></td><td><code>string</code></td><td>yes</td><td>pattern=&#x27;^[A-Z]{2}$&#x27;</td><td>ISO 3166-1 alpha-2 country code.</td></tr></tbody></table></section><section><h3><code>Timestampz</code></h3><p><strong>Type:</strong> <code>string</code></p><p>Timestamp with time zone in RFC 3339 date-time format.</p><p><strong>Constraints:</strong> format=&#x27;date-time&#x27;</p></section>

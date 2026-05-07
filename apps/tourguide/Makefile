@@ -14,7 +14,7 @@ docker-run:
 
 # Run tourguide locally.
 run:
-	cd $(ROOT_DIR) && uv run --package tourguide python -m tourguide.main
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/tourguide:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" uv run --package tourguide python -m worker.main
 
 # Run tourguide tests locally.
 test:

@@ -16,6 +16,10 @@
     "creation_date": {
       "$ref": "#/$defs/Timestampz"
     },
+    "schema_version": {
+      "type": "string",
+      "const": "travelagent/v1"
+    },
     "routes": {
       "type": "array",
       "items": {

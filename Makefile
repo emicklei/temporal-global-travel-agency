@@ -36,15 +36,30 @@ check:
 temp:
 	temporal server start-dev
 
+setup: temp setup-namespaces setup-search-attributes setup-nexus-endpoints
 setup-namespaces:
 	temporal operator namespace create --namespace airliner
 	temporal operator namespace create --namespace bikerental
 	temporal operator namespace create --namespace citytaxi
-	temporal operator namespace create --namespace tourguide
-	temporal operator namespace create --namespace travelagent
+	temporal operator namespace create --namespace tourguide	
+
+setup-search-attributes:
+	temporal operator search-attribute create --namespace travelagent --name JourneyId --type Keyword	
 
 setup-nexus-endpoints:
 	temporal operator nexus endpoint create \
 		--name nexus-airliner-endpoint \
 		--target-namespace airliner \
 		--target-task-queue airliner-task-queue
+	temporal operator nexus endpoint create \
+		--name nexus-bikerental-endpoint \
+		--target-namespace bikerental \
+		--target-task-queue bikerental-task-queue
+	temporal operator nexus endpoint create \
+		--name nexus-citytaxi-endpoint \
+		--target-namespace citytaxi \
+		--target-task-queue citytaxi-task-queue
+	temporal operator nexus endpoint create \
+		--name nexus-tourguide-endpoint \
+		--target-namespace tourguide \
+		--target-task-queue tourguide-task-queue

@@ -9,6 +9,8 @@ from logger.activities import log_as_json
 class RunFlightPlanWorkflow:
     @workflow.run
     async def run(self, flight_plan: FlightPlan) -> None:
+        workflow.logger.info(f"Workflow started with flight plan: {flight_plan.id}")
+
         await workflow.execute_activity(
             log_as_json,
             args=["Flight plan", flight_plan.model_dump()],

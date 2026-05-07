@@ -14,7 +14,7 @@ docker-run:
 
 # Run bikerental locally.
 run:
-	cd $(ROOT_DIR) && uv run --package bikerental python -m bikerental.main
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/bikerental:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" uv run --package bikerental python -m worker.main
 
 # Run bikerental tests locally.
 test:

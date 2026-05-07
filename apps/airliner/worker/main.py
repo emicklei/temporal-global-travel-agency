@@ -1,6 +1,11 @@
 import asyncio
 import os
+import logging
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+import pydantic_core.core_schema  # noqa: F401
 from temporalio.contrib.pydantic import pydantic_data_converter
 from temporalio.client import Client
 from temporalio.worker import Worker
@@ -26,7 +31,8 @@ async def main():
         activities=[log_as_json],
         nexus_service_handlers=[FlightNexusServiceHandler()],
     )
-    print("Airliner worker started.")
+
+    logger.info("Airliner worker started.")
     await worker.run()
 
 

@@ -11,7 +11,7 @@ NEXUS_ENDPOINT = "nexus-airliner-endpoint"
 class CallerWorkflow:
     @workflow.run
     async def run(self, plan: FlightPlan) -> str:
-        workflow.logger.info(f"CallerWorkflow started with plan: {plan}")
+        workflow.logger.info(f"CallerWorkflow started with plan: {plan.id}")
 
         nexus_client = workflow.create_nexus_client(
             service=FlightNexusService,
