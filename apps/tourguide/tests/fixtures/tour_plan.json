@@ -1,0 +1,13 @@
+{
+  "id": "tgp-20260313-001",
+  "tour_id": "tour-456",
+  "location": {
+    "street": "Dam Square",
+    "house_number": "1",
+    "city": "Amsterdam",
+    "postal_code": "1012 JS",
+    "country_code": "NL"
+  },
+  "estimated_start": "2026-03-13T11:00:00Z",
+  "estimated_end": "2026-03-13T13:00:00Z"
+}

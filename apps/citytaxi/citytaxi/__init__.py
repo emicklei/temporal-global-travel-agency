@@ -1,1 +1,0 @@
-"""Citytaxi application package."""
