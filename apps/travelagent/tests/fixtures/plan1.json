@@ -1,12 +1,12 @@
 {
-  "id": "journey-plan1",
-  "creation_date": "2026-05-05T09:30:00Z",
+  "id": "journey-20260313-001",
+  "creation_date": "2026-03-13T09:30:00Z",
   "schema_version": "travelagent/v1",
   "routes": [
     {
       "schema_version": "airliner/v1",
       "properties": {
-        "id": "flightplan-journey-plan1",
+        "id": "flight-101",
         "aircraft_id": "A320-NEO-42",
         "creation_date": "2026-03-13T09:30:00Z",
         "departure": "EHAM",
@@ -18,7 +18,7 @@
     {
       "schema_version": "citytaxi/v1",
       "properties": {
-        "id": "taxiplan-journey-plan1",
+        "id": "taxi-456",
         "license_plate": "ABC-1234",
         "pickup_address": {
           "street": "Main Street",
@@ -41,7 +41,7 @@
     {
       "schema_version": "bikerental/v1",
       "properties": {
-        "id": "bikerentalplan-journey-plan1",
+        "id": "bp-20260313-001",
         "bike_id": "BIKE-E200-07",
         "pickup_location": {
           "street": "Central Park West",

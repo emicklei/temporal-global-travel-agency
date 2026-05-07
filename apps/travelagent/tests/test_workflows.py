@@ -75,7 +75,19 @@ def test_print_journey_workflow_logs_supported_and_unknown_routes(monkeypatch) -
             ),
             Route(
                 schema_version="tourguide/v1",
-                properties={"city": "Rome"},
+                properties={
+                    "id": "tour-001",
+                    "tour_id": "TOUR-ROME-001",
+                    "location": {
+                        "street": "Via del Corso",
+                        "house_number": "1",
+                        "city": "Rome",
+                        "postal_code": "00186",
+                        "country_code": "IT",
+                    },
+                    "estimated_start": "2024-03-19T14:00:00Z",
+                    "estimated_end": "2024-03-19T16:00:00Z",
+                },
             ),
             Route(
                 schema_version="bikerental/v1",
@@ -108,7 +120,7 @@ def test_print_journey_workflow_logs_supported_and_unknown_routes(monkeypatch) -
     assert "Processing airliner route to ORLY" in info_messages
     assert "Processing city taxi route to Rome" in info_messages
     assert "Processing bike rental route to New York" in info_messages
-    assert warning_messages[0] == "Unknown route type tourguide/v1"
+    assert "Processing tour guide route for city Rome" in info_messages
 
 
 @pytest.mark.skip(reason="Test hangs with Temporal environment")
