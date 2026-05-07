@@ -16,6 +16,9 @@
     "id": {
       "type": "string"
     },
+    "parent_id": {
+      "type": "string"
+    },
     "bike_id": {
       "type": "string"
     },

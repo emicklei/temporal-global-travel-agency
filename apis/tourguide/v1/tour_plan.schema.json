@@ -15,6 +15,9 @@
     "id": {
       "type": "string"
     },
+    "parent_id": {
+      "type": "string"
+    },
     "tour_id": {
       "type": "string"
     },
