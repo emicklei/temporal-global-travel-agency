@@ -18,6 +18,9 @@
     "id": {
       "type": "string"
     },
+    "parent_id": {
+      "type": "string"
+    },
     "aircraft_id": {
       "type": "string"
     },

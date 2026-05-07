@@ -16,6 +16,18 @@ from apis.tourguide.v1.service import TourNexusService
 from apis.travelagent.v1.journey import Journey
 from apis.travelagent.v1.journey import Route 
 
+# App names
+APP_AIRLINER = "airliner"
+APP_CITYTAXI = "citytaxi"
+APP_BIKERENTAL = "bikerental"
+APP_TOURGUIDE = "tourguide"
+
+# Nexus endpoints
+NEXUS_AIRLINER = "nexus-airliner-endpoint"
+NEXUS_CITYTAXI = "nexus-citytaxi-endpoint"
+NEXUS_BIKERENTAL = "nexus-bikerental-endpoint"
+NEXUS_TOURGUIDE = "nexus-tourguide-endpoint"
+
 
 class ApplicationRoute:
     def __init__(self, app: str, route: Route, plan: any):
@@ -40,19 +52,19 @@ class JourneyWorkflow:
             )
             # use the schema_version to determine which workflow to start
             app = route.schema_version.split("/")[0]
-            if app == "airliner":
+            if app == APP_AIRLINER:
                 plan = FlightPlan(**route_properties)
                 FlightPlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
-            elif app == "citytaxi":
+            elif app == APP_CITYTAXI:
                 plan = TaxiPlan(**route_properties)
                 TaxiPlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
-            elif app == "bikerental":
+            elif app == APP_BIKERENTAL:
                 plan = BikePlan(**route_properties)
                 BikePlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
-            elif app == "tourguide":
+            elif app == APP_TOURGUIDE:
                 plan = TourPlan(**route_properties)
                 TourPlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))                
@@ -60,14 +72,17 @@ class JourneyWorkflow:
                 workflow.logger.warning(f"Unknown route type {route.schema_version}")
 
         for app_route in app_routes:
+            # set the parent_id of the plan to the journey id so that it can be used for correlation in the downstream workflows and activities.
+            app_route.plan.parent_id = journey.id
+
             # use the schema_version to determine which workflow to start
-            if app_route.app == "airliner":
+            if app_route.app == APP_AIRLINER:
                 workflow.logger.info(
                     f"Processing airliner route to {app_route.plan.destination}"
                 )
                 nexus_client = workflow.create_nexus_client(
                     service=FlightNexusService,
-                    endpoint="nexus-airliner-endpoint",
+                    endpoint=NEXUS_AIRLINER,
                 )
                 await nexus_client.execute_operation(
                     FlightNexusService.execute_plan,
@@ -75,43 +90,43 @@ class JourneyWorkflow:
                     schedule_to_close_timeout=timedelta(seconds=10),
                 )
 
-            elif app_route.app == "citytaxi":
+            elif app_route.app == APP_CITYTAXI:
                 workflow.logger.info(
                     f"Processing city taxi route to {app_route.plan.dropoff_address.city}"
                 )
                 nexus_client = workflow.create_nexus_client(
                     service=TaxiNexusService,
-                    endpoint="nexus-citytaxi-endpoint",
+                    endpoint=NEXUS_CITYTAXI,
                 )
                 await nexus_client.execute_operation(
                     TaxiNexusService.execute_plan,
-                    app_route.plan,
+                    app_route.plan, 
                     schedule_to_close_timeout=timedelta(seconds=10),
                 )
-            elif app_route.app == "bikerental":
+            elif app_route.app == APP_BIKERENTAL:
                 workflow.logger.info(
                     f"Processing bike rental route to {app_route.plan.dropoff_location.city}"
                 )
                 nexus_client = workflow.create_nexus_client(
                     service=BikeNexusService,
-                    endpoint="nexus-bikerental-endpoint",
+                    endpoint=NEXUS_BIKERENTAL,
                 )
                 await nexus_client.execute_operation(
                     BikeNexusService.execute_plan,
-                    app_route.plan,
+                    app_route.plan, 
                     schedule_to_close_timeout=timedelta(seconds=10),
                 )
-            elif app_route.app == "tourguide":
+            elif app_route.app == APP_TOURGUIDE:
                 workflow.logger.info(
                     f"Processing tour guide route for city {app_route.plan.location.city}"
                 )
                 nexus_client = workflow.create_nexus_client(
                     service=TourNexusService,
-                    endpoint="nexus-tourguide-endpoint",
+                    endpoint=NEXUS_TOURGUIDE,
                 )
                 await nexus_client.execute_operation(
                     TourNexusService.execute_plan,
-                    app_route.plan,
+                    app_route.plan, 
                     schedule_to_close_timeout=timedelta(seconds=10),
                 )
             else:

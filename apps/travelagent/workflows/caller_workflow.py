@@ -22,4 +22,5 @@ class CallerWorkflow:
             FlightNexusService.execute_plan,
             plan,
             schedule_to_close_timeout=timedelta(seconds=10),
+            headers={"x-journey-id": plan.id},
         )

@@ -16,14 +16,14 @@ from workflows.workflows import RunFlightPlanWorkflow
 class FlightNexusServiceHandler:
     @nexus.workflow_run_operation
     async def execute_plan(
-        self, ctx: nexus.WorkflowRunOperationContext, input: FlightPlan
+        self, ctx: nexus.WorkflowRunOperationContext, plan: FlightPlan
     ) -> nexus.WorkflowHandle[str]:
         # not in a workflow context, so use standard logging
-        logger.info(f"Nexus handler received flight plan: {input.id}")
+        logger.info(f"Nexus handler received flight plan={plan.id}, journey={plan.parentId}")
 
         return await ctx.start_workflow(
             RunFlightPlanWorkflow.run,
-            input,
-            id=f"{input.id}-workflow-{uuid.uuid4()}",
+            plan,
+            id=f"{plan.id}-workflow-{uuid.uuid4()}",
             # Task queue defaults to the task queue this Operation is handled on.
         )
