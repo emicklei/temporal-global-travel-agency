@@ -46,7 +46,7 @@ async def main():
         result = await client.execute_workflow(
             CallerWorkflow.run,
             plan,
-            id=f"caller-workflow-{uuid.uuid4()}",
+            id=f"{plan.id}-workflow-{uuid.uuid4()}",
             task_queue=CALLER_TASK_QUEUE,
         )
         print("Workflow result:", result)

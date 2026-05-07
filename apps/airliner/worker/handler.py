@@ -24,6 +24,6 @@ class FlightNexusServiceHandler:
         return await ctx.start_workflow(
             RunFlightPlanWorkflow.run,
             input,
-            id=f"flightplan-{input.id}-workflow-{uuid.uuid4()}",
+            id=f"{input.id}-workflow-{uuid.uuid4()}",
             # Task queue defaults to the task queue this Operation is handled on.
         )

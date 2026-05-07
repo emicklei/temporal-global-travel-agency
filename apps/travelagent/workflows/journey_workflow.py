@@ -3,11 +3,18 @@ from temporalio import workflow
 
 from apis.airliner.v1.flight_plan import FlightPlan
 from apis.airliner.v1.service import FlightNexusService
+
 from apis.bikerental.v1.bike_plan import BikePlan
+from apis.bikerental.v1.service import BikeNexusService
+
 from apis.citytaxi.v1.taxi_plan import TaxiPlan
+from apis.citytaxi.v1.service import TaxiNexusService 
+
+from apis.tourguide.v1.tour_plan import TourPlan
+from apis.tourguide.v1.service import TourNexusService
+
 from apis.travelagent.v1.journey import Journey
-from apis.travelagent.v1.journey import Route
-from workflows.caller_workflow import NEXUS_ENDPOINT
+from apis.travelagent.v1.journey import Route 
 
 
 class ApplicationRoute:
@@ -45,6 +52,10 @@ class JourneyWorkflow:
                 plan = BikePlan(**route_properties)
                 BikePlan.model_validate(plan)
                 app_routes.append(ApplicationRoute(app, route, plan))
+            elif app == "tourguide":
+                plan = TourPlan(**route_properties)
+                TourPlan.model_validate(plan)
+                app_routes.append(ApplicationRoute(app, route, plan))                
             else:
                 workflow.logger.warning(f"Unknown route type {route.schema_version}")
 
@@ -56,7 +67,7 @@ class JourneyWorkflow:
                 )
                 nexus_client = workflow.create_nexus_client(
                     service=FlightNexusService,
-                    endpoint=NEXUS_ENDPOINT,
+                    endpoint="nexus-airliner-endpoint",
                 )
                 await nexus_client.execute_operation(
                     FlightNexusService.execute_plan,
@@ -68,9 +79,40 @@ class JourneyWorkflow:
                 workflow.logger.info(
                     f"Processing city taxi route to {app_route.plan.dropoff_address.city}"
                 )
+                nexus_client = workflow.create_nexus_client(
+                    service=TaxiNexusService,
+                    endpoint="nexus-citytaxi-endpoint",
+                )
+                await nexus_client.execute_operation(
+                    TaxiNexusService.execute_plan,
+                    app_route.plan,
+                    schedule_to_close_timeout=timedelta(seconds=10),
+                )
             elif app_route.app == "bikerental":
                 workflow.logger.info(
                     f"Processing bike rental route to {app_route.plan.dropoff_location.city}"
+                )
+                nexus_client = workflow.create_nexus_client(
+                    service=BikeNexusService,
+                    endpoint="nexus-bikerental-endpoint",
+                )
+                await nexus_client.execute_operation(
+                    BikeNexusService.execute_plan,
+                    app_route.plan,
+                    schedule_to_close_timeout=timedelta(seconds=10),
+                )
+            elif app_route.app == "tourguide":
+                workflow.logger.info(
+                    f"Processing tour guide route for city {app_route.plan.location.city}"
+                )
+                nexus_client = workflow.create_nexus_client(
+                    service=TourNexusService,
+                    endpoint="nexus-tourguide-endpoint",
+                )
+                await nexus_client.execute_operation(
+                    TourNexusService.execute_plan,
+                    app_route.plan,
+                    schedule_to_close_timeout=timedelta(seconds=10),
                 )
             else:
                 workflow.logger.warning(

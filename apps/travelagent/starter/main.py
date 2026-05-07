@@ -1,6 +1,7 @@
+import argparse
+import asyncio
 import json
 from pathlib import Path
-import asyncio
 import os
 import uuid
 from apis.travelagent.v1.journey import Journey
@@ -16,17 +17,26 @@ NAMESPACE = os.getenv("TEMPORAL_NAMESPACE", "travelagent")
 TEMPORAL_ADDRESS = os.getenv("TEMPORAL_ADDRESS", "localhost:7233")
 
 journey_id_key = SearchAttributeKey.for_keyword("JourneyId")
+DEFAULT_FIXTURE_PATH = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "plan1.json"
 
 
-def _load_fixture1() -> Journey:
-    fixture_path = (
-        Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "plan1.json"
-    )
+def _load_fixture(fixture_path: str | Path | None = None) -> Journey:
+    fixture_path = Path(fixture_path) if fixture_path is not None else DEFAULT_FIXTURE_PATH
     payload = json.loads(fixture_path.read_text(encoding="utf-8"))
     return Journey.model_validate(payload)
 
 
-async def main():
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--fixture-path",
+        default=str(DEFAULT_FIXTURE_PATH),
+        help="Path to the journey fixture JSON file.",
+    )
+    return parser.parse_args()
+
+
+async def main(fixture_path: str | None = None):
     client = await Client.connect(
         TEMPORAL_ADDRESS, namespace=NAMESPACE, data_converter=pydantic_data_converter
     )
@@ -36,13 +46,13 @@ async def main():
         task_queue=TASK_QUEUE,
         workflows=[JourneyWorkflow],
     ):
-        plan = _load_fixture1()
+        plan = _load_fixture(fixture_path)
         print("client execute JourneyWorkflow.run", plan.id)
 
         result = await client.execute_workflow(
             JourneyWorkflow.run,
             plan,
-            id=f"journey-{plan.id}-workflow-{uuid.uuid4()}",
+            id=f"{plan.id}-workflow-{uuid.uuid4()}",
             task_queue=TASK_QUEUE,
             search_attributes=TypedSearchAttributes(
                 [SearchAttributePair(journey_id_key, plan.id)]
@@ -52,4 +62,5 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    args = _parse_args()
+    asyncio.run(main(args.fixture_path))

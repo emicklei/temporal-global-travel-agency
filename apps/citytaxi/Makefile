@@ -14,7 +14,7 @@ docker-run:
 
 # Run citytaxi locally.
 run:
-	cd $(ROOT_DIR) && uv run --package citytaxi python -m citytaxi.main
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/citytaxi:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" uv run --package citytaxi python -m worker.main
 
 # Run citytaxi tests locally.
 test:

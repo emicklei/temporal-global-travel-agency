@@ -51,3 +51,15 @@ setup-nexus-endpoints:
 		--name nexus-airliner-endpoint \
 		--target-namespace airliner \
 		--target-task-queue airliner-task-queue
+	temporal operator nexus endpoint create \
+		--name nexus-bikerental-endpoint \
+		--target-namespace bikerental \
+		--target-task-queue bikerental-task-queue
+	temporal operator nexus endpoint create \
+		--name nexus-citytaxi-endpoint \
+		--target-namespace citytaxi \
+		--target-task-queue citytaxi-task-queue
+	temporal operator nexus endpoint create \
+		--name nexus-tourguide-endpoint \
+		--target-namespace tourguide \
+		--target-task-queue tourguide-task-queue

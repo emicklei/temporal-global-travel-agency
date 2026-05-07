@@ -1,0 +1,23 @@
+{
+  "id": "journey-plan2",
+  "creation_date": "2026-05-07T09:30:00Z",
+  "schema_version": "travelagent/v1",
+  "routes": [
+    {
+      "schema_version": "tourguide/v1",
+      "properties": {
+        "id": "tourguideplan-journey-plan2",
+        "tour_id": "tour-123",
+        "location": {
+          "street": "Main Street",
+          "house_number": "1",
+          "city": "Anytown",
+          "postal_code": "12345",
+          "country_code": "US"
+        },
+        "estimated_start": "2026-05-08T10:00:00Z",
+        "estimated_end": "2026-05-08T12:00:00Z"
+      }
+    }
+  ]
+}
