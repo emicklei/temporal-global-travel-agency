@@ -1,6 +1,5 @@
 import asyncio
 import json
-import logging
 import random
 from typing import Any
 
@@ -15,7 +14,7 @@ async def log_as_json(message: str, data: dict[str, Any]) -> None:
     Args:
         message: The log message to write
         data: A dictionary to be serialized as JSON
-    """ 
+    """
 
     # Simulate some delay to demonstrate Temporal's activity heartbeat and timeout features.
     # random between 5 and 10 seconds, which is longer than the typical heartbeat timeout used in Temporal activities.

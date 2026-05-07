@@ -24,6 +24,16 @@ def test_print_journey_workflow_logs_supported_and_unknown_routes(monkeypatch) -
     monkeypatch.setattr(workflows_module.workflow.logger, "info", fake_info)
     monkeypatch.setattr(workflows_module.workflow.logger, "warning", fake_warning)
 
+    class FakeNexusClient:
+        async def execute_operation(self, *_args, **_kwargs):
+            return None
+
+    monkeypatch.setattr(
+        workflows_module.workflow,
+        "create_nexus_client",
+        lambda **_kwargs: FakeNexusClient(),
+    )
+
     journey = Journey(
         id="test-journey-1",
         creation_date="2024-03-19T10:00:00Z",

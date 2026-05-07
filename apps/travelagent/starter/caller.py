@@ -3,27 +3,31 @@ from pathlib import Path
 import asyncio
 import os
 import uuid
-from apis.travelagent.v1.journey import Journey
 
-from temporalio.client import ( Client )
-from temporalio.common import ( SearchAttributeKey, SearchAttributePair, TypedSearchAttributes )
+from temporalio.client import Client
 from temporalio.worker import Worker
 from temporalio.contrib.pydantic import pydantic_data_converter
-from workflows.journey_workflow import JourneyWorkflow
 
-TASK_QUEUE = "travelagent-task-queue"
+
+from apis.airliner.v1.flight_plan import FlightPlan
+from workflows.caller_workflow import CallerWorkflow
+
+CALLER_TASK_QUEUE = "travelagent-task-queue"
 NAMESPACE = os.getenv("TEMPORAL_NAMESPACE", "travelagent")
 TEMPORAL_ADDRESS = os.getenv("TEMPORAL_ADDRESS", "localhost:7233")
 
-journey_id_key = SearchAttributeKey.for_keyword("JourneyId")
 
-
-def _load_fixture1() -> Journey:
+def _load_fixture1() -> FlightPlan:
     fixture_path = (
         Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "plan1.json"
     )
     payload = json.loads(fixture_path.read_text(encoding="utf-8"))
-    return Journey.model_validate(payload)
+
+    for route in payload.get("routes", []):
+        if route.get("schema_version") == "airliner/v1":
+            return FlightPlan.model_validate(route.get("properties", {}))
+
+    raise ValueError("No airliner/v1 route found in tests/fixtures/plan1.json")
 
 
 async def main():
@@ -33,20 +37,17 @@ async def main():
 
     async with Worker(
         client,
-        task_queue=TASK_QUEUE,
-        workflows=[JourneyWorkflow],
+        task_queue=CALLER_TASK_QUEUE,
+        workflows=[CallerWorkflow],
     ):
         plan = _load_fixture1()
-        print("client execute JourneyWorkflow.run", plan.id)
+        print("client execute CallerWorkflow.run", plan)
 
         result = await client.execute_workflow(
-            JourneyWorkflow.run,
+            CallerWorkflow.run,
             plan,
-            id=f"journey-{plan.id}-workflow-{uuid.uuid4()}",
-            task_queue=TASK_QUEUE,
-            search_attributes=TypedSearchAttributes(
-                [SearchAttributePair(journey_id_key, plan.id)]
-            ),
+            id=f"caller-workflow-{uuid.uuid4()}",
+            task_queue=CALLER_TASK_QUEUE,
         )
         print("Workflow result:", result)
 

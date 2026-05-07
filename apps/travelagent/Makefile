@@ -24,6 +24,10 @@ run:
 test:
 	cd $(ROOT_DIR) && ./pants test apps/travelagent/tests::
 
+caller:
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
+		uv run --package travelagent python -m starter.caller
+
 start:
 	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
 		uv run --package travelagent python -m starter.main

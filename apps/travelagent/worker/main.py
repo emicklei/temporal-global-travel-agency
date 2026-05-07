@@ -1,5 +1,9 @@
 import asyncio
 import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 import pydantic_core.core_schema  # noqa: F401
 from temporalio.client import Client
@@ -29,7 +33,7 @@ async def run_worker(
         workflows=[JourneyWorkflow, CallerWorkflow],
         activities=[],
     )
-    print("TravelAgent worker started.")
+    logger.info("TravelAgent worker started.")
     await worker.run()
 
 

@@ -1,5 +1,9 @@
 import asyncio
 import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 from temporalio.contrib.pydantic import pydantic_data_converter
 from temporalio.client import Client
@@ -26,7 +30,7 @@ async def main():
         activities=[log_as_json],
         nexus_service_handlers=[TaxiNexusServiceHandler()],
     )
-    print("Citytaxi worker started.")
+    logger.info("Citytaxi worker started.")
     await worker.run()
 
 

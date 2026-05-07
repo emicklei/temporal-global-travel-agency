@@ -30,6 +30,7 @@ def test_log_flight_plan_workflow_executes_activity_with_expected_arguments(
     monkeypatch.setattr(
         workflows_module.workflow, "execute_activity", fake_execute_activity
     )
+    monkeypatch.setattr(workflows_module.workflow.logger, "info", lambda _msg: None)
 
     flight_plan = FlightPlan(**_flight_plan_payload())
     asyncio.run(RunFlightPlanWorkflow().run(flight_plan))

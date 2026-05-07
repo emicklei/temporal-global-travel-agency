@@ -44,7 +44,7 @@
   <main>
     <h1>Journey</h1>
     <p class="meta">Source schema: <code>apis/travelagent/v1/journey.schema.json</code></p>
-
+    
 
     <section>
       <h2>Overview</h2>
@@ -64,7 +64,7 @@
 
     <section>
       <h2>Properties</h2>
-      <table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>creation_date</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>routes</code></td><td><code>array&lt;#/$defs/Route&gt;</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table>
+      <table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>string</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>creation_date</code></td><td><code>#/$defs/Timestampz</code></td><td>yes</td><td>-</td><td>-</td></tr><tr><td><code>schema_version</code></td><td><code>string</code></td><td>no</td><td>-</td><td>-</td></tr><tr><td><code>routes</code></td><td><code>array&lt;#/$defs/Route&gt;</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table>
     </section>
 
     <h2>$defs</h2><section><h3><code>Route</code></h3><p><strong>Type:</strong> <code>object</code></p><table><thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Constraints</th><th>Description</th></tr></thead><tbody><tr><td><code>schema_version</code></td><td><code>string</code></td><td>yes</td><td>pattern=&#x27;^[^/]+/v[0-9]+(?:[.][0-9]+)*$&#x27;</td><td>-</td></tr><tr><td><code>properties</code></td><td><code>object</code></td><td>yes</td><td>-</td><td>-</td></tr></tbody></table></section><section><h3><code>Timestampz</code></h3><p><strong>Type:</strong> <code>string</code></p><p>Timestamp with time zone in RFC 3339 date-time format.</p><p><strong>Constraints:</strong> format=&#x27;date-time&#x27;</p></section>

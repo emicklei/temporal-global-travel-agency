@@ -1,10 +1,13 @@
+from datetime import timedelta
 from temporalio import workflow
 
 from apis.airliner.v1.flight_plan import FlightPlan
+from apis.airliner.v1.service import FlightNexusService
 from apis.bikerental.v1.bike_plan import BikePlan
 from apis.citytaxi.v1.taxi_plan import TaxiPlan
 from apis.travelagent.v1.journey import Journey
 from apis.travelagent.v1.journey import Route
+from workflows.caller_workflow import NEXUS_ENDPOINT
 
 
 class ApplicationRoute:
@@ -51,6 +54,16 @@ class JourneyWorkflow:
                 workflow.logger.info(
                     f"Processing airliner route to {app_route.plan.destination}"
                 )
+                nexus_client = workflow.create_nexus_client(
+                    service=FlightNexusService,
+                    endpoint=NEXUS_ENDPOINT,
+                )
+                await nexus_client.execute_operation(
+                    FlightNexusService.execute_plan,
+                    app_route.plan,
+                    schedule_to_close_timeout=timedelta(seconds=10),
+                )
+
             elif app_route.app == "citytaxi":
                 workflow.logger.info(
                     f"Processing city taxi route to {app_route.plan.dropoff_address.city}"
