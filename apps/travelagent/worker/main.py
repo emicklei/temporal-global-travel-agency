@@ -1,6 +1,7 @@
 import asyncio
 import os
 
+import pydantic_core.core_schema  # noqa: F401
 from temporalio.client import Client
 from temporalio.worker import Worker
 from temporalio.contrib.pydantic import pydantic_data_converter

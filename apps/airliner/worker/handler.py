@@ -1,5 +1,6 @@
 import uuid
 import logging
+logger = logging.getLogger(__name__)
 
 import nexusrpc.handler
 from temporalio import nexus
@@ -9,17 +10,15 @@ from apis.airliner.v1.service import FlightNexusService
 
 from workflows.workflows import RunFlightPlanWorkflow
 
-
-logger = logging.getLogger(__name__)
-
-
 @nexusrpc.handler.service_handler(service=FlightNexusService)
 class FlightNexusServiceHandler:
     @nexus.workflow_run_operation
     async def execute_plan(
         self, ctx: nexus.WorkflowRunOperationContext, input: FlightPlan
     ) -> nexus.WorkflowHandle[str]:
-        logger.debug("Received flight plan: %s", input)
+        
+        # not in a workflow context, so use standard logging
+        logger.info(f"Nexus handler received flight plan: {input.id}")
 
         return await ctx.start_workflow(
             RunFlightPlanWorkflow.run,
