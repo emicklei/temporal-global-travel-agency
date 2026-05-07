@@ -1,0 +1,20 @@
+{
+  "id": "bp-20260313-001",
+  "bike_id": "bike-123",
+  "pickup_location": {
+    "street": "Amstelveenseweg",
+    "house_number": "123",
+    "city": "Amsterdam",
+    "postal_code": "1075 ZH",
+    "country_code": "NL"
+  },
+  "dropoff_location": {
+    "street": "Museumplein",
+    "house_number": "1",
+    "city": "Amsterdam",
+    "postal_code": "1071 DJ",
+    "country_code": "NL"
+  },
+  "estimated_pickup": "2026-03-13T10:00:00Z",
+  "estimated_dropoff": "2026-03-13T10:30:00Z"
+}
