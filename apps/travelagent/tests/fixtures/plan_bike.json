@@ -1,0 +1,30 @@
+{
+  "id": "plan_bike",
+  "creation_date": "2026-05-08T09:30:00Z",
+  "schema_version": "travelagent/v1",
+  "routes": [
+    {
+      "schema_version": "bikerental/v1",
+      "properties": {
+        "id": "bp-20260508-001",
+        "bike_id": "BIKE-E200-07",
+        "pickup_location": {
+          "street": "Central Park West",
+          "house_number": "10",
+          "city": "New York",
+          "postal_code": "10024",
+          "country_code": "US"
+        },
+        "dropoff_location": {
+          "street": "Broadway",
+          "house_number": "200",
+          "city": "New York",
+          "postal_code": "10023",
+          "country_code": "US"
+        },
+        "estimated_pickup": "2026-05-08T10:00:00Z",
+        "estimated_dropoff": "2026-05-08T12:00:00Z"
+      }
+    }
+  ]
+}

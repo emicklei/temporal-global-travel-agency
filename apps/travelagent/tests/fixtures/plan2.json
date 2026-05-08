@@ -1,12 +1,70 @@
 {
-  "id": "journey-plan2",
-  "creation_date": "2026-05-07T09:30:00Z",
+  "id": "plan2",
+  "creation_date": "2026-03-13T09:30:00Z",
   "schema_version": "travelagent/v1",
   "routes": [
     {
+      "schema_version": "citytaxi/v1",
+      "properties": {
+        "id": "taxi-fdsafdsaf",
+        "license_plate": "ABC-1234",
+        "pickup_address": {
+          "street": "Main Street",
+          "house_number": "1",
+          "city": "Amsterdam",
+          "postal_code": "1011AA",
+          "country_code": "NL"
+        },
+        "dropoff_address": {
+          "street": "JFK Airport",
+          "house_number": "",
+          "city": "New York",
+          "postal_code": "",
+          "country_code": "US"
+        },
+        "estimated_pickup": "2026-03-13T08:30:00Z",
+        "estimated_dropoff": "2026-03-13T09:15:00Z"
+      }
+    },
+    {
+      "schema_version": "airliner/v1",
+      "properties": {
+        "id": "flight-fdsafdsaf",
+        "aircraft_id": "A320-NEO-42",
+        "creation_date": "2026-03-13T09:30:00Z",
+        "departure": "EHAM",
+        "destination": "KJFK",
+        "estimated_takeoff": "2026-03-13T10:15:00Z",
+        "estimated_landing": "2026-03-13T17:05:00Z"
+      }
+    },
+    {
+      "schema_version": "bikerental/v1",
+      "properties": {
+        "id": "bike-fdsafdsaf",
+        "bike_id": "BIKE-E200-07",
+        "pickup_location": {
+          "street": "Central Park West",
+          "house_number": "10",
+          "city": "New York",
+          "postal_code": "10024",
+          "country_code": "US"
+        },
+        "dropoff_location": {
+          "street": "Broadway",
+          "house_number": "200",
+          "city": "New York",
+          "postal_code": "10023",
+          "country_code": "US"
+        },
+        "estimated_pickup": "2026-03-13T18:00:00Z",
+        "estimated_dropoff": "2026-03-13T19:30:00Z"
+      }
+    },
+    {
       "schema_version": "tourguide/v1",
       "properties": {
-        "id": "tourguideplan-journey-plan2",
+        "id": "tourguide-fdsafdsaf",
         "tour_id": "tour-123",
         "location": {
           "street": "Main Street",
