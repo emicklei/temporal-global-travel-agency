@@ -27,6 +27,7 @@ NEXUS_AIRLINER = "nexus-airliner-endpoint"
 NEXUS_CITYTAXI = "nexus-citytaxi-endpoint"
 NEXUS_BIKERENTAL = "nexus-bikerental-endpoint"
 NEXUS_TOURGUIDE = "nexus-tourguide-endpoint"
+NexusTimeout = timedelta(hours=1)
 
 
 class ApplicationRoute:
@@ -87,7 +88,7 @@ class JourneyWorkflow:
                 await nexus_client.execute_operation(
                     FlightNexusService.execute_plan,
                     app_route.plan,
-                    schedule_to_close_timeout=timedelta(seconds=5),
+                    schedule_to_close_timeout=NexusTimeout,
                 )
 
             elif app_route.app == APP_CITYTAXI:
@@ -100,8 +101,8 @@ class JourneyWorkflow:
                 )
                 await nexus_client.execute_operation(
                     TaxiNexusService.execute_plan,
-                    app_route.plan,
-                    schedule_to_close_timeout=timedelta(seconds=5),
+                    app_route.plan, 
+                    schedule_to_close_timeout=NexusTimeout,
                 )
             elif app_route.app == APP_BIKERENTAL:
                 workflow.logger.info(
@@ -113,8 +114,8 @@ class JourneyWorkflow:
                 )
                 await nexus_client.execute_operation(
                     BikeNexusService.execute_plan,
-                    app_route.plan,
-                    schedule_to_close_timeout=timedelta(seconds=5),
+                    app_route.plan, 
+                    schedule_to_close_timeout=NexusTimeout,
                 )
             elif app_route.app == APP_TOURGUIDE:
                 workflow.logger.info(
@@ -126,8 +127,8 @@ class JourneyWorkflow:
                 )
                 await nexus_client.execute_operation(
                     TourNexusService.execute_plan,
-                    app_route.plan,
-                    schedule_to_close_timeout=timedelta(seconds=5),
+                    app_route.plan, 
+                    schedule_to_close_timeout=NexusTimeout,
                 )
             else:
                 workflow.logger.warning(
