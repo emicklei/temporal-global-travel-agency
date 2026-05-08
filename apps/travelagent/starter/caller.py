@@ -41,6 +41,10 @@ async def main():
         workflows=[CallerWorkflow],
     ):
         plan = _load_fixture1()
+        # ensure the plan is valid before proceeding
+        journey_id = "caller-test"
+        plan.parent_id = journey_id
+
         print("client execute CallerWorkflow.run", plan)
 
         result = await client.execute_workflow(

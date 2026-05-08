@@ -186,7 +186,7 @@ Generated files are committed to the repository and must stay in sync with schem
 To verify generated models are up to date:
 
 ```bash
-bash scripts/tests/generate_api_models.sh
+bash scripts/generate_api_models.sh
 git diff --exit-code -- pkgs/apis
 ```
 

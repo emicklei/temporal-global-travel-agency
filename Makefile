@@ -2,7 +2,7 @@
 
 # requires schema2py
 gen:
-	bash scripts/tests/generate_api_models.sh
+	bash scripts/generate_api_models.sh
 	python scripts/generate_api_docs.py
 
 # compatibility aliases used by CI/workflows

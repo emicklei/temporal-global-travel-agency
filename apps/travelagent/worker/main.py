@@ -12,6 +12,7 @@ from temporalio.contrib.pydantic import pydantic_data_converter
 
 from workflows.journey_workflow import JourneyWorkflow
 from workflows.caller_workflow import CallerWorkflow
+from activities.activities import call_airliner_nexus_service
 
 DEFAULT_TASK_QUEUE = "travelagent-task-queue"
 
