@@ -30,7 +30,9 @@ def test_execute_plan_starts_workflow_and_returns_handle(monkeypatch) -> None:
 
     import worker.handler as handler_module
 
-    monkeypatch.setattr(handler_module.logger, "info", lambda msg: info_messages.append(msg))
+    monkeypatch.setattr(
+        handler_module.logger, "info", lambda msg: info_messages.append(msg)
+    )
 
     plan = FlightPlan(**_flight_plan_payload())
     plan.parent_id = "journey-123"

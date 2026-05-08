@@ -30,6 +30,7 @@ def test_log_bike_plan_workflow_executes_activity_with_expected_arguments(
     monkeypatch.setattr(
         workflows_module.workflow, "execute_activity", fake_execute_activity
     )
+    monkeypatch.setattr(workflows_module.workflow.logger, "info", lambda _msg: None)
 
     bike_plan = BikePlan(**_bike_plan_payload())
     asyncio.run(RunBikePlanWorkflow().run(bike_plan))

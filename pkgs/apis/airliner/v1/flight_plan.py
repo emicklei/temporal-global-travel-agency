@@ -8,13 +8,22 @@ from typing import Annotated
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
-ICAOCode = Annotated[str, Field(pattern=r"^[A-Za-z0-9]{4}$", description="ICAO code represented as exactly 4 alphanumeric characters.")]
+ICAOCode = Annotated[
+    str,
+    Field(
+        pattern=r"^[A-Za-z0-9]{4}$",
+        description="ICAO code represented as exactly 4 alphanumeric characters.",
+    ),
+]
 
-Timestampz = Annotated[str, Field(description="Timestamp with time zone in RFC 3339 date-time format.")]
+Timestampz = Annotated[
+    str, Field(description="Timestamp with time zone in RFC 3339 date-time format.")
+]
 
 
 class FlightPlan(BaseModel):
     """Details of a plan to fly from departure airport to destination airport"""
+
     model_config = ConfigDict(extra="forbid", strict=True)
     id: str
     parent_id: str | None = None
@@ -37,5 +46,3 @@ class FlightPlan(BaseModel):
         except ValueError as exc:
             raise ValueError(f"invalid RFC 3339 date-time: {v!r}") from exc
         return v
-
-

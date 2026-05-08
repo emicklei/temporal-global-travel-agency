@@ -9,7 +9,9 @@ from logger.activities import log_as_json
 class RunBikePlanWorkflow:
     @workflow.run
     async def run(self, bike_plan: BikePlan) -> None:
-        workflow.logger.info(f"RunBikePlanWorkflow started with bike plan: {bike_plan.id} journey={bike_plan.parent_id}")
+        workflow.logger.info(
+            f"RunBikePlanWorkflow started with bike plan: {bike_plan.id} journey={bike_plan.parent_id}"
+        )
 
         await workflow.execute_activity(
             log_as_json,

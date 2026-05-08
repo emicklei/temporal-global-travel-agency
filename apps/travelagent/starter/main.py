@@ -6,8 +6,12 @@ import os
 import uuid
 from apis.travelagent.v1.journey import Journey
 
-from temporalio.client import ( Client )
-from temporalio.common import ( SearchAttributeKey, SearchAttributePair, TypedSearchAttributes )
+from temporalio.client import Client
+from temporalio.common import (
+    SearchAttributeKey,
+    SearchAttributePair,
+    TypedSearchAttributes,
+)
 from temporalio.worker import Worker
 from temporalio.contrib.pydantic import pydantic_data_converter
 from workflows.journey_workflow import JourneyWorkflow
@@ -17,11 +21,15 @@ NAMESPACE = os.getenv("TEMPORAL_NAMESPACE", "travelagent")
 TEMPORAL_ADDRESS = os.getenv("TEMPORAL_ADDRESS", "localhost:7233")
 
 journey_id_key = SearchAttributeKey.for_keyword("JourneyId")
-DEFAULT_FIXTURE_PATH = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "plan1.json"
+DEFAULT_FIXTURE_PATH = (
+    Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "plan1.json"
+)
 
 
 def _load_fixture(fixture_path: str | Path | None = None) -> Journey:
-    fixture_path = Path(fixture_path) if fixture_path is not None else DEFAULT_FIXTURE_PATH
+    fixture_path = (
+        Path(fixture_path) if fixture_path is not None else DEFAULT_FIXTURE_PATH
+    )
     payload = json.loads(fixture_path.read_text(encoding="utf-8"))
     return Journey.model_validate(payload)
 
