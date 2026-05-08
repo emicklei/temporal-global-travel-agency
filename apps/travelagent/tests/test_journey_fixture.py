@@ -16,7 +16,7 @@ def test_creates_and_validates_journey_from_plan_fixture() -> None:
 
     journey = Journey.model_validate(journey_payload)
 
-    assert journey.id == "journey-20260313-001"
+    assert journey.id == "plan1"
     assert journey.creation_date == "2026-03-13T09:30:00Z"
     assert len(journey.routes) == 3
     assert journey.routes[0].schema_version == "airliner/v1"

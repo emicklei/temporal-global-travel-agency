@@ -2,6 +2,18 @@
 
 [![Tests](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml/badge.svg?branch=main)](https://github.com/emicklei/temporal-global-travel-agency/actions/workflows/ci-tests-coverage.yml)
 
+The Global Travel Agency helps realize complete journeys.
+A Journey is composed of multiple plans, executed in sequence, to get you to your destination.
+Each plan targets a different mode of transportation.
+The agency works with airliners, taxis, bike rentals, and tour guides.
+Executing a Journey results in the coordinated execution of multiple transportation plans.
+
+This repository demonstrates a Temporal-based architecture that uses Nexus.
+Each transportation domain operates in its own namespace and is invoked through Nexus endpoints.
+The main orchestration flow is defined in `travelagent`, which calls the workflows of the other applications.
+Each application defines its own JSON Schema under `apis/` and uses generated Python models from `pkgs/apis`.
+
+
 ## Structure
 
 - `apps/`: application projects

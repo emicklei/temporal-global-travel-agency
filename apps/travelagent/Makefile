@@ -28,6 +28,20 @@ caller:
 	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
 		uv run --package travelagent python -m starter.caller
 
-start:
+start: plan_tour
+
+plan_tour:
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
+		uv run --package travelagent python -m starter.main --fixture-path apps/travelagent/tests/fixtures/plan_tour.json
+
+plan_bike:
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
+		uv run --package travelagent python -m starter.main --fixture-path apps/travelagent/tests/fixtures/plan_bike.json
+
+plan_taxi:
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
+		uv run --package travelagent python -m starter.main --fixture-path apps/travelagent/tests/fixtures/plan_taxi.json
+
+plan2:
 	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
 		uv run --package travelagent python -m starter.main --fixture-path apps/travelagent/tests/fixtures/plan2.json

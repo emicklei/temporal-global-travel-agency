@@ -8,13 +8,13 @@ from apis.bikerental.v1.bike_plan import BikePlan
 from apis.bikerental.v1.service import BikeNexusService
 
 from apis.citytaxi.v1.taxi_plan import TaxiPlan
-from apis.citytaxi.v1.service import TaxiNexusService 
+from apis.citytaxi.v1.service import TaxiNexusService
 
 from apis.tourguide.v1.tour_plan import TourPlan
 from apis.tourguide.v1.service import TourNexusService
 
 from apis.travelagent.v1.journey import Journey
-from apis.travelagent.v1.journey import Route 
+from apis.travelagent.v1.journey import Route
 
 # App names
 APP_AIRLINER = "airliner"
@@ -68,7 +68,7 @@ class JourneyWorkflow:
             elif app == APP_TOURGUIDE:
                 plan = TourPlan(**route_properties)
                 TourPlan.model_validate(plan)
-                app_routes.append(ApplicationRoute(app, route, plan))                
+                app_routes.append(ApplicationRoute(app, route, plan))
             else:
                 workflow.logger.warning(f"Unknown route type {route.schema_version}")
 

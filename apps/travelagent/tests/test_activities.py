@@ -22,7 +22,9 @@ def test_call_airliner_nexus_service_executes_expected_operation(monkeypatch) ->
     captured = {}
 
     class FakeNexusClient:
-        async def execute_operation(self, operation, plan, *, schedule_to_close_timeout):
+        async def execute_operation(
+            self, operation, plan, *, schedule_to_close_timeout
+        ):
             captured["operation"] = operation
             captured["plan"] = plan
             captured["timeout"] = schedule_to_close_timeout
@@ -43,7 +45,9 @@ def test_call_airliner_nexus_service_executes_expected_operation(monkeypatch) ->
     assert captured["timeout"].seconds == 10
 
 
-def test_call_airliner_nexus_service_uses_expected_client_configuration(monkeypatch) -> None:
+def test_call_airliner_nexus_service_uses_expected_client_configuration(
+    monkeypatch,
+) -> None:
     captured = {}
 
     class FakeNexusClient:
