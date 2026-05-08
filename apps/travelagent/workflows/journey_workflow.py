@@ -87,7 +87,7 @@ class JourneyWorkflow:
                 await nexus_client.execute_operation(
                     FlightNexusService.execute_plan,
                     app_route.plan,
-                    schedule_to_close_timeout=timedelta(seconds=10),
+                    schedule_to_close_timeout=timedelta(seconds=5),
                 )
 
             elif app_route.app == APP_CITYTAXI:
@@ -101,7 +101,7 @@ class JourneyWorkflow:
                 await nexus_client.execute_operation(
                     TaxiNexusService.execute_plan,
                     app_route.plan, 
-                    schedule_to_close_timeout=timedelta(seconds=10),
+                    schedule_to_close_timeout=timedelta(seconds=5),
                 )
             elif app_route.app == APP_BIKERENTAL:
                 workflow.logger.info(
@@ -114,7 +114,7 @@ class JourneyWorkflow:
                 await nexus_client.execute_operation(
                     BikeNexusService.execute_plan,
                     app_route.plan, 
-                    schedule_to_close_timeout=timedelta(seconds=10),
+                    schedule_to_close_timeout=timedelta(seconds=5),
                 )
             elif app_route.app == APP_TOURGUIDE:
                 workflow.logger.info(
@@ -127,7 +127,7 @@ class JourneyWorkflow:
                 await nexus_client.execute_operation(
                     TourNexusService.execute_plan,
                     app_route.plan, 
-                    schedule_to_close_timeout=timedelta(seconds=10),
+                    schedule_to_close_timeout=timedelta(seconds=5),
                 )
             else:
                 workflow.logger.warning(

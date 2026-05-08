@@ -30,7 +30,7 @@
   "$defs": {
     "Route": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "required": [
         "schema_version",
         "properties"

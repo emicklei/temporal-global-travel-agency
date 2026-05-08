@@ -31,8 +31,8 @@ repos:
         stages: [ pre-commit ]
       - id: check-generated-api-models
         name: Check generated API models are up to date
-        entry: bash -c 'bash scripts/tests/generate_api_models.sh && git diff
-          --exit-code -- pkgs/generated'
+        entry: bash -c 'bash scripts/generate_api_models.sh && git diff --exit-code --
+          pkgs/generated'
         language: system
         pass_filenames: false
         stages: [ pre-commit ]

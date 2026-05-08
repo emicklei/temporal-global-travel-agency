@@ -19,7 +19,7 @@ class FlightNexusServiceHandler:
         self, ctx: nexus.WorkflowRunOperationContext, plan: FlightPlan
     ) -> nexus.WorkflowHandle[str]:
         # not in a workflow context, so use standard logging
-        logger.info(f"Nexus handler received flight plan={plan.id}, journey={plan.parentId}")
+        logger.info(f"Nexus handler received flight plan={plan.id}, journey={plan.parent_id}")
 
         return await ctx.start_workflow(
             RunFlightPlanWorkflow.run,

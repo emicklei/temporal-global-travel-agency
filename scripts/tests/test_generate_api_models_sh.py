@@ -8,8 +8,8 @@ from pathlib import Path
 
 def _copy_generator_script(tmp_path: Path) -> Path:
     repo_root = Path(__file__).resolve().parents[2]
-    source_script = repo_root / "scripts" / "tests" / "generate_api_models.sh"
-    target_script = tmp_path / "scripts" / "tests" / "generate_api_models.sh"
+    source_script = repo_root / "scripts" / "generate_api_models.sh"
+    target_script = tmp_path / "scripts" / "generate_api_models.sh"
     target_script.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source_script, target_script)
     target_script.chmod(0o755)

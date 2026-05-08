@@ -111,7 +111,7 @@ jobs:
         run: bash scripts/validate_api_schemas.sh
 
       - name: Generate API models
-        run: bash scripts/tests/generate_api_models.sh
+        run: bash scripts/generate_api_models.sh
 
       - name: Verify generated API models are committed
         run: git diff --exit-code -- pkgs/generated
