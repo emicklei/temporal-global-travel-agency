@@ -22,7 +22,7 @@ class CallerWorkflow:
         return await nexus_client.execute_operation(
             FlightNexusService.execute_plan,
             plan,
-            schedule_to_close_timeout=timedelta(seconds=10),
+            schedule_to_close_timeout=timedelta(minutes=10),
         )
 
         # return await workflow.execute_activity(
