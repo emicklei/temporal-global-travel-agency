@@ -42,6 +42,7 @@ setup-namespaces:
 	temporal operator namespace create --namespace bikerental
 	temporal operator namespace create --namespace citytaxi
 	temporal operator namespace create --namespace tourguide
+	temporal operator namespace create --namespace travelagent
 
 setup-search-attributes:
 	temporal operator search-attribute create --namespace travelagent --name JourneyId --type Keyword
