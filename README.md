@@ -84,6 +84,10 @@ open http://localhost:8233
 make setup-namespaces
 ```
 
+```bash
+make setup-search-attributes
+```
+
 3. create Temporal Nexus endpoints.
 
 ```bash
