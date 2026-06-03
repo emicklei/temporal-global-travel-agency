@@ -39,6 +39,16 @@ class ApplicationRoute:
 
 @workflow.defn
 class JourneyWorkflow:
+    def __init__(self) -> None:
+        self.updated_city_route = False
+
+    @workflow.update
+    def update_route(self, replacement: Route) -> None:
+        workflow.logger.info(f"Received update for route {replacement.schema_version}")
+        self.updated_city_route = True
+        return
+        
+
     @workflow.run
     async def run(self, journey: Journey) -> None:
         Journey.model_validate(journey)
@@ -95,6 +105,15 @@ class JourneyWorkflow:
                 workflow.logger.info(
                     f"Processing city taxi route to {app_route.plan.dropoff_address.city}"
                 )
+                # check for INVALID license plate to simulate a failure in the city taxi workflow
+                if app_route.plan.license_plate == "INVALID":
+                    workflow.logger.error(
+                        f"Invalid license plate {app_route.plan.license_plate} for city taxi route to {app_route.plan.dropoff_address.city}"
+                    )
+                    await workflow.wait_condition(lambda: self.updated_city_route)
+                    self.updated_city_route = False
+                    workflow.logger.info("city taxi route updated, retrying with new route")
+
                 nexus_client = workflow.create_nexus_client(
                     service=TaxiNexusService,
                     endpoint=NEXUS_CITYTAXI,

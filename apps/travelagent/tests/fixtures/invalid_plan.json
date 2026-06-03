@@ -1,0 +1,30 @@
+{
+  "id": "invalid_plan",
+  "creation_date": "2026-06-03T09:30:00Z",
+  "schema_version": "travelagent/v1",
+  "routes": [
+    {
+      "schema_version": "citytaxi/v1",
+      "properties": {
+        "id": "taxi-fdsafdsaf",
+        "license_plate": "INVALID",
+        "pickup_address": {
+          "street": "Main Street",
+          "house_number": "1",
+          "city": "Amsterdam",
+          "postal_code": "1011AA",
+          "country_code": "NL"
+        },
+        "dropoff_address": {
+          "street": "Schiphole Airport",
+          "house_number": "",
+          "city": "Schiphol",
+          "postal_code": "",
+          "country_code": "NL"
+        },
+        "estimated_pickup": "2026-07-13T08:30:00Z",
+        "estimated_dropoff": "2026-07-13T09:15:00Z"
+      }
+    }
+  ]
+}

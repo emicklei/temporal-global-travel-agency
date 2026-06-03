@@ -45,3 +45,7 @@ plan_taxi:
 plan2:
 	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
 		uv run --package travelagent python -m starter.main --fixture-path apps/travelagent/tests/fixtures/plan2.json
+
+invalid_plan:
+	cd $(ROOT_DIR) && PYTHONPATH="$(ROOT_DIR)/apps/travelagent:$(ROOT_DIR)/pkgs:$(ROOT_DIR)/pkgs/logger/src" \
+		uv run --package travelagent python -m starter.main --fixture-path apps/travelagent/tests/fixtures/invalid_plan.json

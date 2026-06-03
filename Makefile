@@ -36,7 +36,7 @@ check:
 temp:
 	temporal server start-dev
 
-setup: temp setup-namespaces setup-search-attributes setup-nexus-endpoints
+setup: setup-namespaces setup-search-attributes setup-nexus-endpoints
 setup-namespaces:
 	temporal operator namespace create --namespace airliner
 	temporal operator namespace create --namespace bikerental
